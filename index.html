@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeepCubation - 16 Roles, JIRA Kanban & Analytics</title>
+  <title>Talent Command Center - 16 Roles, JIRA Kanban & Analytics</title>
   <style>
     :root {
       --bg: #080b12;
@@ -333,7 +333,7 @@
     </div>
 
     <div class="eyebrow">— Enterprise Recruitment Command Center</div>
-    <h1><span>DeepCubation Talent Operations</span></h1>
+    <h1><span>Talent Operations Command Center</span></h1>
     <p class="subtitle">Complete 16-Role Framework, Bi-directional JIRA Kanban, AI Screener, and Real-time Analytics Charts.</p>
 
     <!-- Tab Switcher -->
@@ -423,7 +423,6 @@
         <textarea id="cv-textarea" placeholder="Paste candidate CV text here..."></textarea>
         <button id="score-btn" onclick="runAIScore()">✨ Run AI Screener</button>
       </div>
-      <!-- 修正後的評分結果展示面板 -->
       <div id="score-result" class="panel" style="display:none; border-left: 4px solid var(--green);">
         <div class="panel-title">🤖 AI Screener Assessment Report</div>
         <div style="font-size: 18px; font-weight: 900; color: var(--yellow); margin-bottom: 8px;">Match Score: 92 / 100 (Grade A)</div>
@@ -751,7 +750,7 @@
 
     // ---- JIRA Kanban, Mock Data Generator & Modal Logic ----
     const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD"];
-    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v6";
+    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v7";
 
     function generateInitialMockData() {
       const firstNames = ["Alex", "David", "Michael", "Sarah", "Jessica", "Kevin", "Brian", "Emily", "Daniel", "Chris", "Ryan", "Amanda", "Jason", "Andrew", "Rachel"];
@@ -761,7 +760,7 @@
 
       Object.keys(roles).forEach((roleKey, rIdx) => {
         mockData[roleKey] = [];
-        const count = 5 + (rIdx % 4); // 每個崗位 5-8 人
+        const count = 5 + (rIdx % 4);
         for (let i = 0; i < count; i++) {
           const fName = firstNames[(rIdx + i) % firstNames.length];
           const lName = lastNames[(rIdx * 3 + i) % lastNames.length];
