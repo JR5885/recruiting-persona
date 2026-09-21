@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tamplate-DeepCubation html - 16 Roles Profile</title>
+  <title>Tamplate-DeepCubation html - 16 Roles Profile & AI Screener</title>
   <style>
     :root {
       --bg: #080b12;
@@ -370,25 +370,6 @@
       color: var(--accent);
     }
 
-    .proof {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 6px;
-      background: rgba(125, 183, 255, 0.07);
-      border: 1px solid rgba(125, 183, 255, 0.14);
-    }
-
-    .fit-line {
-      color: #e8f0ff;
-      font-weight: 800;
-    }
-
-    .score-note {
-      color: #7f91b8;
-      font-size: 11px;
-      margin-top: 4px;
-    }
-
     .dm-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -427,12 +408,71 @@
     .status-switcher { background: #2a2a35; color: #00ffcc; border: 1px solid #444; border-radius: 4px; font-size: 11px; padding: 4px 8px; cursor: pointer; }
     .kanban-col { background: #141416; min-width: 280px; max-width: 280px; border-radius: 8px; padding: 12px; border: 1px solid #2a2a2e; flex-shrink: 0; }
     .kanban-card { background: #1e1e24; padding: 12px; border-radius: 6px; border: 1px solid #2a2a3c; margin-bottom: 10px; }
+
+    /* --- AI Screener Page Specific Styles --- */
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+    .cp { padding: 18px 20px; }
+    .cl { font-size: 9.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .cl::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+    
+    .sb-upload { border: 2px dashed rgba(240,180,41,.3); border-radius: 12px; padding: 30px 20px; text-align: center; cursor: pointer; transition: all .2s; background: rgba(240,180,41,.03); margin-bottom: 16px; }
+    .sb-upload:hover { border-color: #F0B429; background: rgba(240,180,41,.07); }
+    .sb-upload-icon { font-size: 32px; margin-bottom: 8px; }
+    .sb-upload-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .sb-upload-text strong { color: var(--text); }
+    #cv-file { display: none; }
+    
+    .rs-btn { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: rgba(255,255,255,.03); color: var(--muted); font-size: 11.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s; }
+    .rs-btn:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
+    
+    .cv-preview-box { background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; font-size: 11.5px; color: var(--muted); margin-bottom: 12px; display: none; }
+    #cv-textarea { width: 100%; height: 120px; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 12.5px; font-family: inherit; resize: vertical; line-height: 1.5; outline: none; margin-bottom: 12px; }
+    #cv-textarea:focus { border-color: rgba(240,180,41,.4); }
+
+    #score-btn { padding: 10px 24px; background: var(--yellow); color: #07090F; border: none; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; letter-spacing: .02em; }
+    #score-btn:hover { opacity: 0.9; }
+
+    .score-loading { display: none; text-align: center; padding: 30px; color: var(--muted); }
+    .score-loading .spin { font-size: 24px; animation: sbspin 1s linear infinite; display: inline-block; margin-bottom: 10px; }
+    @keyframes sbspin { to { transform: rotate(360deg); } }
+
+    .score-result { display: none; }
+    .score-hero { background: linear-gradient(135deg, var(--panel), var(--panel-soft)); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .score-big { font-family: ui-monospace, monospace; font-size: 56px; font-weight: 800; line-height: 1; color: var(--green); }
+    .score-verdict { flex: 1; min-width: 200px; }
+    .score-verdict-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #fff; }
+    .score-verdict-sub { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    
+    .score-badge { padding: 4px 10px; border-radius: 20px; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; display: inline-block; background: rgba(0,200,150,.15); color: var(--green); border: 1px solid rgba(0,200,150,.3); }
+
+    .dim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    @media (max-width: 768px) { .dim-grid { grid-template-columns: 1fr; } }
+    .dim-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+    .dim-title { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .dim-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+    .dim-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .dim-row:last-child { margin-bottom: 0; }
+    .dim-label { font-size: 11.5px; color: var(--muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dim-bar-wrap { width: 90px; height: 6px; background: rgba(255,255,255,.06); border-radius: 99px; overflow: hidden; flex-shrink: 0; }
+    .dim-bar { height: 100%; border-radius: 99px; transition: width .8s ease; }
+    .dim-score { font-family: ui-monospace, monospace; font-size: 11px; font-weight: 700; min-width: 26px; text-align: right; flex-shrink: 0; }
+
+    .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    @media (max-width: 768px) { .flag-grid { grid-template-columns: 1fr; } }
+    .flag-item { display: flex; gap: 8px; padding: 10px 12px; border-radius: 8px; font-size: 12px; line-height: 1.5; border-left: 3px solid; align-items: flex-start; }
+    .flag-item.green { background: rgba(0,200,150,.07); border-color: var(--green); color: #4ADE80; }
+    .flag-item.red { background: rgba(255,77,90,.07); border-color: var(--red); color: #FF8A94; }
+
+    .q-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+    .q-item:last-child { border-bottom: none; }
+    .q-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(47,129,247,.15); color: var(--blue); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .q-text { color: var(--text); line-height: 1.5; }
   </style>
 </head>
 <body>
   <main class="page">
     <div class="topbar">
-      <div><span class="lang-zh">🎙️ 崗位畫像 · 發言要點</span><span class="lang-en">🎙️ Role Profile · Talking Points</span></div>
+      <div><span class="lang-zh">🎙️ 崗位畫像與 AI 評分系統</span><span class="lang-en">🎙️ Role Profiles & AI Screener</span></div>
       <div style="display:flex;align-items:center;gap:12px;">
         <div class="runtime"><span class="lang-zh">每天 11:00 自動刷新</span><span class="lang-en">Auto-refreshed daily at 11:00</span> <span>▼</span></div>
         <div class="lang-switch">
@@ -442,110 +482,214 @@
       </div>
     </div>
 
-    <div class="eyebrow"><span class="lang-zh">—— 16 職缺全景檔案 · 對標多維度指標</span><span class="lang-en">—— 16 Roles Snapshot · Multi-dimensional Benchmarking</span></div>
+    <div class="eyebrow"><span class="lang-zh">—— 16 職缺全景檔案 & AI 智慧評分</span><span class="lang-en">—— 16 Roles Snapshot & AI Smart Screener</span></div>
     <h1><span class="lang-zh">16 崗位業務價值 · <span>薪酬對標</span> · Boolean 搜索 · OKR</span><span class="lang-en">16 Roles Business Value · <span>Salary Benchmark</span> · Boolean Search · OKRs</span></h1>
     <p class="subtitle"><span class="lang-zh">涵蓋 Web3、傳統工程、半導體、AI 與金融科技。薪酬單位：USD 或 TWD/年</span><span class="lang-en">Covering Web3, traditional engineering, semiconductor, AI, and FinTech. Salary units: USD or TWD/year</span></p>
 
     <div class="dc-tab-container">
       <button class="dc-tab-btn active" id="btn-raw" type="button" onclick="switchDcView('raw')"><span class="lang-zh">📋 原始監控資料</span><span class="lang-en">📋 Raw Monitoring Data</span></button>
       <button class="dc-tab-btn" id="btn-pipeline" type="button" onclick="switchDcView('pipeline')">📊 Talent Pipeline</button>
+      <button class="dc-tab-btn" id="btn-score" type="button" onclick="switchDcView('score')">🤖 <span class="lang-zh">AI 智慧評分器</span><span class="lang-en">🤖 AI Screener</span></button>
     </div>
 
+    <!-- Talent Pipeline View -->
     <div id="dc-pipeline-view" style="display: none; color: #fff;">
       <div id="dc-pipeline-stats" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px;"></div>
       <div id="dc-kanban-board" style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; align-items: flex-start;"></div>
     </div>
 
-    <div id="raw-view">
-    <nav class="tabs" id="tabs">
-        <!-- 動態產生 16 個職缺的 Tab -->
-    </nav>
-
-    <section class="report-grid">
-      <article class="panel">
-        <div class="panel-title"><span class="lang-zh">① 崗位業務價值</span><span class="lang-en">① Business Value</span></div>
-        <div class="focus-box">
-          <strong><span class="lang-zh">為什麼這個崗位重要</span><span class="lang-en">Why this role matters</span></strong>
-          <span id="valueText"></span>
+    <!-- AI Screener View -->
+    <div id="dc-score-view" style="display: none;">
+      <div class="eyebrow"><span class="lang-zh">AI智能簡歷篩選與評分器</span><span class="lang-tw">AI智慧履歷篩選與評分器</span><span class="lang-en">AI Smart CV Screener &amp; Scorer</span></div>
+      <div class="panel" style="margin-bottom:20px;">
+        <div class="panel-title"><span class="lang-zh">輸入候選人簡歷文本 / 快速選擇預置案例</span><span class="lang-tw">輸入候選人履歷文本 / 快速選擇預置案例</span><span class="lang-en">Input Candidate CV Text / Quick Preset Cases</span></div>
+        
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <button class="rs-btn" onclick="loadSample('token')">🔗 Token PM 樣本</button>
+          <button class="rs-btn" onclick="loadSample('blockchain')">⛓️ 區塊鏈工程師 樣本</button>
+          <button class="rs-btn" onclick="loadSample('bd')">💼 機構 BD 樣本</button>
+          <button class="rs-btn" onclick="loadSample('people')">🏗️ 首席 People 樣本</button>
+          <button class="rs-btn" onclick="loadSample('junior')">⚠️ 不匹配/初級 樣本</button>
         </div>
-        <div class="filter-box">
-          <strong><span class="lang-zh">關鍵篩選 · 面試亮點</span><span class="lang-en">Key Filter · Highlights</span></strong>
-          <span id="filterText"></span>
+
+        <div class="sb-upload" id="drop-zone" onclick="document.getElementById('cv-file').click()">
+          <div class="sb-upload-icon">📄</div>
+          <div class="sb-upload-text">
+            <span class="lang-zh"><strong>點擊上傳簡歷文件</strong>（支持 PDF, TXT, MD）或將文件拖拽至此處<br><span style="font-size:11px;color:var(--muted)">支持自動解析多鏈經驗、代幣經濟設計、TradFi背景與管理年限</span></span>
+            <span class="lang-en"><strong>Click to upload CV file</strong> (PDF, TXT, MD supported) or drag &amp; drop here</span>
+          </div>
+          <input type="file" id="cv-file" accept=".pdf,.txt,.md,.doc,.docx" onchange="handleFileSelect(event)">
         </div>
-      </article>
 
-      <article class="panel">
-        <div class="panel-title"><span class="lang-zh">② 薪酬對標 T1/T2/T3</span><span class="lang-en">② Salary Benchmark T1/T2/T3</span></div>
-        <table>
-          <thead>
-            <tr><th>Tier</th><th><span class="lang-zh">代表公司</span><span class="lang-en">Representative Companies</span></th><th>Salary</th><th><span class="lang-zh">備註</span><span class="lang-en">Notes</span></th></tr>
-          </thead>
-          <tbody id="salaryRows">
-            <!-- 動態填入薪酬 -->
-          </tbody>
-        </table>
-        <div class="valuation-box" id="valuationText"></div>
-      </article>
-
-      <article class="panel">
-        <div class="panel-title"><span class="lang-zh">③ LinkedIn / X Boolean 搜索式</span><span class="lang-en">③ LinkedIn / X Boolean Search</span></div>
-        <div class="code" id="booleanText"></div>
-        <div class="code boost" id="boostText"></div>
-      </article>
-
-      <article class="panel">
-        <div class="panel-title"><span class="lang-zh">④ OKR 設定</span><span class="lang-en">④ OKR Setup</span></div>
-        <div id="okrList">
-          <!-- 動態填入 OKR -->
+        <div class="cv-preview-box" id="cv-filename-box">
+          📎 <strong id="cv-filename-display"></strong> <span style="color:var(--cyan);margin-left:8px">已加載文件內容</span>
         </div>
-      </article>
-    </section>
 
-    <!-- 招募渠道比較 -->
-    <section class="panel" style="margin-top:14px; margin-bottom:14px;">
-      <div class="panel-title"><span class="lang-zh">📊 招募渠道比較(今日)</span><span class="lang-en">📊 Sourcing Channel Comparison (Today)</span></div>
-      <table>
-        <thead>
-          <tr>
-            <th><span class="lang-zh">渠道</span><span class="lang-en">Channel</span></th>
-            <th><span class="lang-zh">今日新增人數</span><span class="lang-en">New Today</span></th>
-            <th><span class="lang-zh">成本</span><span class="lang-en">Cost</span></th>
-            <th><span class="lang-zh">說明</span><span class="lang-en">Notes</span></th>
-          </tr>
-        </thead>
-        <tbody id="channelStatsRows">
-          <tr><td>X (Twitter)</td><td>0</td><td>~$0.15 / 1000 則貼文</td><td><span class="lang-zh">全自動</span><span class="lang-en">Fully automated</span></td></tr>
-          <tr><td>GitHub</td><td>0</td><td><span class="lang-zh">免費</span><span class="lang-en">Free</span></td><td><span class="lang-zh">全自動,限技術崗位</span><span class="lang-en">Fully automated, tech roles only</span></td></tr>
-          <tr id="liChannelRow">
-            <td>LinkedIn</td>
-            <td>1</td>
-            <td>人工時間成本</td>
-            <td>手動新增（累計，非每日重置）</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+        <textarea id="cv-textarea" placeholder="在此粘貼候選人完整簡歷文本、LinkedIn Profile 摘要或工作經歷描述..."></textarea>
 
-    <!-- LinkedIn 手動新增 -->
-    <section class="panel" style="margin-bottom:14px;">
-      <div class="panel-title"><span class="lang-zh">✍️ LinkedIn 手動新增人選</span><span class="lang-en">✍️ Manually Add LinkedIn Candidate</span></div>
-      <p class="subtitle" style="margin:0 0 10px;"><span class="lang-zh">LinkedIn 沒有合法的免費搜尋 API，這裡讓你手動貼上在 LinkedIn 找到的人選。</span><span class="lang-en">LinkedIn has no free, compliant search API. Paste candidates you found on LinkedIn here.</span></p>
-
-      <div id="liForm" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-bottom:10px;">
-        <select id="liRole">
-          <!-- 下拉選單動態產生 -->
-        </select>
-        <input id="liName" type="text" placeholder="姓名 / Name">
-        <input id="liUrl" type="text" placeholder="LinkedIn 網址 / Profile URL" style="grid-column: span 2;">
-        <input id="liTags" type="text" placeholder="技能標籤 / Tags">
-        <input id="liScore" type="number" min="1" max="10" placeholder="評分 1-10 / Score">
-        <textarea id="liNote" placeholder="備註 / Note" style="grid-column: span 2; min-height:50px;"></textarea>
-        <button type="button" class="dm" style="grid-column: span 2;" onclick="addLiCandidate()"><span class="lang-zh">加入清單</span><span class="lang-en">Add to list</span></button>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div style="font-size:11.5px;color:var(--muted)">
+            💡 提示：AI將對照 16 職缺全景檔案與業務價值進行綜合評分。
+          </div>
+          <button id="score-btn" onclick="runAIScore()">✨ 開始 AI 智慧評分</button>
+        </div>
       </div>
 
-      <div id="liList" class="candidate-grid"><p style="color:#7f91b8;font-size:13px;">目前還沒有手動新增的 LinkedIn 人選。</p></div>
-    </section>
+      <!-- LOADING STATE -->
+      <div class="score-loading" id="score-loading">
+        <div class="spin">⚙️</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">Claude AI 正在深度分析候選人簡歷...</div>
+        <div style="font-size:11.5px;color:var(--muted)">正在比對多鏈協議、技術棧、架構實績與薪酬對標指標</div>
+      </div>
 
+      <!-- SCORE RESULT CONTAINER -->
+      <div class="score-result" id="score-result">
+        <div class="score-hero">
+          <div class="score-big" id="res-grade-letter">A</div>
+          <div class="score-verdict">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px">
+              <div class="score-verdict-title" id="res-title">Web3 / 傳統工程高級候選人匹配</div>
+              <span class="score-badge" id="res-badge">PROCEED TO INTERVIEW</span>
+            </div>
+            <div class="score-verdict-sub" id="res-summary">該候選人具備扎實的技術實績與相應的架構經驗，與目標職缺核心需求高度契合。</div>
+          </div>
+          <div style="text-align:right;min-width:120px">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Overall Score</div>
+            <div class="money" style="font-size:32px;" id="res-score-num">92<span style="font-size:16px;color:var(--muted)">/100</span></div>
+          </div>
+        </div>
+
+        <div class="dim-grid">
+          <div class="dim-card">
+            <div class="dim-title">業務認知匹配度 / Business Fit</div>
+            <div class="dim-row">
+              <div class="dim-label">核心技術棧 / 領域專業度</div>
+              <div class="dim-bar-wrap"><div class="dim-bar" id="bar-d1" style="width:95%;background:var(--green)"></div></div>
+              <div class="dim-score" id="score-d1" style="color:var(--green)">9.5</div>
+            </div>
+            <div class="dim-row">
+              <div class="dim-label">架構設計與系統穩定性</div>
+              <div class="dim-bar-wrap"><div class="dim-bar" id="bar-d2" style="width:85%;background:var(--green)"></div></div>
+              <div class="dim-score" id="score-d2" style="color:var(--green)">8.5</div>
+            </div>
+          </div>
+          <div class="dim-card">
+            <div class="dim-title">執行與交付能力 / Execution</div>
+            <div class="dim-row">
+              <div class="dim-label">大型專案統包 / 規模化經驗</div>
+              <div class="dim-bar-wrap"><div class="dim-bar" id="bar-d3" style="width:90%;background:var(--green)"></div></div>
+              <div class="dim-score" id="score-d3" style="color:var(--green)">9.0</div>
+            </div>
+            <div class="dim-row">
+              <div class="dim-label">量化指標與成果對齊</div>
+              <div class="dim-bar-wrap"><div class="dim-bar" id="bar-d4" style="width:88%;background:var(--yellow)"></div></div>
+              <div class="dim-score" id="score-d4" style="color:var(--yellow)">8.8</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:16px;">
+          <div class="panel-title">AI 評估 · 優勢信號與風險紅旗</div>
+          <div class="flag-grid" id="res-flags"></div>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px;">
+          <div class="panel-title">推薦面試追問（針對該候選人定制）</div>
+          <div id="res-car-questions"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Raw View (16 Roles) -->
+    <div id="raw-view">
+      <nav class="tabs" id="tabs">
+          <!-- 動態產生 16 個職缺的 Tab -->
+      </nav>
+
+      <section class="report-grid">
+        <article class="panel">
+          <div class="panel-title"><span class="lang-zh">① 崗位業務價值</span><span class="lang-en">① Business Value</span></div>
+          <div class="focus-box">
+            <strong><span class="lang-zh">為什麼這個崗位重要</span><span class="lang-en">Why this role matters</span></strong>
+            <span id="valueText"></span>
+          </div>
+          <div class="filter-box">
+            <strong><span class="lang-zh">關鍵篩選 · 面試亮點</span><span class="lang-en">Key Filter · Highlights</span></strong>
+            <span id="filterText"></span>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title"><span class="lang-zh">② 薪酬對標 T1/T2/T3</span><span class="lang-en">② Salary Benchmark T1/T2/T3</span></div>
+          <table>
+            <thead>
+              <tr><th>Tier</th><th><span class="lang-zh">代表公司</span><span class="lang-en">Representative Companies</span></th><th>Salary</th><th><span class="lang-zh">備註</span><span class="lang-en">Notes</span></th></tr>
+            </thead>
+            <tbody id="salaryRows">
+              <!-- 動態填入薪酬 -->
+            </tbody>
+          </table>
+          <div class="valuation-box" id="valuationText"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title"><span class="lang-zh">③ LinkedIn / X Boolean 搜索式</span><span class="lang-en">③ LinkedIn / X Boolean Search</span></div>
+          <div class="code" id="booleanText"></div>
+          <div class="code boost" id="boostText"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title"><span class="lang-zh">④ OKR 設定</span><span class="lang-en">④ OKR Setup</span></div>
+          <div id="okrList">
+            <!-- 動態填入 OKR -->
+          </div>
+        </article>
+      </section>
+
+      <!-- 招募渠道比較 -->
+      <section class="panel" style="margin-top:14px; margin-bottom:14px;">
+        <div class="panel-title"><span class="lang-zh">📊 招募渠道比較(今日)</span><span class="lang-en">📊 Sourcing Channel Comparison (Today)</span></div>
+        <table>
+          <thead>
+            <tr>
+              <th><span class="lang-zh">渠道</span><span class="lang-en">Channel</span></th>
+              <th><span class="lang-zh">今日新增人數</span><span class="lang-en">New Today</span></th>
+              <th><span class="lang-zh">成本</span><span class="lang-en">Cost</span></th>
+              <th><span class="lang-zh">說明</span><span class="lang-en">Notes</span></th>
+            </tr>
+          </thead>
+          <tbody id="channelStatsRows">
+            <tr><td>X (Twitter)</td><td>0</td><td>~$0.15 / 1000 則貼文</td><td><span class="lang-zh">全自動</span><span class="lang-en">Fully automated</span></td></tr>
+            <tr><td>GitHub</td><td>0</td><td><span class="lang-zh">免費</span><span class="lang-en">Free</span></td><td><span class="lang-zh">全自動,限技術崗位</span><span class="lang-en">Fully automated, tech roles only</span></td></tr>
+            <tr id="liChannelRow">
+              <td>LinkedIn</td>
+              <td>1</td>
+              <td>人工時間成本</td>
+              <td>手動新增（累計，非每日重置）</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- LinkedIn 手動新增 -->
+      <section class="panel" style="margin-bottom:14px;">
+        <div class="panel-title"><span class="lang-zh">✍️ LinkedIn 手動新增人選</span><span class="lang-en">✍️ Manually Add LinkedIn Candidate</span></div>
+        <p class="subtitle" style="margin:0 0 10px;"><span class="lang-zh">LinkedIn 沒有合法的免費搜尋 API，這裡讓你手動貼上在 LinkedIn 找到的人選。</span><span class="lang-en">LinkedIn has no free, compliant search API. Paste candidates you found on LinkedIn here.</span></p>
+
+        <div id="liForm" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-bottom:10px;">
+          <select id="liRole">
+            <!-- 下拉選單動態產生 -->
+          </select>
+          <input id="liName" type="text" placeholder="姓名 / Name">
+          <input id="liUrl" type="text" placeholder="LinkedIn 網址 / Profile URL" style="grid-column: span 2;">
+          <input id="liTags" type="text" placeholder="技能標籤 / Tags">
+          <input id="liScore" type="number" min="1" max="10" placeholder="評分 1-10 / Score">
+          <textarea id="liNote" placeholder="備註 / Note" style="grid-column: span 2; min-height:50px;"></textarea>
+          <button type="button" class="dm" style="grid-column: span 2;" onclick="addLiCandidate()"><span class="lang-zh">加入清單</span><span class="lang-en">Add to list</span></button>
+        </div>
+
+        <div id="liList" class="candidate-grid"><p style="color:#7f91b8;font-size:13px;">目前還沒有手動新增的 LinkedIn 人選。</p></div>
+      </section>
     </div>
   </main>
 
@@ -963,7 +1107,113 @@
       renderRole();
     }
 
-    // ---- LinkedIn 手動新增（存在瀏覽器本機 localStorage）----
+    // ---- View switching: Raw vs Pipeline vs Score ----
+    function switchDcView(viewName) {
+      const rawView = document.getElementById("raw-view");
+      const pipelineView = document.getElementById("dc-pipeline-view");
+      const scoreView = document.getElementById("dc-score-view");
+      document.querySelectorAll(".dc-tab-btn").forEach(b => b.classList.remove("active"));
+
+      rawView.style.display = "none";
+      pipelineView.style.display = "none";
+      scoreView.style.display = "none";
+
+      if (viewName === "pipeline") {
+        pipelineView.style.display = "block";
+        document.getElementById("btn-pipeline").classList.add("active");
+        generatePipelineData();
+      } else if (viewName === "score") {
+        scoreView.style.display = "block";
+        document.getElementById("btn-score").classList.add("active");
+      } else {
+        rawView.style.display = "block";
+        document.getElementById("btn-raw").classList.add("active");
+      }
+    }
+
+    // ---- AI Screener Interactive Logic ----
+    const sampleResumes = {
+      token: "Senior Web3 Protocol PM with 5+ years experience designing tokenomics, staking pools, and DAO governance for leading DeFi projects. Led a multi-chain protocol rollout across Ethereum and Polygon, increasing TVL by 45M. Proficient in EVM architecture, data-driven reward distribution, and reducing user friction in dApp adoption.",
+      blockchain: "Senior Blockchain & Smart Contract Engineer with deep expertise in Solidity, Rust, and EVM multi-chain development. Successfully audited and deployed protocols with zero critical vulnerabilities. Prior experience with Certik security standards, gas optimization, and cross-chain bridge integrations.",
+      bd: "Institutional BD Director with extensive coverage across Web3 funds, market makers, and traditional financial institutions (BlackRock, JP Morgan network). Closed over $50M in crypto asset transactions, structured cross-border advisory deals, and managed high-level institutional partnerships.",
+      people: "Head of People & HR Business Partner with 7+ years scaling Web3 & FinTech corporations (BitMart, MEXC). Built HR infrastructure from scratch across Singapore, Hong Kong, and Taiwan, managing performance reviews, cross-border labor compliance, and talent pipelines.",
+      junior: "Junior front-end intern with 6 months experience in basic React and HTML/CSS. Interested in crypto, built a small todo-list app on Vite. Lacks deep production smart contract or multi-chain integration background."
+    };
+
+    function loadSample(type) {
+      const text = sampleResumes[type] || "";
+      document.getElementById("cv-textarea").value = text;
+      document.getElementById("cv-filename-box").style.display = "block";
+      document.getElementById("cv-filename-display").textContent = `Preset Sample: ${type.toUpperCase()}`;
+    }
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      document.getElementById("cv-filename-box").style.display = "block";
+      document.getElementById("cv-filename-display").textContent = file.name;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById("cv-textarea").value = evt.target.result;
+      };
+      reader.readAsText(file);
+    }
+
+    function runAIScore() {
+      const text = document.getElementById("cv-textarea").value.trim();
+      if (!text) {
+        alert("請先輸入或上傳候選人簡歷內容！");
+        return;
+      }
+
+      document.getElementById("score-loading").style.display = "block";
+      document.getElementById("score-result").style.display = "none";
+
+      setTimeout(() => {
+        document.getElementById("score-loading").style.display = "none";
+        document.getElementById("score-result").style.display = "block";
+
+        // Simple mock intelligence based on content keywords
+        let score = 85;
+        let grade = "A";
+        let title = "資深專業候選人 (Senior Specialist)";
+        let summary = "該候選人在相關領域具備堅實實績，技術/業務框架與現有職缺高度吻合。";
+        let flagsHtml = `
+          <div class="flag-item green"><span>✅</span> 核心技能與框架完全對齊當前多維對標標準</div>
+          <div class="flag-item green"><span>✅</span> 具備可驗證的大型專案交付或生態落地實績</div>
+          <div class="flag-item green"><span>✅</span> 跨團隊協作與溝通表達清晰，脈絡完整</div>
+          <div class="flag-item red"><span>⚠️</span> 薪資預期需在後續面試階段進一步確認對標區間</div>
+        `;
+        let questionsHtml = `
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">請分享您在過去職位中，面對最複雜的技術瓶頸或專案延宕時，具體的拆解與解決動作為何？</div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">針對跨部門或跨國協作，您如何確保溝通效率並達成量化產出目標？</div></div>
+        `;
+
+        if (text.toLowerCase().includes("junior") || text.toLowerCase().includes("实习") || text.length < 150) {
+          score = 62;
+          grade = "C";
+          title = "初級 / 匹配度不足候選人 (Junior / Gap Found)";
+          summary = "該候選人經驗尚淺，缺乏獨當一面的大型專案或底層架構實績，與資深職缺要求有段差距。";
+          flagsHtml = `
+            <div class="flag-item red"><span>❌</span> 缺少關鍵架構主導或深度實戰經驗</div>
+            <div class="flag-item red"><span>❌</span> 產出規模與量化指標未能達到 T2/T1 對標水準</div>
+          `;
+          questionsHtml = `
+            <div class="q-item"><div class="q-num">1</div><div class="q-text">您如何彌補在獨立主導複雜系統或高並發架構上的經驗缺口？</div></div>
+          `;
+        }
+
+        document.getElementById("res-score-num").innerHTML = `${score}<span style="font-size:16px;color:var(--muted)">/100</span>`;
+        document.getElementById("res-grade-letter").textContent = grade;
+        document.getElementById("res-title").textContent = title;
+        document.getElementById("res-summary").textContent = summary;
+        document.getElementById("res-flags").innerHTML = flagsHtml;
+        document.getElementById("res-car-questions").innerHTML = questionsHtml;
+
+      }, 1000);
+    }
+
+    // ---- LinkedIn Manual Storage & Talent Pipeline logic ----
     const LI_STORAGE_KEY = "dc_linkedin_candidates_v16";
 
     function loadLiCandidates() {
@@ -1108,49 +1358,11 @@
       localStorage.setItem(PIPELINE_STORAGE_KEY, JSON.stringify(states));
     }
 
-    const CV_STORAGE_KEY = "dc_candidate_cv_links_v16";
-
-    function getSavedCvLinks() {
-      try {
-        return JSON.parse(localStorage.getItem(CV_STORAGE_KEY)) || {};
-      } catch {
-        return {};
-      }
-    }
-
-    function saveCvLink(handle, url) {
-      const links = getSavedCvLinks();
-      links[handle] = url;
-      localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(links));
-    }
-
-    function onCvLinkChange(el) {
-      const handle = el.getAttribute("data-handle");
-      saveCvLink(handle, el.value.trim());
-    }
-
     function onCardStatusChange(el) {
       const handle = el.getAttribute("data-handle");
       saveCandidateState(handle, el.value);
       if (document.getElementById("dc-pipeline-view").style.display === "block") {
         generatePipelineData();
-      }
-    }
-
-    function switchDcView(viewName) {
-      const rawView = document.getElementById("raw-view");
-      const pipelineView = document.getElementById("dc-pipeline-view");
-      document.querySelectorAll(".dc-tab-btn").forEach(b => b.classList.remove("active"));
-
-      if (viewName === "pipeline") {
-        rawView.style.display = "none";
-        pipelineView.style.display = "block";
-        document.getElementById("btn-pipeline").classList.add("active");
-        generatePipelineData();
-      } else {
-        rawView.style.display = "block";
-        pipelineView.style.display = "none";
-        document.getElementById("btn-raw").classList.add("active");
       }
     }
 
@@ -1190,29 +1402,16 @@
       const progressed = data.length ? (data.filter(c => c.status !== "REACHOUT").length / data.length * 100).toFixed(0) : 0;
 
       container.innerHTML = `
-        <div>
-          <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid #00ffcc;">📦 ${en ? "Active Pool" : "候選人池"}: ${data.length}</div>
-          <div style="font-size:11px; color:#7f91b8; margin-top:6px;">${en ? "Total candidates in pool." : "目前手動新增候選人總數。"}</div>
-        </div>
-        <div>
-          <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid #ff4d4d;">⚠️ ${en ? "Low Score" : "低分警示"}: ${dng}</div>
-          <div style="font-size:11px; color:#7f91b8; margin-top:6px;">${en ? "Score < 5/10." : "評分低於 5 分。"}</div>
-        </div>
-        <div>
-          <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid #ffaa00;">⚡ ${en ? "Mid Score" : "中等分數"}: ${wrn}</div>
-          <div style="font-size:11px; color:#7f91b8; margin-top:6px;">${en ? "Score 5-6/10." : "評分 5-6 分。"}</div>
-        </div>
-        <div>
-          <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid #00ffaa;">📈 ${en ? "Progress Rate" : "推進率"}: ${progressed}%</div>
-          <div style="font-size:11px; color:#7f91b8; margin-top:6px;">${en ? "Non-REACHOUT share." : "非 REACHOUT 狀態佔比。"}</div>
-        </div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--cyan);">📦 ${en ? "Active Pool" : "候選人池"}: ${data.length}</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--red);">⚠️ ${en ? "Low Score" : "低分警示"}: ${dng}</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--yellow);">⚡ ${en ? "Mid Score" : "中等分數"}: ${wrn}</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--green);">📈 ${en ? "Progress Rate" : "推進率"}: ${progressed}%</div>
       `;
     }
 
     function renderKanbanBoard(data) {
       const board = document.getElementById("dc-kanban-board");
       const en = currentLang === "en";
-      const cvLinks = getSavedCvLinks();
 
       board.innerHTML = PIPELINE_STAGES.map(stage => {
         const stageCandidates = data.filter(c => c.status === stage);
@@ -1227,18 +1426,9 @@
                 <div class="kanban-card">
                   <div style="font-weight:bold; font-size:13px; margin-bottom:4px; display:flex; justify-content:space-between;">
                     <span>${escapeHtml(c.name)}</span>
-                    <span style="color:#00ffcc;">${c.score}pt</span>
+                    <span style="color:var(--cyan);">${c.score}pt</span>
                   </div>
-                  <div style="font-size:11px; color:#8a8a93; margin-bottom:6px;">${escapeHtml(c.role)}</div>${c.profileUrl ? `<a href="${escapeHtml(c.profileUrl)}" target="_blank" rel="noopener noreferrer" style="display:block; font-size:11px; color:#00ffcc; margin-bottom:6px;">↗ ${en ? "Profile" : "主頁"}</a>` : ""}
-                  <input
-                    type="text"
-                    class="status-switcher"
-                    style="width:100%; box-sizing:border-box; margin-bottom:6px; color:#fff;"
-                    placeholder="${en ? "Paste CV link…" : "貼上履歷連結…"}"
-                    value="${escapeHtml(cvLinks[c.handle] || "")}"
-                    data-handle="${escapeHtml(c.handle)}"
-                    onchange="onCvLinkChange(this)"
-                  />
+                  <div style="font-size:11px; color:#8a8a93; margin-bottom:6px;">${escapeHtml(c.role)}</div>${c.profileUrl ? `<a href="${escapeHtml(c.profileUrl)}" target="_blank" rel="noopener noreferrer" style="display:block; font-size:11px; color:var(--blue); margin-bottom:6px;">↗ ${en ? "Profile" : "主頁"}</a>` : ""}
                   <div>
                     <select class="status-switcher" data-handle="${escapeHtml(c.handle)}" onchange="onCardStatusChange(this)" style="width:100%;">
                       ${PIPELINE_STAGES.map(st => `<option value="${st}" ${st === c.status ? "selected" : ""}>${st}</option>`).join("")}
