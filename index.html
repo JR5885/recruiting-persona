@@ -569,7 +569,7 @@
 
         <div style="margin-bottom: 6px; font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase;">Candidate CV / Profile Text:</div>
         <textarea id="cv-textarea" placeholder="Paste candidate full resume or LinkedIn profile text here..."></textarea>
-        <button id="score-btn" onclick="runDynamicAIScore()">✨ Generate Pro AI Screener Report</button>
+        <button id="score-btn" type="button" onclick="runDynamicAIScore()">✨ Generate Pro AI Screener Report</button>
       </div>
 
       <!-- PRO ASSESSMENT REPORT CONTAINER -->
@@ -976,7 +976,7 @@
 
     // ---- JIRA Kanban, Mock Data & Modal Logic ----
     const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD"];
-    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v17";
+    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v18";
 
     function generateInitialMockData() {
       const firstNames = ["Alex", "David", "Michael", "Sarah", "Jessica", "Kevin", "Brian", "Emily", "Daniel", "Chris", "Ryan", "Amanda", "Jason", "Andrew", "Rachel"];
@@ -1231,7 +1231,7 @@
       });
     }
 
-    // ---- PRO AI SCREENER ENGINE WITH SPECIFIC MATCHING & C-A-R FOLLOW-UP QUESTIONS ----
+    // ---- PRO AI SCREENER ENGINE (WITH SPECIFIC MATCHING & C-A-R FOLLOW-UP QUESTIONS) ----
     function runDynamicAIScore() {
       const cvText = document.getElementById("cv-textarea").value.trim();
       const roleKey = document.getElementById("screener-role-select").value;
@@ -1367,7 +1367,6 @@
         <div class="screener-flag-item red" style="border-color: var(--yellow); background: rgba(255,193,33,0.06); color: var(--yellow);"><span>⚠️</span> <strong>Salary Expectation:</strong> Expected ${expSalary} vs Last Drawn ${lastSalary}.</div>
       `;
 
-      // Tailored Interview Questions with C-A-R Format & Follow-up
       document.getElementById("rep-questions").innerHTML = `
         <div class="q-box">
           <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q1: Technical Architecture & Execution</div>
@@ -1394,8 +1393,11 @@
       `;
 
       const resultBox = document.getElementById("score-result");
-      resultBox.style.display = "block";
-      resultBox.scrollIntoView({ behavior: 'smooth' });
+      if(resultBox) {
+        resultBox.style.display = "block";
+        resultBox.style.visibility = "visible";
+        resultBox.scrollIntoView({ behavior: 'smooth' });
+      }
     }
 
     renderTabs();
