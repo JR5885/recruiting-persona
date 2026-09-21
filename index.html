@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vicky Chen - 候選人簡介與多維度職缺總覽</title>
+    <style>
+        :root {
+            --bg: #080b12;
+            --panel: #0d111c;
+            --panel-soft: #111827;
+            --line: #202a3a;
+            --text: #d8e6ff;
+            --muted: #7f91b8;
+            --yellow: #ffc121;
+            --cyan: #00e0b8;
+            --accent: #2f81f7;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 { color: #fff; }
+        h1 { font-size: clamp(24px, 3vw, 36px); border-bottom: 2px solid var(--line); padding-bottom: 10px; }
+        h2 { color: var(--yellow); margin-top: 40px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            color: var(--cyan);
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+        ul { padding-left: 20px; color: var(--muted); }
+        li { margin-bottom: 6px; }
+        .code {
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: #060a13;
+            border: 1px solid #173a6b;
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #7db7ff;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .salary-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .salary-tier {
+            background: var(--panel-soft);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            border-left: 3px solid var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vicky Chen - 候選人簡介與多維度職缺總覽</h1>
+        
+        <div class="card">
+            <h2>個人專業概述</h2>
+            <ul>
+                <li><strong>總工作經驗：</strong> 8年以上（7年以上企業端人才招募 TA 經驗，1年獵頭/機構招募經驗）</li>
+                <li><strong>技術招募領域：</strong> 軟體工程、金融科技系統、網頁與行動應用程式、AI/ML 工程、產品管理，以及機械/電機/汽車工程（採用 Google L3–L8 級別框架）</li>
+                <li><strong>核心資格：</strong> 具備流利英文與母語中文能力，台灣公民（無需工作簽證贊助）</li>
+            </ul>
+            
+            <h3>企業與公司網絡</h3>
+            <ul>
+                <li><strong>工程、營造與基礎設施：</strong> YCD、ACTER、CTCI、宏偉營造 (Hung Wei Construction)、ACLOUD、玖鼎集團 (Sparkle Group / Jiuding Group)</li>
+                <li><strong>科技、金融科技與半導體：</strong> BitMart、MEXC、Ourbit、Bitget、MemryX、Supernova.io Inc.</li>
+                <li><strong>汽車、硬體與 5G 創新：</strong> DeLorean、New Wave、信曜科技 (Synergy Design) 5G Small Cell 合作案、T Motion</li>
+            </ul>
+
+            <h3>應徵與排程資訊</h3>
+            <ul>
+                <li><strong>到職與面試期程：</strong> 1至2週內可收到 Offer</li>
+                <li><strong>面試可配合時段：</strong> 2026年9月22日 (二) 13:00 – 15:00 (CST) 或 2026年9月24日 (四) 11:00 – 12:00 (CST)</li>
+            </ul>
+        </div>
+
+        <h2>各崗位標準格式綜合總覽 (1 ~ 16)</h2>
+
+        <!-- 1 -->
+        <div class="card">
+            <h3>1. Web3 Frontend Engineer (DeLorean Labs)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Bridges complex asynchronous blockchain states (wallet connection, transaction signing, pending/confirmed/failed) into intuitive user interfaces; ensures secure multi-chain connectivity (EVM, Ethereum, Polygon) and scalable UI architecture.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $140,000 – $180,000+ USD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $110,000 – $165,000 USD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $75,000 – $105,000 USD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Deliver a flawless Web3 transaction experience. (KR1: 99.5% edge-case error-handling coverage; KR2: Sub-150ms UI feedback latency).<br><strong>Obj 2:</strong> Ensure multi-chain compatibility and strict code quality. (KR1: Zero critical state-sync bugs; KR2: 100% TypeScript type safety).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: ("Web3 Frontend Engineer" OR "DApp Frontend Developer") AND (React OR Vite OR TypeScript) AND ("WalletConnect" OR "Wagmi" OR "Viem" OR "EVM")
+X: (Frontend OR DApp) AND (Web3 OR React) AND (Wagmi OR Viem OR Solidity)</div>
+        </div>
+
+        <!-- 2 -->
+        <div class="card">
+            <h3>2. 資深結構工程師 (中鼎工程)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Ensures 100% structural integrity and seismic safety for high-risk industrial assets (power plants, petrochemical, high-tech facilities); coordinates cross-disciplinary interfaces (piping, equipment) and optimizes structural material costs.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $1,500,000 – $2,000,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $1,100,000 – $1,400,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $800,000 – $1,100,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Deliver flawless structural designs meeting international EPC standards. (KR1: 0 major design rework incidents; KR2: 100% on-time deliverables via SAP2000/ETABS).<br><strong>Obj 2:</strong> Optimize material efficiency and cross-discipline coordination. (KR1: Reduce structural material costs by 3-5%; KR2: Resolve 95% of interface clashes within 48 hours).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: ("Senior Structural Engineer" OR "結構工程師" OR "結構技師") AND ("SAP2000" OR "STAAD" OR "ETABS") AND ("Petrochemical" OR "Power Plant" OR "High-tech Facility" OR "廠房")
+X: (Structural AND Engineer) AND (SAP2000 OR ETABS OR STAAD) AND (Industrial OR Petrochemical)</div>
+        </div>
+
+        <!-- 3 -->
+        <div class="card">
+            <h3>3. 北區營運處｜資深工程主管 (聖暉工程)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Directs end-to-end execution of large-scale industrial construction, MEP, and cleanroom projects; manages P&L, project schedules, and complex stakeholder alignment between clients and subcontractors.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $1,600,000 – $2,200,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $1,300,000 – $1,600,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $1,000,000 – $1,300,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Ensure flawless execution of Northern region cleanroom projects. (KR1: 100% on-time milestone delivery; KR2: Gross margin variance within ±2%).<br><strong>Obj 2:</strong> Drive site safety and inter-discipline clash resolution. (KR1: Zero Lost-Time Injuries; KR2: Resolve 95% of MEP/HVAC clashes before installation).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("Project Director" OR "工程經理" OR "專案經理") AND ("Cleanroom" OR "無塵室" OR "MEP" OR "機電" OR "建廠") AND ("Semiconductor" OR "Pharma" OR "半導體") AND ("ACTER" OR "聖暉" OR "漢唐"))
+X: (Construction AND Manager) AND (Cleanroom OR MEP OR Semiconductor) AND (Engineering OR Plant)</div>
+        </div>
+
+        <!-- 4 -->
+        <div class="card">
+            <h3>4. 資訊與網路工程師 (量化交易公司)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Maintains high-availability office and IDC data center networks to safeguard quantitative trading executions; implements robust firewall topologies, VPNs, and automated infrastructure scripts.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $1,100,000 – $1,500,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $900,000 – $1,200,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $700,000 – $950,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Maximize network uptime and redundancy. (KR1: 99.99% uptime across IDC/office networks; KR2: Failover MTTR under 15 minutes).<br><strong>Obj 2:</strong> Drive automation and observability. (KR1: 100% automated monitoring coverage; KR2: Deploy ≥2 custom Python/Shell automation scripts).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("Network Engineer" OR "Infrastructure Engineer" OR "網管工程師") AND ("Fortinet" OR "Cisco" OR "Arista" OR "CCNA") AND ("Linux" OR "TCP/IP" OR "IDC") AND ("FinTech" OR "Trading" OR "金融"))
+X: (Network AND Engineer) AND (Linux OR Cisco OR Fortinet) AND (Infrastructure OR Datacenter)</div>
+        </div>
+
+        <!-- 5 -->
+        <div class="card">
+            <h3>5. PLC / SCADA 資深專案工程師 (德國德勒斯登外派)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Specializes in chiller system automation and PLC/SCADA integration for overseas high-tech fabs; serves as the onsite technical and project management anchor in Dresden, Germany.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $2,500,000 – $3,500,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $1,800,000 – $2,400,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $1,200,000 – $1,700,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Successfully execute chiller automation in Dresden. (KR1: 100% FAT/SAT completion without milestone delays; KR2: Zero unhandled system faults during commissioning).<br><strong>Obj 2:</strong> Manage international project stakeholders. (KR1: Schedule adherence within ±5% variance; KR2: Resolve 95% of cross-discipline issues within 48 hours).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("PLC Engineer" OR "SCADA Engineer" OR "控制工程師" OR "自動化工程師") AND ("Chiller" OR "HVAC" OR "冰機") AND ("Project Management" OR "PM") AND ("Semiconductor" OR "Dresden" OR "Germany"))
+X: (PLC OR SCADA) AND (Chiller OR HVAC) AND (Automation AND Engineer) AND (Expat OR Overseas)</div>
+        </div>
+
+        <!-- 6 -->
+        <div class="card">
+            <h3>6. 硬體研發主管 5G Small Cell (信曜科技)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Directs end-to-end 5G Small Cell / RU / DU hardware platform architecture, baseband/SoC design, Massive MIMO/Beamforming RF integration, and volume manufacturing compliance.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $2,000,000 – $2,800,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $1,500,000 – $2,000,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $1,200,000 – $1,500,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Deliver next-generation 5G Small Cell hardware. (KR1: Complete schematic and layout reviews on schedule; KR2: ≥85% first-pass prototype bring-up success rate).<br><strong>Obj 2:</strong> Secure regulatory compliance and RF performance. (KR1: Validate Massive MIMO/Beamforming per 3GPP specs; KR2: Secure 100% first-attempt FCC/CE/NCC approvals).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("Hardware Manager" OR "R&D Manager" OR "硬體研發主管") AND ("5G" OR "Small Cell" OR "Open RAN") AND ("FPGA" OR "SoC" OR "Baseband" OR "RF") AND ("竹北" OR "Hsinchu"))
+X: (Hardware AND Manager) AND (SmallCell OR "Open RAN" OR 5G) AND (FPGA OR RF)</div>
+        </div>
+
+        <!-- 7 -->
+        <div class="card">
+            <h3>7. 後端工程師 C# / .NET (美商新浪)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Architect critical backend financial services using C# and .NET 6/8+; optimize SQL Server performance and transactional data integrity; build secure RESTful APIs adhering to OWASP standards.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $1,200,000 – $1,800,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $800,000 – $1,500,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $650,000 – $900,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Deliver secure and scalable backend core services. (KR1: 99.9% uptime for financial APIs; KR2: ≥80% unit test coverage).<br><strong>Obj 2:</strong> Optimize database performance and security. (KR1: Reduce average T-SQL query latency by 20%; KR2: 100% remediation of high/critical OWASP vulnerabilities).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("Backend Engineer" OR "後端工程師" OR ".NET Developer") AND ("C#" OR ".NET Core") AND ("SQL Server" OR "Entity Framework") AND ("FinTech" OR "Banking" OR "金融"))
+X: (DotNet OR "C#") AND (Backend OR API) AND (FinTech OR SQLServer)</div>
+        </div>
+
+        <!-- 8 -->
+        <div class="card">
+            <h3>8. BESS 資深硬體工程師 (華城電機)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Leads system and hardware development for Advanced Battery Energy Storage Systems (BESS) and BMS; owns power supply/MCU schematic design, PCB layout, and automated test fixture creation.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $900,000 – $1,300,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $750,000 – $1,000,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $600,000 – $800,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Deliver robust BESS/BMS hardware and schematic designs. (KR1: 100% schematic and layout milestone completion; KR2: ≥85% first-pass bring-up success).<br><strong>Obj 2:</strong> Automate testing and verification. (KR1: 100% automated test coverage for functional requirements; KR2: Reduce hardware debug turnaround by 15%).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("BESS Engineer" OR "Hardware Engineer" OR "BMS工程師" OR "電源工程師") AND ("Battery" OR "儲能" OR "BESS" OR "BMS") AND ("MCU" OR "Schematic" OR "PCB") AND ("Taipei" OR "台北" OR "華城電機"))
+X: (Hardware AND Engineer) AND (BESS OR BMS OR Battery) AND (Schematic OR PCB)</div>
+        </div>
+
+        <!-- 9 -->
+        <div class="card">
+            <h3>9. Protocol Engineer (DeLorean Labs)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Leads protocol-level architecture and system design across EVM, Ethereum, and Polygon; establishes ownership consistency models, multi-chain scalability, and smart contract security frameworks.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $180,000 – $250,000+ USD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $160,000 – $220,000 USD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $110,000 – $150,000 USD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Architect a secure, multi-chain compatible protocol. (KR1: Ship core multi-chain protocol with zero architecture bottlenecks; KR2: Reduce failed transaction rates by 25%).<br><strong>Obj 2:</strong> Integrate Account Abstraction and security reviews. (KR1: Zero high/critical findings in external audits; KR2: Successfully integrate ERC-4337).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("Protocol Engineer" OR "Blockchain Architect" OR "Smart Contract Security") AND ("EVM" OR "Ethereum" OR "Polygon") AND ("Account Abstraction" OR "ERC-4337" OR "Protocol Architecture"))
+X: (Protocol AND Engineer) AND (Ethereum OR Solidity OR EVM) AND ("Account Abstraction" OR Security)</div>
+        </div>
+
+        <!-- 10 -->
+        <div class="card">
+            <h3>10. Team Lead (DeLorean Labs)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Manages cross-functional sprint execution, milestone tracking, and dependency alignment between Frontend, Backend, and Blockchain engineering squads under a remote structure.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $160,000 – $220,000+ USD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $140,000 – $190,000 USD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $95,000 – $135,000 USD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Drive predictable sprint delivery. (KR1: ≥90% sprint completion rate; KR2: Blocker resolution under 24 hours).<br><strong>Obj 2:</strong> Elevate engineering quality and release governance. (KR1: Zero post-deployment rollbacks; KR2: Conduct regular code reviews and technical mentoring).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("Engineering Team Lead" OR "Engineering Manager" OR "Technical Project Manager") AND ("Web3" OR "Blockchain" OR "Crypto") AND ("Agile" OR "Scrum" OR "Roadmap") AND ("Remote"))
+X: (Engineering AND Lead) AND (Web3 OR Crypto) AND (Manager OR Delivery)</div>
+        </div>
+
+        <!-- 11 -->
+        <div class="card">
+            <h3>11. 軟體測試工程師 / QA (數位獵人科技代徵)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Acts as product quality gatekeeper; designs test plans, test cases, and acceptance criteria; executes functional, API, and performance testing to ensure system stability prior to release.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $1,100,000 – $1,400,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $840,000 – $1,120,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $650,000 – $850,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Ensure rigorous pre-release quality assurance. (KR1: 100% test case coverage for core features; KR2: Reduce production bug escape rate by 20%).<br><strong>Obj 2:</strong> Optimize testing automation and API validation. (KR1: Automate ≥50% of regression tests via Postman/JMeter; KR2: Complete performance reports with zero unaddressed bottlenecks).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("QA Engineer" OR "Software Test Engineer" OR "軟體測試工程師") AND ("Postman" OR "JMeter" OR "API" OR "Automation" OR "自動化測試") AND ("Taipei" OR "台北" OR "南港"))
+X: (QA AND Engineer) AND (Testing OR Automation) AND (Postman OR JMeter)</div>
+        </div>
+
+        <!-- 12 -->
+        <div class="card">
+            <h3>12. 資深 SRE 工程師 (數位獵人科技代徵 - 台中)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Designs and maintains robust Kubernetes (GKE) clusters, Docker containers, and GitLab CI/CD pipelines; builds automated monitoring systems and leads Root Cause Analysis (RCA) for operational stability.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $1,200,000 – $1,800,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $900,000 – $1,300,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $700,000 – $950,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Maximize GKE infrastructure availability. (KR1: 99.99% production cluster uptime; KR2: Automated auto-scaling for traffic spikes).<br><strong>Obj 2:</strong> Optimize CI/CD and observability. (KR1: Reduce CI/CD deployment duration by 25%; KR2: 100% IaC coverage via Terraform/Helm).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("SRE Engineer" OR "Site Reliability Engineer" OR "DevOps工程師") AND ("Kubernetes" OR "GKE" OR "Terraform") AND ("GCP" OR "Google Cloud") AND ("台中" OR "Taichung" OR "西屯"))
+X: (SRE OR DevOps) AND (Kubernetes OR GKE) AND (Terraform OR GCP)</div>
+        </div>
+
+        <!-- 13 -->
+        <div class="card">
+            <h3>13. Developer Advocate (Supernova.io)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Drives global developer community growth and adoption of design systems; creates technical content, tutorials, and demos; bridges community feedback loops with internal product roadmaps.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $120,000 – $160,000+ USD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $90,000 – $120,000 USD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $65,000 – $90,000 USD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Expand developer community engagement. (KR1: Grow active community participation by 30% QoQ; KR2: Deliver ≥4 technical talks/workshops per quarter).<br><strong>Obj 2:</strong> Produce high-impact technical enablement resources. (KR1: Publish 12+ developer guides/tutorials; KR2: Achieve 90%+ positive documentation rating).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("Developer Advocate" OR "Developer Relations" OR "DevRel") AND ("Design Systems" OR "React" OR "Frontend") AND ("Community" OR "Technical Writing") AND ("Remote" OR "EU" OR "Prague"))
+X: (DevRel OR "Developer Advocate") AND (React OR DesignSystems) AND (Community OR Content)</div>
+        </div>
+
+        <!-- 14 -->
+        <div class="card">
+            <h3>14. Android Technical Expert (U.S. Real Estate Tech - Vietnam Remote)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Architect high-availability, modularized Android applications using modern Kotlin, Jetpack Compose, and advanced performance profiling; leads mobile engineering execution across U.S. time-zone alignments.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $70,000 – $100,000+ USD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $35,000 – $60,000 USD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $20,000 – $33,000 USD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Architect robust and scalable Android mobile systems. (KR1: Successfully migrate modules using Jetpack Compose with zero regressions; KR2: 100% architectural compliance).<br><strong>Obj 2:</strong> Optimize app performance and stability. (KR1: Reduce startup time and memory footprint by 20%; KR2: Maintain ≥99.5% crash-free session rate).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("Android Technical Expert" OR "Principal Android Engineer" OR "Senior Android Developer") AND ("Jetpack Compose" OR "Kotlin") AND ("Architecture" OR "Performance Optimization") AND ("Remote" OR "Vietnam"))
+X: (Android AND Engineer) AND (Kotlin OR JetpackCompose) AND (Architecture OR Performance)</div>
+        </div>
+
+        <!-- 15 -->
+        <div class="card">
+            <h3>15. C++ 軟體工程師 (群益金鼎證券)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Develops high-speed exchange connectivity, real-time market data parsing, and order-routing systems; builds robust client trading workstations using C/C++ and TCP/UDP socket programming.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $900,000 – $1,500,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $600,000 – $1,000,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $450,000 – $700,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Ensure ultra-low latency exchange connectivity. (KR1: 99.99% uptime for market data parsing and host order pipelines; KR2: Keep order transmission latency under 5ms).<br><strong>Obj 2:</strong> Deliver robust trading software modules. (KR1: 100% milestone delivery for trading platform development; KR2: Ensure 100% MSSQL database integrity).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("C++ Software Engineer" OR "C++ Developer" OR "金融軟體工程師") AND ("Socket" OR "TCP/UDP" OR "FIX Protocol") AND ("MSSQL" OR "Linux") AND ("Securities" OR "Trading" OR "證券" OR "群益"))
+X: (Cpp OR "C++") AND (Trading OR Exchange OR FIX) AND (Socket OR FinTech)</div>
+        </div>
+
+        <!-- 16 -->
+        <div class="card">
+            <h3>16. Java 工程師 (夕煇有限公司)</h3>
+            <div class="section-title">1. 崗位業務價值</div>
+            <p>Architect scalable, high-concurrency backend microservices utilizing SpringBoot, Kafka message queues, Redis caching, and K8s containerization for high-traffic exchange/Web3 environments.</p>
+            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
+            <div class="salary-row">
+                <div class="salary-tier"><strong>T1:</strong> $1,300,000 – $2,000,000+ TWD/yr</div>
+                <div class="salary-tier"><strong>T2:</strong> $900,000 – $1,400,000 TWD/yr</div>
+                <div class="salary-tier"><strong>T3:</strong> $700,000 – $950,000 TWD/yr</div>
+            </div>
+            <div class="section-title">3. OKR 設定</div>
+            <p><strong>Obj 1:</strong> Deliver resilient high-concurrency microservices. (KR1: 99.99% core Java backend uptime; KR2: Reduce API response latency by 20% via Redis/local caching).<br><strong>Obj 2:</strong> Ensure distributed messaging and DevOps reliability. (KR1: Successful Kafka integration with zero data loss; KR2: 100% K8s containerized deployment coverage).</p>
+            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
+            <div class="code">LinkedIn: (("Java Engineer" OR "Backend Developer" OR "Java後端工程師") AND ("Spring Boot" OR "JVM") AND ("Kafka" OR "Redis" OR "分散式架構") AND ("Docker" OR "Kubernetes"))
+X: (Java AND SpringBoot) AND (Concurrency OR Distributed OR Kafka) AND (Backend)</div>
+        </div>
+
+    </div>
+</body>
+</html>
