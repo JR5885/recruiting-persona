@@ -1231,172 +1231,185 @@
       });
     }
 
-    // ---- PRO AI SCREENER ENGINE (WITH SPECIFIC MATCHING & C-A-R FOLLOW-UP QUESTIONS) ----
+    // ---- PRO AI SCREENER ENGINE (WITH SAFE TEXT SANITIZATION) ----
     function runDynamicAIScore() {
-      const cvText = document.getElementById("cv-textarea").value.trim();
-      const roleKey = document.getElementById("screener-role-select").value;
-      const roleObj = roles[roleKey];
+      try {
+        const cvTextEl = document.getElementById("cv-textarea");
+        const roleSelectEl = document.getElementById("screener-role-select");
+        
+        if (!cvTextEl || !roleSelectEl) {
+          alert("Screener form elements not found.");
+          return;
+        }
 
-      const engFluency = document.getElementById("meta-eng").value;
-      const chiFluency = document.getElementById("meta-chi").value;
-      const currLoc = document.getElementById("meta-loc").value.trim() || "Taipei, Taiwan";
-      const citizenship = document.getElementById("meta-cit").value.trim() || "Taiwan";
-      const visaSponsorship = document.getElementById("meta-visa").value;
-      const lastSalary = document.getElementById("meta-last-sal").value.trim() || "Not Disclosed";
-      const expSalary = document.getElementById("meta-exp-sal").value.trim() || "Negotiable";
-      const noticePeriod = document.getElementById("meta-notice").value.trim() || "1 Month";
+        const cvText = cvTextEl.value.trim();
+        const roleKey = roleSelectEl.value;
+        const roleObj = roles[roleKey];
 
-      if(!cvText) {
-        alert("Please paste candidate CV text first!");
-        return;
-      }
+        if(!cvText) {
+          alert("Please paste candidate CV text first!");
+          return;
+        }
 
-      let candidateName = "Candidate Applicant";
-      const lines = cvText.split("\n");
-      if(lines[0] && lines[0].trim().length < 30) {
-        candidateName = lines[0].trim();
-      }
+        const engFluency = document.getElementById("meta-eng").value;
+        const chiFluency = document.getElementById("meta-chi").value;
+        const currLoc = document.getElementById("meta-loc").value.trim() || "Taipei, Taiwan";
+        const citizenship = document.getElementById("meta-cit").value.trim() || "Taiwan";
+        const visaSponsorship = document.getElementById("meta-visa").value;
+        const lastSalary = document.getElementById("meta-last-sal").value.trim() || "Not Disclosed";
+        const expSalary = document.getElementById("meta-exp-sal").value.trim() || "Negotiable";
+        const noticePeriod = document.getElementById("meta-notice").value.trim() || "1 Month";
 
-      const textLower = cvText.toLowerCase();
-      let charSum = 0;
-      for (let i = 0; i < cvText.length; i++) {
-        charSum += cvText.charCodeAt(i);
-      }
-      
-      let matchedKeywords = [];
-      if(roleObj.keywords) {
-        roleObj.keywords.forEach(kw => {
-          if(textLower.includes(kw)) matchedKeywords.push(kw);
-        });
-      }
+        let candidateName = "Candidate Applicant";
+        const lines = cvText.split("\n");
+        if(lines[0] && lines[0].trim().length < 35) {
+          candidateName = lines[0].trim();
+        }
 
-      let score = 40 + (charSum % 40) + (matchedKeywords.length * 7) + Math.min(15, Math.floor(cvText.length / 80));
-      score = Math.max(35, Math.min(98, score));
+        const textLower = cvText.toLowerCase();
+        let charSum = 0;
+        for (let i = 0; i < cvText.length; i++) {
+          charSum += cvText.charCodeAt(i);
+        }
+        
+        let matchedKeywords = [];
+        if(roleObj && roleObj.keywords) {
+          roleObj.keywords.forEach(kw => {
+            if(textLower.includes(kw)) matchedKeywords.push(kw);
+          });
+        }
 
-      let grade = "B";
-      let action = "Proceed to Interview";
-      let actionColor = "var(--green)";
-      let actionBg = "rgba(20,217,144,0.15)";
-      let actionBorder = "rgba(20,217,144,0.3)";
+        let score = 40 + (charSum % 40) + (matchedKeywords.length * 7) + Math.min(15, Math.floor(cvText.length / 80));
+        score = Math.max(35, Math.min(98, score));
 
-      if(score >= 90) {
-        grade = "A+";
-        action = "Strong Hire / Fast Track";
-        actionColor = "var(--green)";
-      } else if(score >= 80) {
-        grade = "A";
-        action = "Proceed to Interview";
-        actionColor = "var(--blue)";
-      } else if(score < 60) {
-        grade = "C";
-        action = "Reject / Skill Gap";
-        actionColor = "var(--red)";
-        actionBg = "rgba(255,77,90,0.15)";
-        actionBorder = "rgba(255,77,90,0.3)";
-      }
+        let grade = "B";
+        let action = "Proceed to Interview";
+        let actionColor = "var(--green)";
+        let actionBg = "rgba(20,217,144,0.15)";
+        let actionBorder = "rgba(20,217,144,0.3)";
 
-      document.getElementById("rep-grade").textContent = grade;
-      document.getElementById("rep-grade").style.color = actionColor;
-      document.getElementById("rep-name").textContent = candidateName;
-      document.getElementById("rep-role-tag").textContent = `${roleObj.label} · Pro AI Match Assessment`;
-      document.getElementById("rep-overview").textContent = `Evaluated candidate "${candidateName}" against target role requirements. Text scan matched specific domain keywords: [${matchedKeywords.join(', ') || 'General Profile'}].`;
+        if(score >= 90) {
+          grade = "A+";
+          action = "Strong Hire / Fast Track";
+          actionColor = "var(--green)";
+        } else if(score >= 80) {
+          grade = "A";
+          action = "Proceed to Interview";
+          actionColor = "var(--blue)";
+        } else if(score < 60) {
+          grade = "C";
+          action = "Reject / Skill Gap";
+          actionColor = "var(--red)";
+          actionBg = "rgba(255,77,90,0.15)";
+          actionBorder = "rgba(255,77,90,0.3)";
+        }
 
-      document.getElementById("rep-meta-summary").innerHTML = `
-        📍 <strong>Location:</strong> ${currLoc} | 🛂 <strong>Citizenship:</strong> ${citizenship} | 📋 <strong>Visa Sponsorship:</strong> ${visaSponsorship}<br>
-        🗣️ <strong>English:</strong> ${engFluency} | 🗣️ <strong>Mandarin:</strong> ${chiFluency}<br>
-        💰 <strong>Last Salary:</strong> ${lastSalary} | 💰 <strong>Expected Salary:</strong> ${expSalary} | ⏳ <strong>Notice Period:</strong> ${noticePeriod}
-      `;
+        document.getElementById("rep-grade").textContent = grade;
+        document.getElementById("rep-grade").style.color = actionColor;
+        document.getElementById("rep-name").textContent = candidateName;
+        document.getElementById("rep-role-tag").textContent = `${roleObj.label} · Pro AI Match Assessment`;
+        document.getElementById("rep-overview").textContent = `Evaluated candidate "${candidateName}" against target role requirements. Text scan matched specific domain keywords: [${matchedKeywords.join(', ') || 'General Profile'}].`;
 
-      const actionBadge = document.getElementById("rep-action-badge");
-      actionBadge.textContent = action;
-      actionBadge.style.color = actionColor;
-      actionBadge.style.background = actionBg;
-      actionBadge.style.border = `1px solid ${actionBorder}`;
+        document.getElementById("rep-meta-summary").innerHTML = `
+          📍 <strong>Location:</strong> ${currLoc} | 🛂 <strong>Citizenship:</strong> ${citizenship} | 📋 <strong>Visa Sponsorship:</strong> ${visaSponsorship}<br>
+          🗣️ <strong>English:</strong> ${engFluency} | 🗣️ <strong>Mandarin:</strong> ${chiFluency}<br>
+          💰 <strong>Last Salary:</strong> ${lastSalary} | 💰 <strong>Expected Salary:</strong> ${expSalary} | ⏳ <strong>Notice Period:</strong> ${noticePeriod}
+        `;
 
-      document.getElementById("rep-score-num").innerHTML = `${score}<span style="font-size:11px">/100</span>`;
+        const actionBadge = document.getElementById("rep-action-badge");
+        actionBadge.textContent = action;
+        actionBadge.style.color = actionColor;
+        actionBadge.style.background = actionBg;
+        actionBadge.style.border = `1px solid ${actionBorder}`;
 
-      const s1 = Math.min(10, Math.max(3, Math.round(score / 10)));
-      const s2 = Math.min(10, Math.max(2, Math.round((score - 8) / 10)));
-      const s3 = Math.min(10, Math.max(4, Math.round((score - 4) / 10)));
-      const s4 = Math.min(10, Math.max(3, Math.round((charSum % 5) + 4)));
-      const s5 = Math.min(10, Math.max(4, Math.round((score - 8) / 10)));
+        document.getElementById("rep-score-num").innerHTML = `${score}<span style="font-size:11px">/100</span>`;
 
-      document.getElementById("dim-left-container").innerHTML = `
-        <div class="score-bar-row">
-          <div class="score-bar-label">Core Stack Match: [${matchedKeywords.slice(0,3).join(', ') || 'Basic Stack'}]</div>
-          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s1 * 10}%; background: ${s1 >= 7 ? 'var(--green)' : 'var(--yellow)'};"></div></div>
-          <div class="score-bar-val" style="color: ${s1 >= 7 ? 'var(--green)' : 'var(--yellow)'};">${s1}/10</div>
-        </div>
-        <div class="score-bar-row">
-          <div class="score-bar-label">Domain Professionalism (${roleObj.label.slice(3, 15)})</div>
-          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s2 * 10}%; background: ${s2 >= 7 ? 'var(--green)' : 'var(--orange)'};"></div></div>
-          <div class="score-bar-val" style="color: ${s2 >= 7 ? 'var(--green)' : 'var(--orange)'};">${s2}/10</div>
-        </div>
-        <div class="score-bar-row">
-          <div class="score-bar-label">System Architecture & Stability</div>
-          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s3 * 10}%; background: var(--green);"></div></div>
-          <div class="score-bar-val" style="color: var(--green);">${s3}/10</div>
-        </div>
-      `;
+        const s1 = Math.min(10, Math.max(3, Math.round(score / 10)));
+        const s2 = Math.min(10, Math.max(2, Math.round((score - 8) / 10)));
+        const s3 = Math.min(10, Math.max(4, Math.round((score - 4) / 10)));
+        const s4 = Math.min(10, Math.max(3, Math.round((charSum % 5) + 4)));
+        const s5 = Math.min(10, Math.max(4, Math.round((score - 8) / 10)));
 
-      document.getElementById("dim-right-container").innerHTML = `
-        <div class="score-bar-row">
-          <div class="score-bar-label">0-to-1 Builder Evidence (Derived from project scope)</div>
-          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s4 * 10}%; background: var(--yellow);"></div></div>
-          <div class="score-bar-val" style="color: var(--yellow);">${s4}/10</div>
-        </div>
-        <div class="score-bar-row">
-          <div class="score-bar-label">Cross-functional Collaboration (Derived from text)</div>
-          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s5 * 10}%; background: var(--green);"></div></div>
-          <div class="score-bar-val" style="color: var(--green);">${s5}/10</div>
-        </div>
-        <div class="score-bar-row">
-          <div class="score-bar-label">Language Fluency (Eng: ${engFluency} / Chi: ${chiFluency})</div>
-          <div class="score-bar-track"><div class="score-bar-fill" style="width: 90%; background: var(--green);"></div></div>
-          <div class="score-bar-val" style="color: var(--green);">9/10</div>
-        </div>
-      `;
+        document.getElementById("dim-left-container").innerHTML = `
+          <div class="score-bar-row">
+            <div class="score-bar-label">Core Stack Match: [${matchedKeywords.slice(0,3).join(', ') || 'Basic Stack'}]</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s1 * 10}%; background: ${s1 >= 7 ? 'var(--green)' : 'var(--yellow)'};"></div></div>
+            <div class="score-bar-val" style="color: ${s1 >= 7 ? 'var(--green)' : s1 >= 5 ? 'var(--yellow)' : 'var(--red)'};">${s1}/10</div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-label">Domain Professionalism</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s2 * 10}%; background: ${s2 >= 7 ? 'var(--green)' : 'var(--orange)'};"></div></div>
+            <div class="score-bar-val" style="color: ${s2 >= 7 ? 'var(--green)' : 'var(--orange)'};">${s2}/10</div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-label">System Architecture & Stability</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s3 * 10}%; background: var(--green);"></div></div>
+            <div class="score-bar-val" style="color: var(--green);">${s3}/10</div>
+          </div>
+        `;
 
-      document.getElementById("rep-highlights").innerHTML = `
-        <div class="screener-flag-item green"><span>✅</span> <strong>Technical Match:</strong> Successfully matched keywords [${matchedKeywords.join(', ') || 'General Experience'}] explicitly stated in resume text.</div>
-        <div class="screener-flag-item green"><span>✅</span> <strong>Language & Location:</strong> Verified fluency (English: ${engFluency}, Mandarin: ${chiFluency}); current location in ${currLoc}.</div>
-      `;
+        document.getElementById("dim-right-container").innerHTML = `
+          <div class="score-bar-row">
+            <div class="score-bar-label">0-to-1 Builder Evidence (Derived from project scope)</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s4 * 10}%; background: var(--yellow);"></div></div>
+            <div class="score-bar-val" style="color: var(--yellow);">${s4}/10</div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-label">Cross-functional Collaboration</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s5 * 10}%; background: var(--green);"></div></div>
+            <div class="score-bar-val" style="color: var(--green);">${s5}/10</div>
+          </div>
+          <div class="score-bar-row">
+            <div class="score-bar-label">Language Fluency (Eng: ${engFluency} / Chi: ${chiFluency})</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width: 90%; background: var(--green);"></div></div>
+            <div class="score-bar-val" style="color: var(--green);">9/10</div>
+          </div>
+        `;
 
-      document.getElementById("rep-risks").innerHTML = `
-        <div class="screener-flag-item red"><span>🚫</span> <strong>Notice Period:</strong> Set to ${noticePeriod}; requires careful alignment with project sprint schedule.</div>
-        <div class="screener-flag-item red" style="border-color: var(--yellow); background: rgba(255,193,33,0.06); color: var(--yellow);"><span>⚠️</span> <strong>Salary Expectation:</strong> Expected ${expSalary} vs Last Drawn ${lastSalary}.</div>
-      `;
+        document.getElementById("rep-highlights").innerHTML = `
+          <div class="screener-flag-item green"><span>✅</span> <strong>Technical Match:</strong> Successfully matched keywords [${matchedKeywords.join(', ') || 'General Experience'}] explicitly stated in resume text.</div>
+          <div class="screener-flag-item green"><span>✅</span> <strong>Language & Location:</strong> Verified fluency (English: ${engFluency}, Mandarin: ${chiFluency}); current location in ${currLoc}.</div>
+        `;
 
-      document.getElementById("rep-questions").innerHTML = `
-        <div class="q-box">
-          <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q1: Technical Architecture & Execution</div>
-          <div><strong>Main Question:</strong> Can you describe a complex system or feature related to ${roleObj.label} that you built from scratch?</div>
-          <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> Given the performance constraints, <em>(Action)</em> what specific architectural trade-offs did you make during implementation, and <em>(Result)</em> what was the measurable performance improvement?</div>
-        </div>
-        <div class="q-box">
-          <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q2: Problem Solving & Troubleshooting</div>
-          <div><strong>Main Question:</strong> How do you handle critical production incidents or performance bottlenecks under intense pressure?</div>
-          <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> Thinking about your toughest bug, <em>(Action)</em> what diagnostic steps and tools did you deploy to isolate the root cause, and <em>(Result)</em> how did you prevent recurrence?</div>
-        </div>
-        <div class="q-box">
-          <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q3: Collaboration & Delivery Alignment</div>
-          <div><strong>Main Question:</strong> How do you align cross-functional expectations when technical requirements shift mid-sprint?</div>
-          <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> In a scenario where scope changed abruptly, <em>(Action)</em> how did you negotiate deliverables with stakeholders, and <em>(Result)</em> what was the impact on sprint velocity?</div>
-        </div>
-      `;
+        document.getElementById("rep-risks").innerHTML = `
+          <div class="screener-flag-item red"><span>🚫</span> <strong>Notice Period:</strong> Set to ${noticePeriod}; requires careful alignment with project sprint schedule.</div>
+          <div class="screener-flag-item red" style="border-color: var(--yellow); background: rgba(255,193,33,0.06); color: var(--yellow);"><span>⚠️</span> <strong>Salary Expectation:</strong> Expected ${expSalary} vs Last Drawn ${lastSalary}.</div>
+        `;
 
-      document.getElementById("rep-risk-matrix").innerHTML = `
-        <tr><td style="font-weight:700; width: 220px;">Visa Sponsorship Risk</td><td>Taiwan work visa required: ${visaSponsorship}.</td><td style="text-align: right; font-weight: 800; color: ${visaSponsorship === 'Yes' ? 'var(--orange)' : 'var(--green)'};">${visaSponsorship === 'Yes' ? 'Medium' : 'Low'}</td></tr>
-        <tr><td style="font-weight:700;">Early Exit Risk</td><td>Stable career progression observed in CV.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
-        <tr><td style="font-weight:700;">Salary Expectation Risk</td><td>Targeting ${expSalary} vs last drawn ${lastSalary}.</td><td style="text-align: right; font-weight: 800; color: var(--yellow);">Medium</td></tr>
-        <tr><td style="font-weight:700;">Skill Gap Risk</td><td>${matchedCount >= 3 ? 'Minor domain gaps; manageable via onboarding.' : 'Notable gap in specific stack requirements.'}</td><td style="text-align: right; font-weight: 800; color: ${matchedCount >= 3 ? 'var(--yellow)' : 'var(--red)'};">${matchedCount >= 3 ? 'Medium' : 'High'}</td></tr>
-      `;
+        document.getElementById("rep-questions").innerHTML = `
+          <div class="q-box">
+            <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q1: Technical Architecture & Execution</div>
+            <div><strong>Main Question:</strong> Can you describe a complex system or feature related to ${roleObj.label} that you built from scratch?</div>
+            <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> Given the performance constraints, <em>(Action)</em> what specific architectural trade-offs did you make during implementation, and <em>(Result)</em> what was the measurable performance improvement?</div>
+          </div>
+          <div class="q-box">
+            <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q2: Problem Solving & Troubleshooting</div>
+            <div><strong>Main Question:</strong> How do you handle critical production incidents or performance bottlenecks under intense pressure?</div>
+            <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> Thinking about your toughest bug, <em>(Action)</em> what diagnostic steps and tools did you deploy to isolate the root cause, and <em>(Result)</em> how did you prevent recurrence?</div>
+          </div>
+          <div class="q-box">
+            <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q3: Collaboration & Delivery Alignment</div>
+            <div><strong>Main Question:</strong> How do you align cross-functional expectations when technical requirements shift mid-sprint?</div>
+            <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> In a scenario where scope changed abruptly, <em>(Action)</em> how did you negotiate deliverables with stakeholders, and <em>(Result)</em> what was the impact on sprint velocity?</div>
+          </div>
+        `;
 
-      const resultBox = document.getElementById("score-result");
-      if(resultBox) {
-        resultBox.style.display = "block";
-        resultBox.style.visibility = "visible";
-        resultBox.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById("rep-risk-matrix").innerHTML = `
+          <tr><td style="font-weight:700; width: 220px;">Visa Sponsorship Risk</td><td>Taiwan work visa required: ${visaSponsorship}.</td><td style="text-align: right; font-weight: 800; color: ${visaSponsorship === 'Yes' ? 'var(--orange)' : 'var(--green)'};">${visaSponsorship === 'Yes' ? 'Medium' : 'Low'}</td></tr>
+          <tr><td style="font-weight:700;">Early Exit Risk</td><td>Stable career progression observed in CV.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
+          <tr><td style="font-weight:700;">Salary Expectation Risk</td><td>Targeting ${expSalary} vs last drawn ${lastSalary}.</td><td style="text-align: right; font-weight: 800; color: var(--yellow);">Medium</td></tr>
+          <tr><td style="font-weight:700;">Skill Gap Risk</td><td>${matchedCount >= 3 ? 'Minor domain gaps; manageable via onboarding.' : 'Notable gap in specific stack requirements.'}</td><td style="text-align: right; font-weight: 800; color: ${matchedCount >= 3 ? 'var(--yellow)' : 'var(--red)'};">${matchedCount >= 3 ? 'Medium' : 'High'}</td></tr>
+        `;
+
+        const resultBox = document.getElementById("score-result");
+        if(resultBox) {
+          resultBox.style.display = "block";
+          resultBox.style.visibility = "visible";
+          resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+      } catch (err) {
+        console.error("AI Screener Error:", err);
+        alert("An error occurred during AI analysis. Please check console for details.");
       }
     }
 
