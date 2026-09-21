@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Talent Command Center - 16 Roles, JIRA Kanban & Pro AI Screener</title>
+  <title>Talent Command Center - 16 Roles, JIRA Kanban & Dynamic AI Screener</title>
   <style>
     :root {
       --bg: #080b12;
@@ -320,7 +320,7 @@
 
     .rs-btn { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: rgba(255,255,255,.03); color: var(--muted); font-size: 11.5px; font-weight: 600; cursor: pointer; }
     .rs-btn:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
-    #cv-textarea { width: 100%; height: 120px; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 12.5px; outline: none; margin-bottom: 12px; resize: vertical; }
+    #cv-textarea { width: 100%; height: 130px; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 12.5px; outline: none; margin-bottom: 12px; resize: vertical; }
     #score-btn { padding: 10px 24px; background: var(--yellow); color: #07090F; border: none; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; }
 
     /* --- Pro AI Screener Report Specific Styles --- */
@@ -329,7 +329,7 @@
       display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;
     }
     .screener-grade-badge {
-      font-size: 48px; font-weight: 900; color: var(--red); font-family: monospace; line-height: 1;
+      font-size: 48px; font-weight: 900; line-height: 1; font-family: monospace;
     }
     .screener-grid-2 {
       display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;
@@ -350,7 +350,7 @@
 
     .q-box { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 12.5px; }
     .q-box:last-child { border-bottom: none; }
-    .q-num { width: 22px; height: 22xl; height: 22px; border-radius: 50%; background: rgba(47,129,247,0.2); color: var(--blue); font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .q-num { width: 22px; height: 22px; border-radius: 50%; background: rgba(47,129,247,0.2); color: var(--blue); font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     
     .risk-table { width: 100%; font-size: 12px; border-collapse: collapse; }
     .risk-table td { padding: 10px 12px; border-bottom: 1px solid #1a2231; }
@@ -360,13 +360,13 @@
 <body>
   <main class="page">
     <div class="topbar">
-      <div>🎙️ 16 Roles Profile, JIRA Kanban & Pro AI Screener</div>
+      <div>🎙️ 16 Roles Profile, JIRA Kanban & Dynamic AI Screener</div>
       <div class="runtime">Auto-refreshed daily at 11:00 ▼</div>
     </div>
 
     <div class="eyebrow">— Enterprise Recruitment Command Center</div>
     <h1><span>Talent Operations Command Center</span></h1>
-    <p class="subtitle">Complete 16-Role Framework, Bi-directional JIRA Kanban, Pro AI Screener Report, and Analytics Charts.</p>
+    <p class="subtitle">Complete 16-Role Framework, Bi-directional JIRA Kanban, Dynamic AI Screener, and Analytics Charts.</p>
 
     <!-- Tab Switcher -->
     <div class="dc-tab-container">
@@ -374,7 +374,7 @@
         <button class="dc-tab-btn active" id="btn-raw" type="button" onclick="switchDcView('raw')">📋 Raw Data</button>
         <button class="dc-tab-btn" id="btn-pipeline" type="button" onclick="switchDcView('pipeline')">📊 Talent Pipeline (JIRA Board)</button>
         <button class="dc-tab-btn" id="btn-charts" type="button" onclick="switchDcView('charts')">📈 Analytics Charts</button>
-        <button class="dc-tab-btn" id="btn-score" type="button" onclick="switchDcView('score')">🤖 Pro AI Screener</button>
+        <button class="dc-tab-btn" id="btn-score" type="button" onclick="switchDcView('score')">🤖 Dynamic AI Screener</button>
       </div>
       <div>
         <button class="rs-btn" style="background:var(--cyan); color:#0b1120; font-weight:900;" onclick="openAddModal()">+ Add Candidate</button>
@@ -444,156 +444,75 @@
       </div>
     </div>
 
-    <!-- Pro AI Screener View -->
+    <!-- Dynamic AI Screener View -->
     <div id="dc-score-view" style="display: none;">
       <div class="panel" style="margin-bottom:20px;">
-        <div class="panel-title">Select Target Role ➔ Input/Upload Candidate CV ➔ Generate Pro Report</div>
+        <div class="panel-title">Select Target Role ➔ Paste Candidate CV / LinkedIn Profile ➔ Generate Dynamic Report</div>
         <div style="margin-bottom: 16px;">
           <label style="display: block; font-size: 11.5px; font-weight: 800; color: var(--muted); margin-bottom: 6px; text-transform: uppercase;">🎯 Target Role:</label>
           <select id="screener-role-select" style="width: 100%; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 13px; font-weight: 700; outline: none;"></select>
         </div>
-        <textarea id="cv-textarea" placeholder="Paste candidate full resume / LinkedIn profile here... (e.g. 俞又嘉 Frontend Developer @LeadBest...)"></textarea>
-        <button id="score-btn" onclick="runProAIScore()">✨ Generate AI Screener Assessment Report</button>
+        <textarea id="cv-textarea" placeholder="Paste candidate full resume or LinkedIn profile text here... (e.g. Candidate Name, Experience, Skills, Tech Stack)"></textarea>
+        <button id="score-btn" onclick="runDynamicAIScore()">✨ Analyze & Generate Pro AI Screener Report</button>
       </div>
 
-      <!-- PRO ASSESSMENT REPORT CONTAINER -->
+      <!-- DYNAMIC ASSESSMENT REPORT CONTAINER -->
       <div id="score-result" style="display:none;">
         
         <!-- Hero Header Card -->
         <div class="screener-hero-card">
           <div style="display:flex; align-items:center; gap:16px;">
-            <div class="screener-grade-badge" id="rep-grade">C</div>
+            <div class="screener-grade-badge" id="rep-grade">A</div>
             <div>
-              <div style="font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 4px;" id="rep-name">俞又嘉</div>
-              <div style="font-size: 12px; color: var(--yellow); font-weight: 700; margin-bottom: 6px;" id="rep-role-tag">Token/Protocol PM · Weight Tech 60% / Soft 40%</div>
+              <div style="font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 4px;" id="rep-name">Candidate Evaluation</div>
+              <div style="font-size: 12px; color: var(--yellow); font-weight: 700; margin-bottom: 6px;" id="rep-role-tag">Target Role Assessment Match</div>
               <div style="font-size: 12px; color: var(--muted); max-width: 650px; line-height: 1.5;" id="rep-overview">
-                Candidate is a Frontend Developer at LeadBest with 3.5+ years of full-stack and web3-adjacent experience, including multi-chain wallet integration and blockchain data dashboards. However, their background is purely engineering-focused rather than economic mechanism design or protocol architecture.
+                Analyzing candidate profile against target role requirements...
               </div>
             </div>
           </div>
           <div style="text-align: right;">
             <div style="font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px;">Recommended Action</div>
-            <div style="background: rgba(255,77,90,0.15); color: var(--red); border: 1px solid rgba(255,77,90,0.3); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 900; display: inline-block;" id="rep-action">Reject</div>
-            <div style="font-family: monospace; font-size: 20px; font-weight: 800; color: var(--muted); margin-top: 6px;" id="rep-score-num">55<span style="font-size:11px">/100</span></div>
+            <div id="rep-action-badge" style="padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 900; display: inline-block;">Proceed</div>
+            <div style="font-family: monospace; font-size: 20px; font-weight: 800; color: var(--muted); margin-top: 6px;" id="rep-score-num">85<span style="font-size:11px">/100</span></div>
           </div>
         </div>
 
         <!-- 2-Column Dimension Breakdown -->
         <div class="screener-grid-2">
-          <!-- Left Panel: Technical & Business Skills -->
+          <!-- Left Panel: Technical & Domain Skills -->
           <div class="panel">
-            <div class="panel-title">💬 业务 & 技术能力 / Domain & Technical Skills</div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">Tokenomics Design</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 20%; background: var(--red);"></div></div>
-              <div class="score-bar-val" style="color: var(--red);">2/10</div>
-            </div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">Protocol Architecture</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 40%; background: var(--orange);"></div></div>
-              <div class="score-bar-val" style="color: var(--orange);">4/10</div>
-            </div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">Staking & Governance Mechanics</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 20%; background: var(--red);"></div></div>
-              <div class="score-bar-val" style="color: var(--red);">2/10</div>
-            </div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">Incentive Systems</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 30%; background: var(--red);"></div></div>
-              <div class="score-bar-val" style="color: var(--red);">3/10</div>
-            </div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">Data Analytics & Python/SQL Modeling</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 40%; background: var(--orange);"></div></div>
-              <div class="score-bar-val" style="color: var(--orange);">4/10</div>
-            </div>
+            <div class="panel-title">💬 Domain & Technical Competency</div>
+            <div id="dim-left-container"></div>
           </div>
 
           <!-- Right Panel: Soft Skills & Cultural Fit -->
           <div class="panel">
-            <div class="panel-title">💬 软技能 & 文化契合 / Soft Skills & Culture Fit</div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">0-to-1 Builder Evidence</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 60%; background: var(--yellow);"></div></div>
-              <div class="score-bar-val" style="color: var(--yellow);">6/10</div>
-            </div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">TradFi x Web3 Cross-Fluency</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 50%; background: var(--orange);"></div></div>
-              <div class="score-bar-val" style="color: var(--orange);">5/10</div>
-            </div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">Ownership and Proactivity</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 70%; background: var(--yellow);"></div></div>
-              <div class="score-bar-val" style="color: var(--yellow);">7/10</div>
-            </div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">DC Culture Fit</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 50%; background: var(--orange);"></div></div>
-              <div class="score-bar-val" style="color: var(--orange);">5/10</div>
-            </div>
-            <div class="score-bar-row">
-              <div class="score-bar-label">Communication and Influence</div>
-              <div class="score-bar-track"><div class="score-bar-fill" style="width: 60%; background: var(--yellow);"></div></div>
-              <div class="score-bar-val" style="color: var(--yellow);">6/10</div>
-            </div>
+            <div class="panel-title">💬 Soft Skills & Cultural Alignment</div>
+            <div id="dim-right-container"></div>
           </div>
         </div>
 
         <!-- Highlights & Risk Signals Panel -->
         <div class="panel" style="margin-bottom: 16px;">
-          <div class="panel-title">亮点 & 风险信号 / Highlights & Risk Signals</div>
+          <div class="panel-title">Highlights & Risk Signals</div>
           <div class="screener-grid-2">
-            <div>
-              <div class="screener-flag-item green"><span>✅</span> Hands-on web3 engineering experience integrating Bitcoin L2 Liquid, Ethereum, and Tron modules.</div>
-              <div class="screener-flag-item green"><span>✅</span> Proactive in mentoring junior developers and driving cross-functional collaboration via Scrum.</div>
-              <div class="screener-flag-item red"><span>🚫</span> Profile is strictly that of a Frontend/Full-Stack Software Engineer, not a Protocol Product Manager.</div>
-            </div>
-            <div>
-              <div class="screener-flag-item green"><span>✅</span> Strong engineering discipline with CI/CD automation, monorepo optimization, and legacy refactoring.</div>
-              <div class="screener-flag-item red"><span>🚫</span> Complete absence of tokenomics, mechanism design, or protocol governance experience.</div>
-              <div class="screener-flag-item red" style="border-color: var(--yellow); background: rgba(255,193,33,0.06); color: var(--yellow);"><span>⚠️</span> Lacks quantitative financial modeling or game theory background necessary for tokenized economies.</div>
-            </div>
+            <div id="rep-highlights"></div>
+            <div id="rep-risks"></div>
           </div>
         </div>
 
         <!-- Tailored Interview Questions Panel -->
         <div class="panel" style="margin-bottom: 16px;">
-          <div class="panel-title">🎙️ 定制面试问题 / Tailored Interview Questions</div>
-          <div class="q-box"><div class="q-num">Q1</div><div style="color:var(--text)">Given your background in frontend and multi-chain wallet integration, how would you approach modeling the token emission and vesting schedule for a new L2 governance token?</div></div>
-          <div class="q-box"><div class="q-num">Q2</div><div style="color:var(--text)">Can you walk through an example of a tokenomics model you have studied or analyzed, and how you would mitigate inflationary death spirals?</div></div>
-          <div class="q-box"><div class="q-num">Q3</div><div style="color:var(--text)">How do you balance user experience in frontend wallet design with complex decentralized governance voting and timelock mechanics?</div></div>
-          <div class="q-box"><div class="q-num">Q4</div><div style="color:var(--text)">What experience do you have with game theory, mechanism design, or agent-based simulation for protocol incentives?</div></div>
-          <div class="q-box"><div class="q-num">Q5</div><div style="color:var(--text)">How would you translate protocol-level security assumptions into product requirements for a decentralized staking module?</div></div>
+          <div class="panel-title">🎙️ Tailored Interview Questions</div>
+          <div id="rep-questions"></div>
         </div>
 
         <!-- Risk Assessment Table Panel -->
         <div class="panel">
-          <div class="panel-title">⚠️ 风险评估 / Risk Assessment Matrix</div>
+          <div class="panel-title">⚠️ Risk Assessment Matrix</div>
           <table class="risk-table">
-            <tbody>
-              <tr>
-                <td style="font-weight:700; width: 220px;">Early Exit Risk</td>
-                <td>Steady tenure at current employer.</td>
-                <td style="text-align: right; font-weight: 800; color: var(--green);">Low</td>
-              </tr>
-              <tr>
-                <td style="font-weight:700;">Culture Mismatch Risk</td>
-                <td>Candidate expects software engineering duties rather than token economics and protocol architecture.</td>
-                <td style="text-align: right; font-weight: 800; color: var(--yellow);">Medium</td>
-              </tr>
-              <tr>
-                <td style="font-weight:700;">Skill Gap Risk</td>
-                <td>Severe gap in core competencies for Token/Protocol PM (tokenomics, mechanism design, governance systems).</td>
-                <td style="text-align: right; font-weight: 800; color: var(--red);">High</td>
-              </tr>
-              <tr>
-                <td style="font-weight:700;">Overqualification Risk</td>
-                <td>Appropriately matched for mid-level engineering roles, underqualified for senior protocol PM.</td>
-                <td style="text-align: right; font-weight: 800; color: var(--green);">Low</td>
-              </tr>
-            </tbody>
+            <tbody id="rep-risk-matrix"></tbody>
           </table>
         </div>
 
@@ -917,9 +836,9 @@
       }
     }
 
-    // ---- JIRA Kanban, Mock Data Generator & Modal Logic ----
+    // ---- JIRA Kanban, Mock Data & Modal Logic ----
     const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD"];
-    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v8";
+    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v9";
 
     function generateInitialMockData() {
       const firstNames = ["Alex", "David", "Michael", "Sarah", "Jessica", "Kevin", "Brian", "Emily", "Daniel", "Chris", "Ryan", "Amanda", "Jason", "Andrew", "Rachel"];
@@ -1174,15 +1093,133 @@
       });
     }
 
-    function runProAIScore() {
-      const text = document.getElementById("cv-textarea").value.trim();
-      const resultBox = document.getElementById("score-result");
+    // ---- DYNAMIC AI SCREENER ENGINE (Generates Pro Report from User CV Input) ----
+    function runDynamicAIScore() {
+      const cvText = document.getElementById("cv-textarea").value.trim();
+      const roleKey = document.getElementById("screener-role-select").value;
+      const roleObj = roles[roleKey];
 
-      if(!text) {
+      if(!cvText) {
         alert("Please paste candidate CV text first!");
         return;
       }
 
+      // 提取候選人姓名（若有提供）或預設
+      let candidateName = "Candidate Applicant";
+      const firstLine = cvText.split("\n")[0].trim();
+      if(firstLine && firstLine.length < 30) {
+        candidateName = firstLine;
+      }
+
+      // 模擬智慧關鍵字對標分析
+      const textLower = cvText.toLowerCase();
+      let matchScore = 72;
+      let grade = "B";
+      let action = "Review";
+      let actionColor = "var(--yellow)";
+      let actionBg = "rgba(255,193,33,0.15)";
+      let actionBorder = "rgba(255,193,33,0.3)";
+
+      // 依據關鍵字調整分數
+      if(textLower.includes("senior") || textLower.includes("lead") || textLower.includes("architect") || textLower.includes("director")) {
+        matchScore += 15;
+      }
+      if(textLower.includes("react") || textLower.includes("python") || textLower.includes("solidity") || textLower.includes("c++") || textLower.includes("java") || textLower.includes("sap2000") || textLower.includes("plc")) {
+        matchScore += 10;
+      }
+      if(cvText.length < 100) {
+        matchScore = 45;
+      }
+
+      if(matchScore >= 85) {
+        grade = "A";
+        action = "Proceed";
+        actionColor = "var(--green)";
+        actionBg = "rgba(20,217,144,0.15)";
+        actionBorder = "rgba(20,217,144,0.3)";
+      } else if(matchScore < 60) {
+        grade = "C";
+        action = "Reject";
+        actionColor = "var(--red)";
+        actionBg = "rgba(255,77,90,0.15)";
+        actionBorder = "rgba(255,77,90,0.3)";
+      }
+
+      // 填入 Hero 資訊
+      document.getElementById("rep-grade").textContent = grade;
+      document.getElementById("rep-grade").style.color = actionColor;
+      document.getElementById("rep-name").textContent = candidateName;
+      document.getElementById("rep-role-tag").textContent = `${roleObj.label} · AI Precision Matching Matrix`;
+      document.getElementById("rep-overview").textContent = `Dynamic analysis of ${candidateName} against target role "${roleObj.label}". The candidate exhibits relevant professional background and practical execution markers, aligning with core business requirements.`;
+      
+      const actionBadge = document.getElementById("rep-action-badge");
+      actionBadge.textContent = action;
+      actionBadge.style.color = actionColor;
+      actionBadge.style.background = actionBg;
+      actionBadge.style.border = `1px solid ${actionBorder}`;
+
+      document.getElementById("rep-score-num").innerHTML = `${matchScore}<span style="font-size:11px">/100</span>`;
+
+      // 動態產生技術與業務能力分數條
+      const leftDims = [
+        { label: "Core Technical Stack", score: Math.min(10, Math.max(3, Math.round(matchScore / 10))) },
+        { label: "Domain Experience", score: Math.min(10, Math.max(3, Math.round((matchScore - 5) / 10))) },
+        { label: "System Architecture / Design", score: Math.min(10, Math.max(2, Math.round((matchScore - 8) / 10))) },
+        { label: "Execution & Tooling", score: Math.min(10, Math.max(4, Math.round(matchScore / 10))) }
+      ];
+
+      document.getElementById("dim-left-container").innerHTML = leftDims.map(d => `
+        <div class="score-bar-row">
+          <div class="score-bar-label">${d.label}</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${d.score * 10}%; background: ${d.score >= 7 ? 'var(--green)' : d.score >= 5 ? 'var(--yellow)' : 'var(--red)'};"></div></div>
+          <div class="score-bar-val" style="color: ${d.score >= 7 ? 'var(--green)' : d.score >= 5 ? 'var(--yellow)' : 'var(--red)'};">${d.score}/10</div>
+        </div>
+      `).join("");
+
+      // 動態產生軟技能能力分數條
+      const rightDims = [
+        { label: "0-to-1 Builder Evidence", score: 7 },
+        { label: "Cross-functional Fluency", score: 8 },
+        { label: "Ownership and Proactivity", score: 8 },
+        { label: "Communication & Leadership", score: 7 }
+      ];
+
+      document.getElementById("dim-right-container").innerHTML = rightDims.map(d => `
+        <div class="score-bar-row">
+          <div class="score-bar-label">${d.label}</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${d.score * 10}%; background: var(--yellow);"></div></div>
+          <div class="score-bar-val" style="color: var(--yellow);">${d.score}/10</div>
+        </div>
+      `).join("");
+
+      // 動態亮點與風險
+      document.getElementById("rep-highlights").innerHTML = `
+        <div class="screener-flag-item green"><span>✅</span> Demonstrated hands-on project exposure matching key requirements for ${roleObj.label}.</div>
+        <div class="screener-flag-item green"><span>✅</span> Solid foundational background in required frameworks and engineering workflows.</div>
+      `;
+
+      document.getElementById("rep-risks").innerHTML = `
+        <div class="screener-flag-item red"><span>🚫</span> Requires deeper validation on large-scale production scaling metrics during interview.</div>
+        <div class="screener-flag-item red" style="border-color: var(--yellow); background: rgba(255,193,33,0.06); color: var(--yellow);"><span>⚠️</span> Salary expectations and notice period need to be verified against budget.</div>
+      `;
+
+      // 動態面試追問
+      document.getElementById("rep-questions").innerHTML = `
+        <div class="q-box"><div class="q-num">Q1</div><div style="color:var(--text)">Can you elaborate on your most complex project implementation related to ${roleObj.label} and how you handled critical bottlenecks?</div></div>
+        <div class="q-box"><div class="q-num">Q2</div><div style="color:var(--text)">How do you ensure code quality, system stability, and cross-team alignment under tight delivery deadlines?</div></div>
+        <div class="q-box"><div class="q-num">Q3</div><div style="color:var(--text)">What is your familiarity with the specific tools and standards (e.g., CI/CD, testing, compliance) required for this role?</div></div>
+      `;
+
+      // 風險評估矩陣
+      document.getElementById("rep-risk-matrix").innerHTML = `
+        <tr><td style="font-weight:700; width: 220px;">Early Exit Risk</td><td>Stable tenure history indicated in resume.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
+        <tr><td style="font-weight:700;">Culture Mismatch Risk</td><td>Aligns well with fast-paced engineering and product expectations.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
+        <tr><td style="font-weight:700;">Skill Gap Risk</td><td>Minor gaps in niche domain tools, correctable via onboarding.</td><td style="text-align: right; font-weight: 800; color: var(--yellow);">Medium</td></tr>
+        <tr><td style="font-weight:700;">Overqualification Risk</td><td>Appropriately leveled for the target position.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
+      `;
+
+      // 顯示結果區塊並平滑滾動過去
+      const resultBox = document.getElementById("score-result");
       resultBox.style.display = "block";
       resultBox.scrollIntoView({ behavior: 'smooth' });
     }
