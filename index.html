@@ -409,12 +409,7 @@
     .kanban-col { background: #141416; min-width: 280px; max-width: 280px; border-radius: 8px; padding: 12px; border: 1px solid #2a2a2e; flex-shrink: 0; }
     .kanban-card { background: #1e1e24; padding: 12px; border-radius: 6px; border: 1px solid #2a2a3c; margin-bottom: 10px; }
 
-    /* --- AI Screener Page Specific Styles --- */
-    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
-    .cp { padding: 18px 20px; }
-    .cl { font-size: 9.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-    .cl::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-    
+    /* --- AI Screener Specific Styles --- */
     .sb-upload { border: 2px dashed rgba(240,180,41,.3); border-radius: 12px; padding: 30px 20px; text-align: center; cursor: pointer; transition: all .2s; background: rgba(240,180,41,.03); margin-bottom: 16px; }
     .sb-upload:hover { border-color: #F0B429; background: rgba(240,180,41,.07); }
     .sb-upload-icon { font-size: 32px; margin-bottom: 8px; }
@@ -486,6 +481,7 @@
     <h1><span class="lang-zh">16 崗位業務價值 · <span>薪酬對標</span> · Boolean 搜索 · OKR</span><span class="lang-en">16 Roles Business Value · <span>Salary Benchmark</span> · Boolean Search · OKRs</span></h1>
     <p class="subtitle"><span class="lang-zh">涵蓋 Web3、傳統工程、半導體、AI 與金融科技。薪酬單位：USD 或 TWD/年</span><span class="lang-en">Covering Web3, traditional engineering, semiconductor, AI, and FinTech. Salary units: USD or TWD/year</span></p>
 
+    <!-- 頂部切換 Tab -->
     <div class="dc-tab-container">
       <button class="dc-tab-btn active" id="btn-raw" type="button" onclick="switchDcView('raw')"><span class="lang-zh">📋 原始監控資料</span><span class="lang-en">📋 Raw Monitoring Data</span></button>
       <button class="dc-tab-btn" id="btn-pipeline" type="button" onclick="switchDcView('pipeline')">📊 Talent Pipeline</button>
@@ -500,9 +496,9 @@
 
     <!-- AI Screener View -->
     <div id="dc-score-view" style="display: none;">
-      <div class="eyebrow"><span class="lang-zh">AI智能簡歷篩選與評分器</span><span class="lang-tw">AI智慧履歷篩選與評分器</span><span class="lang-en">AI Smart CV Screener &amp; Scorer</span></div>
+      <div class="eyebrow"><span class="lang-zh">AI 智慧簡歷篩選與評分器</span><span class="lang-en">AI Smart CV Screener & Scorer</span></div>
       <div class="panel" style="margin-bottom:20px;">
-        <div class="panel-title"><span class="lang-zh">輸入候選人簡歷文本 / 快速選擇預置案例</span><span class="lang-tw">輸入候選人履歷文本 / 快速選擇預置案例</span><span class="lang-en">Input Candidate CV Text / Quick Preset Cases</span></div>
+        <div class="panel-title"><span class="lang-zh">輸入候選人簡歷文本 / 快速選擇預置案例</span><span class="lang-en">Input Candidate CV Text / Quick Preset Cases</span></div>
         
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
           <button class="rs-btn" onclick="loadSample('token')">🔗 Token PM 樣本</button>
@@ -515,8 +511,8 @@
         <div class="sb-upload" id="drop-zone" onclick="document.getElementById('cv-file').click()">
           <div class="sb-upload-icon">📄</div>
           <div class="sb-upload-text">
-            <span class="lang-zh"><strong>點擊上傳簡歷文件</strong>（支持 PDF, TXT, MD）或將文件拖拽至此處<br><span style="font-size:11px;color:var(--muted)">支持自動解析多鏈經驗、代幣經濟設計、TradFi背景與管理年限</span></span>
-            <span class="lang-en"><strong>Click to upload CV file</strong> (PDF, TXT, MD supported) or drag &amp; drop here</span>
+            <span class="lang-zh"><strong>點擊上傳簡歷文件</strong>（支持 PDF, TXT, MD）或將文件拖拽至此處<br><span style="font-size:11px;color:var(--muted)">支持自動解析多鏈經驗、代幣經濟設計、TradFi 背景與管理年限</span></span>
+            <span class="lang-en"><strong>Click to upload CV file</strong> (PDF, TXT, MD supported) or drag & drop here</span>
           </div>
           <input type="file" id="cv-file" accept=".pdf,.txt,.md,.doc,.docx" onchange="handleFileSelect(event)">
         </div>
@@ -529,7 +525,7 @@
 
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
           <div style="font-size:11.5px;color:var(--muted)">
-            💡 提示：AI將對照 16 職缺全景檔案與業務價值進行綜合評分。
+            💡 提示：AI 將對照 16 職缺全景檔案與業務價值進行綜合評分。
           </div>
           <button id="score-btn" onclick="runAIScore()">✨ 開始 AI 智慧評分</button>
         </div>
@@ -1173,7 +1169,6 @@
         document.getElementById("score-loading").style.display = "none";
         document.getElementById("score-result").style.display = "block";
 
-        // Simple mock intelligence based on content keywords
         let score = 85;
         let grade = "A";
         let title = "資深專業候選人 (Senior Specialist)";
