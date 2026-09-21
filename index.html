@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" style="--accent: #ff7675;">
+<html lang="en" style="--accent: #ff7675;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tamplate-DeepCubation html - 16 Roles & JIRA Kanban Pipeline</title>
+  <title>DeepCubation - 16 Roles & JIRA Agile Kanban with Editable Cards</title>
   <style>
     :root {
       --bg: #080b12;
@@ -53,20 +53,6 @@
       font-size: 12px;
       font-weight: 700;
     }
-
-    body:not([data-lang="en"]) .lang-en { display: none; }
-    body[data-lang="en"] .lang-zh { display: none; }
-    .lang-switch { display: inline-flex; border: 1px solid #244a87; border-radius: 6px; overflow: hidden; }
-    .lang-btn {
-      background: transparent;
-      border: none;
-      color: #7f91b8;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      cursor: pointer;
-    }
-    .lang-btn.active { background: var(--accent, #ffc121); color: #0b1120; }
 
     .runtime {
       display: inline-flex;
@@ -204,7 +190,6 @@
     .t2 { background: #765400; }
     .t3 { background: #182237; color: #657696; }
     .money { color: var(--yellow); font-weight: 900; }
-    .money.mid { color: var(--cyan); }
 
     .code {
       white-space: pre-wrap;
@@ -243,7 +228,8 @@
     .okr-kr { color: #8397c0; font-size: 12px; line-height: 1.45; }
 
     /* --- JIRA Kanban Style Board --- */
-    .dc-tab-container { margin: 20px 0; display: flex; gap: 10px; border-bottom: 1px solid #2a2a35; padding-bottom: 10px; }
+    .dc-tab-container { margin: 20px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a2a35; padding-bottom: 10px; }
+    .dc-tab-group { display: flex; gap: 10px; }
     .dc-tab-btn { background: #1e1e24; color: #8a8a93; border: 1px solid #2a2a35; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
     .dc-tab-btn.active { background: #00ffcc; color: #141416; border-color: #00ffcc; }
 
@@ -295,7 +281,7 @@
       gap: 6px;
     }
 
-    .jira-move-btn {
+    .jira-move-btn, .jira-edit-btn {
       background: #2a2a35;
       color: #00ffcc;
       border: 1px solid #444;
@@ -305,11 +291,22 @@
       cursor: pointer;
       font-weight: bold;
     }
-    .jira-move-btn:hover { background: #00ffcc; color: #141416; }
+    .jira-move-btn:hover, .jira-edit-btn:hover { background: #00ffcc; color: #141416; }
 
-    /* --- AI Screener Styles --- */
-    .sb-upload { border: 2px dashed rgba(240,180,41,.3); border-radius: 12px; padding: 30px 20px; text-align: center; cursor: pointer; background: rgba(240,180,41,.03); margin-bottom: 16px; }
-    .sb-upload:hover { border-color: #F0B429; background: rgba(240,180,41,.07); }
+    /* Modal / Popup styling */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000;
+    }
+    .modal-box {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 24px; width: 400px; max-width: 90%;
+    }
+    .modal-box h3 { margin-top: 0; color: #fff; font-size: 16px; margin-bottom: 16px; }
+    .modal-box input, .modal-box select {
+      width: 100%; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 6px; padding: 10px; color: var(--text); margin-bottom: 12px; font-size: 12.5px; outline: none;
+    }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+
     .rs-btn { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: rgba(255,255,255,.03); color: var(--muted); font-size: 11.5px; font-weight: 600; cursor: pointer; }
     .rs-btn:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
     #cv-textarea { width: 100%; height: 120px; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 12.5px; outline: none; margin-bottom: 12px; resize: vertical; }
@@ -319,25 +316,24 @@
 <body>
   <main class="page">
     <div class="topbar">
-      <div><span class="lang-zh">🎙️ 崗位畫像與 JIRA 敏捷招募看板</span><span class="lang-en">🎙️ Role Profiles & JIRA Agile Recruitment Kanban</span></div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div class="runtime"><span class="lang-zh">每天 11:00 自動刷新</span><span class="lang-en">Auto-refreshed daily at 11:00</span> <span>▼</span></div>
-        <div class="lang-switch">
-          <button type="button" class="lang-btn active" data-lang="zh" onclick="setLang('zh')">中文</button>
-          <button type="button" class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-        </div>
-      </div>
+      <div>🎙️ 16 Roles Profile & JIRA Agile Recruitment Kanban</div>
+      <div class="runtime">Auto-refreshed daily at 11:00 ▼</div>
     </div>
 
-    <div class="eyebrow">—— JIRA 敏捷招募看板（看板雙向同步）</div>
-    <h1><span>JIRA 敏捷看板 (看板雙向同步)</span></h1>
-    <p class="subtitle">點擊卡片上的 ◀ ▶ 按鈕即可跨欄位移動，並自動連動更新狀態與統計進度。</p>
+    <div class="eyebrow">— JIRA Agile Recruitment Kanban (Bi-directional Sync)</div>
+    <h1><span>JIRA Agile Kanban Board</span></h1>
+    <p class="subtitle">Click ◀ ▶ on cards to move columns, or click 'Edit' to modify candidate details.</p>
 
-    <!-- 頂部切換 Tab -->
+    <!-- Tab Switcher with + Add Candidate Button -->
     <div class="dc-tab-container">
-      <button class="dc-tab-btn active" id="btn-raw" type="button" onclick="switchDcView('raw')">📋 原始監控資料</button>
-      <button class="dc-tab-btn" id="btn-pipeline" type="button" onclick="switchDcView('pipeline')">📊 Talent Pipeline (JIRA 看板)</button>
-      <button class="dc-tab-btn" id="btn-score" type="button" onclick="switchDcView('score')">🤖 AI 智慧評分器</button>
+      <div class="dc-tab-group">
+        <button class="dc-tab-btn active" id="btn-raw" type="button" onclick="switchDcView('raw')">📋 Raw Data</button>
+        <button class="dc-tab-btn" id="btn-pipeline" type="button" onclick="switchDcView('pipeline')">📊 Talent Pipeline (JIRA Board)</button>
+        <button class="dc-tab-btn" id="btn-score" type="button" onclick="switchDcView('score')">🤖 AI Smart Screener</button>
+      </div>
+      <div>
+        <button class="rs-btn" style="background:var(--cyan); color:#0b1120; font-weight:900;" onclick="openAddModal()">+ Add Candidate</button>
+      </div>
     </div>
 
     <!-- JIRA Talent Pipeline Kanban View -->
@@ -349,86 +345,91 @@
     <!-- AI Screener View -->
     <div id="dc-score-view" style="display: none;">
       <div class="panel" style="margin-bottom:20px;">
-        <div class="panel-title">選擇目標評分崗位 ➔ 輸入/上傳候選人簡歷</div>
+        <div class="panel-title">Select Target Role ➔ Input/Upload Candidate CV</div>
         <div style="margin-bottom: 16px;">
-          <label style="display: block; font-size: 11.5px; font-weight: 800; color: var(--muted); margin-bottom: 6px; text-transform: uppercase;">🎯 目標評分職缺:</label>
+          <label style="display: block; font-size: 11.5px; font-weight: 800; color: var(--muted); margin-bottom: 6px; text-transform: uppercase;">🎯 Target Role:</label>
           <select id="screener-role-select" style="width: 100%; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 13px; font-weight: 700; outline: none;"></select>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-          <button class="rs-btn" onclick="loadSample('token')">🔗 Web3 Frontend 樣本</button>
-          <button class="rs-btn" onclick="loadSample('blockchain')">🏗️ 中鼎結構工程師 樣本</button>
-        </div>
-        <textarea id="cv-textarea" placeholder="在此粘貼候選人完整簡歷文本..."></textarea>
-        <button id="score-btn" onclick="runAIScore()">✨ 開始對標智慧評分</button>
+        <textarea id="cv-textarea" placeholder="Paste candidate CV text here..."></textarea>
+        <button id="score-btn" onclick="runAIScore()">✨ Run AI Screener</button>
       </div>
       <div id="score-result" class="panel" style="display:none;">
-        <div class="panel-title">評分結果</div>
+        <div class="panel-title">Assessment Result</div>
         <div id="res-summary" style="font-size:14px; color:var(--green); font-weight:bold;"></div>
       </div>
     </div>
 
-    <!-- Raw View (16 Roles) -->
+    <!-- Raw Data View (原始監控資料) -->
     <div id="raw-view">
       <nav class="tabs" id="tabs"></nav>
       <section class="report-grid">
         <article class="panel">
-          <div class="panel-title">① 崗位業務價值</div>
-          <div class="focus-box"><strong>為什麼這個崗位重要</strong><span id="valueText"></span></div>
+          <div class="panel-title">① Business Value</div>
+          <div class="focus-box"><strong>Why this role matters</strong><span id="valueText"></span></div>
         </article>
         <article class="panel">
-          <div class="panel-title">② 薪酬對標 T1/T2/T3</div>
+          <div class="panel-title">② Salary Benchmark T1/T2/T3</div>
           <table>
-            <thead><tr><th>Tier</th><th>代表公司</th><th>Salary</th><th>備註</th></tr></thead>
+            <thead><tr><th>Tier</th><th>Representative Companies</th><th>Salary</th><th>Notes</th></tr></thead>
             <tbody id="salaryRows"></tbody>
           </table>
           <div class="valuation-box" id="valuationText"></div>
         </article>
-      </section>
-      <!-- LinkedIn 手動新增區塊 -->
-      <section class="panel" style="margin-top:14px;">
-        <div class="panel-title">✍️ 手動新增候選人到 Pipeline 看板</div>
-        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-bottom:10px;">
-          <select id="liRole"></select>
-          <input id="liName" type="text" placeholder="姓名 / Name">
-          <input id="liUrl" type="text" placeholder="LinkedIn 網址 / Profile URL" style="grid-column: span 2;">
-          <input id="liScore" type="number" min="1" max="10" placeholder="評分 1-10 / Score">
-          <button type="button" class="rs-btn" style="grid-column: span 2; background:var(--yellow); color:#000; font-weight:bold;" onclick="addLiCandidate()">加入 JIRA 看板</button>
-        </div>
+        <article class="panel">
+          <div class="panel-title">③ Boolean Search</div>
+          <div class="code" id="booleanText"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-title">④ OKRs</div>
+          <div id="okrList"></div>
+        </article>
       </section>
     </div>
   </main>
 
+  <!-- Add / Edit Candidate Modal -->
+  <div class="modal-overlay" id="candidate-modal">
+    <div class="modal-box">
+      <h3 id="modal-title">Add New Candidate</h3>
+      <input type="hidden" id="edit-candidate-id">
+      <label style="font-size:11px; color:var(--muted)">Target Role:</label>
+      <select id="modal-role"></select>
+      <label style="font-size:11px; color:var(--muted)">Candidate Name:</label>
+      <input type="text" id="modal-name" placeholder="e.g. John Doe">
+      <label style="font-size:11px; color:var(--muted)">LinkedIn URL:</label>
+      <input type="text" id="modal-url" placeholder="https://linkedin.com/in/...">
+      <label style="font-size:11px; color:var(--muted)">Score (1-10):</label>
+      <input type="number" id="modal-score" min="1" max="10" placeholder="9">
+      <label style="font-size:11px; color:var(--muted)">Stage:</label>
+      <select id="modal-stage"></select>
+      <div class="modal-actions">
+        <button class="rs-btn" onclick="closeModal()">Cancel</button>
+        <button class="rs-btn" style="background:var(--yellow); color:#000; font-weight:bold;" onclick="saveCandidateModal()">Save</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const roles = {
-      role1: { icon: "💻", label: "1. Web3 Frontend Engineer", value: "Bridges complex asynchronous blockchain states into intuitive UIs.", salary: [["T1", "Solana / Ethereum", "$140k–$180k+", "USD"]] },
-      role2: { icon: "🏗️", label: "2. 資深結構工程師 (中鼎)", value: "Ensures 100% structural integrity and seismic safety.", salary: [["T1", "CTCI 中鼎工程", "$1.5M–$2.0M+", "TWD"]] },
-      role3: { icon: "🏭", label: "3. 資深工程主管 (聖暉)", value: "Directs end-to-end execution of cleanroom projects.", salary: [["T1", "ACTER 聖暉", "$1.6M–$2.2M+", "TWD"]] },
-      role4: { icon: "🌐", label: "4. 網路工程師 (量化交易)", value: "Maintains high-availability IDC data center networks.", salary: [["T1", "Jump Trading", "$1.1M–$1.5M+", "TWD"]] },
-      role5: { icon: "⚡", label: "5. PLC / SCADA 工程師 (德國外派)", value: "Specializes in chiller system automation.", salary: [["T1", "ASML, TSMC", "$2.5M–$3.5M+", "TWD"]] },
-      role6: { icon: "📡", label: "6. 硬體研發主管 5G", value: "Directs 5G Small Cell hardware platform architecture.", salary: [["T1", "聯發科, 中磊", "$2.0M–$2.8M+", "TWD"]] },
-      role7: { icon: "⚙️", label: "7. 後端工程師 C#", value: "Architect backend financial services using C#.", salary: [["T1", "Microsoft, Google", "$1.2M–$1.8M+", "TWD"]] },
-      role8: { icon: "🔋", label: "8. BESS 硬體工程師", value: "Leads battery energy storage systems development.", salary: [["T1", "華城電機, 台達電", "$900k–$1.3M+", "TWD"]] },
-      role9: { icon: "🔗", label: "9. Protocol Engineer", value: "Leads protocol architecture across EVM.", salary: [["T1", "Optimism, Base", "$180k–$250k+", "USD"]] },
-      role10: { icon: "👥", label: "10. Team Lead Web3", value: "Manages cross-functional sprint execution.", salary: [["T1", "ConsenSys, Ripple", "$160k–$220k+", "USD"]] },
-      role11: { icon: "🧪", label: "11. QA 工程師", value: "Acts as product quality gatekeeper.", salary: [["T1", "Google, Shopee", "$1.1M–$1.4M+", "TWD"]] },
-      role12: { icon: "☁️", label: "12. SRE 工程師 (台中)", value: "Maintains Kubernetes clusters and CI/CD.", salary: [["T1", "Google Taiwan", "$1.2M–$1.8M+", "TWD"]] },
-      role13: { icon: "📢", label: "13. Developer Advocate", value: "Drives global developer community growth.", salary: [["T1", "Vercel, Figma", "$120k–$160k+", "USD"]] },
-      role14: { icon: "📱", label: "14. Android Expert", value: "Architect modular Android apps.", salary: [["T1", "Grab, Shopee VN", "$70k–$100k+", "USD"]] },
-      role15: { icon: "📈", label: "15. C++ 工程師 (群益)", value: "Develops high-speed exchange connectivity.", salary: [["T1", "富邦證券, 元大", "$900k–$1.5M+", "TWD"]] },
-      role16: { icon: "☕", label: "16. Java 工程師 (夕煇)", value: "Architect scalable backend microservices.", salary: [["T1", "Binance, MEXC", "$1.3M–$2.0M+", "TWD"]] }
+      role1: { icon: "💻", label: "1. Web3 Frontend Engineer", value: "Bridges complex asynchronous blockchain states into intuitive UIs; ensures secure multi-chain connectivity (EVM, Ethereum, Polygon).", salary: [["T1", "Solana / Ethereum Foundation", "$140k–$180k+", "USD/year"]], boolean: "(\"Web3 Frontend Engineer\" OR \"DApp Frontend\") AND (React OR TypeScript) AND (Wagmi OR Viem OR EVM)", okr: "Obj 1: Deliver flawless Web3 transaction experience." },
+      role2: { icon: "🏗️", label: "2. Senior Structural Engineer (CTCI)", value: "Ensures 100% structural integrity and seismic safety for high-risk industrial assets.", salary: [["T1", "CTCI, Bechtel, Fluor", "$1.5M–$2.0M+", "TWD/year"]], boolean: "(\"Structural Engineer\" OR \"結構工程師\") AND (SAP2000 OR ETABS)", okr: "Obj 1: Deliver flawless structural designs meeting international EPC standards." },
+      role3: { icon: "🏭", label: "3. Senior Engineering Director (ACTER)", value: "Directs end-to-end execution of large-scale industrial construction, MEP, and cleanroom projects.", salary: [["T1", "ACTER, MII", "$1.6M–$2.2M+", "TWD/year"]], boolean: "(\"Project Director\") AND (\"Cleanroom\" OR \"無塵室\") AND (\"Semiconductor\")", okr: "Obj 1: Ensure flawless execution of Northern region cleanroom projects." },
+      role4: { icon: "🌐", label: "4. Network Engineer (Quant)", value: "Maintains high-availability office and IDC data center networks to safeguard quantitative trading.", salary: [["T1", "Jump Trading, Citadel", "$1.1M–$1.5M+", "TWD/year"]], boolean: "(\"Network Engineer\") AND (Fortinet OR Cisco) AND (FinTech OR Trading)", okr: "Obj 1: Maximize network uptime." },
+      role5: { icon: "⚡", label: "5. PLC / SCADA Engineer (Dresden Expat)", value: "Specializes in chiller system automation and PLC/SCADA integration for overseas high-tech fabs.", salary: [["T1", "ASML, TSMC Fab, Siemens", "$2.5M–$3.5M+", "TWD/year"]], boolean: "(\"PLC Engineer\") AND (Chiller OR HVAC) AND (Semiconductor)", okr: "Obj 1: Successfully execute chiller automation in Dresden." },
+      role6: { icon: "📡", label: "6. Hardware R&D Manager 5G", value: "Directs end-to-end 5G Small Cell / RU / DU hardware platform architecture.", salary: [["T1", "MediaTek, Qualcomm", "$2.0M–$2.8M+", "TWD/year"]], boolean: "(\"Hardware Manager\") AND (\"5G\" OR \"Small Cell\")", okr: "Obj 1: Deliver next-generation 5G Small Cell hardware." },
+      role7: { icon: "⚙️", label: "7. Backend Engineer C#", value: "Architect critical backend financial services using C# and .NET.", salary: [["T1", "Microsoft, Google", "$1.2M–$1.8M+", "TWD/year"]], boolean: "(\"Backend Engineer\") AND (\"C#\" OR \".NET Core\")", okr: "Obj 1: Deliver secure and scalable backend core services." },
+      role8: { icon: "🔋", label: "8. BESS Hardware Engineer", value: "Leads system and hardware development for BESS and BMS.", salary: [["T1", "Shihlin Electric, Delta", "$900k–$1.3M+", "TWD/year"]], boolean: "(\"BESS Engineer\") AND (Battery OR BESS) AND (MCU)", okr: "Obj 1: Deliver robust BESS/BMS hardware designs." },
+      role9: { icon: "🔗", label: "9. Protocol Engineer", value: "Leads protocol-level architecture and system design across EVM, Ethereum, and Polygon.", salary: [["T1", "Optimism, Base", "$180k–$250k+", "USD/year"]], boolean: "(\"Protocol Engineer\") AND (EVM OR Ethereum) AND (\"Account Abstraction\")", okr: "Obj 1: Architect a secure, multi-chain compatible protocol." },
+      role10: { icon: "👥", label: "10. Team Lead Web3", value: "Manages cross-functional sprint execution and dependency alignment.", salary: [["T1", "ConsenSys, Ripple", "$160k–$220k+", "USD/year"]], boolean: "(\"Engineering Team Lead\") AND (Web3) AND (Agile)", okr: "Obj 1: Drive predictable sprint delivery." },
+      role11: { icon: "🧪", label: "11. Software QA Engineer", value: "Acts as product quality gatekeeper; executes functional and API testing.", salary: [["T1", "Google Taiwan, Shopee", "$1.1M–$1.4M+", "TWD/year"]], boolean: "(\"QA Engineer\") AND (Postman OR JMeter)", okr: "Obj 1: Ensure rigorous pre-release quality assurance." },
+      role12: { icon: "☁️", label: "12. Senior SRE (Taichung)", value: "Designs and maintains robust Kubernetes (GKE) clusters and CI/CD pipelines.", salary: [["T1", "Google Taiwan, Micron", "$1.2M–$1.8M+", "TWD/year"]], boolean: "(\"SRE Engineer\") AND (Kubernetes OR GKE) AND (Taichung)", okr: "Obj 1: Maximize GKE infrastructure availability." },
+      role13: { icon: "📢", label: "13. Developer Advocate", value: "Drives global developer community growth and adoption of design systems.", salary: [["T1", "Vercel, Figma", "$120k–$160k+", "USD/year"]], boolean: "(\"Developer Advocate\") AND (\"Design Systems\")", okr: "Obj 1: Expand developer community engagement." },
+      role14: { icon: "📱", label: "14. Android Expert (Remote)", value: "Architect modular Android applications using Kotlin and Jetpack Compose.", salary: [["T1", "Grab Vietnam, Shopee", "$70k–$100k+", "USD/year"]], boolean: "(\"Android Technical Expert\") AND (\"Jetpack Compose\")", okr: "Obj 1: Architect robust Android mobile systems." },
+      role15: { icon: "📈", label: "15. C++ Engineer (Securities)", value: "Develops high-speed exchange connectivity and real-time market data parsing.", salary: [["T1", "Fubon, Yuanta", "$900k–$1.5M+", "TWD/year"]], boolean: "(\"C++ Software Engineer\") AND (Socket OR FIX)", okr: "Obj 1: Ensure ultra-low latency exchange connectivity." },
+      role16: { icon: "☕", label: "16. Java Engineer", value: "Architect scalable backend microservices utilizing SpringBoot, Kafka, and K8s.", salary: [["T1", "Binance, MEXC", "$1.3M–$2.0M+", "TWD/year"]], boolean: "(\"Java Engineer\") AND (\"Spring Boot\") AND (Kafka)", okr: "Obj 1: Deliver resilient high-concurrency microservices." }
     };
 
     let currentRole = "role1";
-    let currentLang = "zh";
-
-    function setLang(lang) {
-      currentLang = lang;
-      document.body.setAttribute("data-lang", lang);
-      renderTabs();
-      renderRole();
-      populateLiRoleDropdown();
-      populateScreenerRoleDropdown();
-    }
 
     function renderTabs() {
       document.getElementById("tabs").innerHTML = Object.entries(roles).map(([key, role]) => `
@@ -446,18 +447,23 @@
       `).join("");
     }
 
-    function populateLiRoleDropdown() {
-      const select = document.getElementById("liRole");
-      if (!select) return;
-      select.innerHTML = Object.entries(roles).map(([key, role]) => `
-        <option value="${key}">${role.icon} ${role.label}</option>
+    function populateModalDropdowns() {
+      const roleSelect = document.getElementById("modal-role");
+      roleSelect.innerHTML = Object.entries(roles).map(([key, role]) => `
+        <option value="${key}">${role.label}</option>
+      `).join("");
+
+      const stageSelect = document.getElementById("modal-stage");
+      stageSelect.innerHTML = PIPELINE_STAGES.map(st => `
+        <option value="${st}">${st}</option>
       `).join("");
     }
 
     function renderRole() {
       const role = roles[currentRole];
       document.getElementById("valueText").textContent = role.value;
-      document.getElementById("valuationText").textContent = "評分權重：依據該崗位之核心業務價值與技術棧進行多維度審核。";
+      document.getElementById("booleanText").textContent = role.boolean;
+      document.getElementById("valuationText").textContent = "Scoring weight: Multi-dimensional evaluation based on core business value and technical stack.";
       document.getElementById("salaryRows").innerHTML = role.salary.map(([tier, company, money, note]) => `
         <tr>
           <td><span class="tier ${tier.toLowerCase()}">${tier}</span></td>
@@ -466,6 +472,16 @@
           <td>${note}</td>
         </tr>
       `).join("");
+
+      document.getElementById("okrList").innerHTML = `
+        <div class="okr-item">
+          <div class="okr-index">01</div>
+          <div>
+            <div class="okr-title">Core Objective & KR</div>
+            <div class="okr-kr">${role.okr}</div>
+          </div>
+        </div>
+      `;
     }
 
     function selectRole(key) {
@@ -494,9 +510,9 @@
       }
     }
 
-    // ---- JIRA Kanban Bi-directional Sync Logic ----
+    // ---- JIRA Kanban & Modal Logic ----
     const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD"];
-    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_v1";
+    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v3";
 
     function loadCandidates() {
       try {
@@ -513,28 +529,67 @@
       localStorage.setItem(LI_STORAGE_KEY, JSON.stringify(data));
     }
 
-    function addLiCandidate() {
-      const roleKey = document.getElementById("liRole").value;
-      const name = document.getElementById("liName").value.trim();
-      const url = document.getElementById("liUrl").value.trim() || "#";
-      const score = parseInt(document.getElementById("liScore").value, 10) || 7;
+    function openAddModal() {
+      document.getElementById("modal-title").textContent = "Add New Candidate";
+      document.getElementById("edit-candidate-id").value = "";
+      document.getElementById("modal-name").value = "";
+      document.getElementById("modal-url").value = "";
+      document.getElementById("modal-score").value = "8";
+      populateModalDropdowns();
+      document.getElementById("candidate-modal").style.display = "flex";
+    }
+
+    function openEditModal(roleKey, candidateId) {
+      const data = loadCandidates();
+      const list = data[roleKey] || [];
+      const cand = list.find(c => c.id === candidateId);
+      if (!cand) return;
+
+      document.getElementById("modal-title").textContent = "Edit Candidate";
+      document.getElementById("edit-candidate-id").value = candidateId;
+      populateModalDropdowns();
+      document.getElementById("modal-role").value = roleKey;
+      document.getElementById("modal-name").value = cand.name;
+      document.getElementById("modal-url").value = cand.url || "";
+      document.getElementById("modal-score").value = cand.score || 7;
+      document.getElementById("modal-stage").value = cand.status;
+      document.getElementById("candidate-modal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("candidate-modal").style.display = "none";
+    }
+
+    function saveCandidateModal() {
+      const editId = document.getElementById("edit-candidate-id").value;
+      const roleKey = document.getElementById("modal-role").value;
+      const name = document.getElementById("modal-name").value.trim();
+      const url = document.getElementById("modal-url").value.trim() || "#";
+      const score = parseInt(document.getElementById("modal-score").value, 10) || 7;
+      const status = document.getElementById("modal-stage").value;
 
       if (!name) {
-        alert("請輸入姓名！");
+        alert("Please enter candidate name!");
         return;
       }
 
       const data = loadCandidates();
-      data[roleKey] = data[roleKey] || [];
-      data[roleKey].push({
-        id: "c-" + Date.now(),
-        name, url, score, status: "REACHOUT"
-      });
+
+      if (editId) {
+        // Remove from old role/position if changed, or update in place
+        Object.keys(data).forEach(rk => {
+          data[rk] = (data[rk] || []).filter(c => c.id !== editId);
+        });
+        data[roleKey] = data[roleKey] || [];
+        data[roleKey].push({ id: editId, name, url, score, status });
+      } else {
+        data[roleKey] = data[roleKey] || [];
+        data[roleKey].push({ id: "c-" + Date.now(), name, url, score, status });
+      }
+
       saveCandidates(data);
-      alert("成功加入 JIRA 看板！");
-      document.getElementById("liName").value = "";
-      document.getElementById("liUrl").value = "";
-      document.getElementById("liScore").value = "";
+      closeModal();
+      generateJiraPipelineData();
     }
 
     function moveCandidate(roleKey, candidateId, direction) {
@@ -548,7 +603,7 @@
       if (nextIndex >= 0 && nextIndex < PIPELINE_STAGES.length) {
         cand.status = PIPELINE_STAGES[nextIndex];
         saveCandidates(data);
-        generateJiraPipelineData(); // 雙向同步重新渲染看板
+        generateJiraPipelineData();
       }
     }
 
@@ -573,10 +628,10 @@
       const progress = total ? Math.round((candidates.filter(c => c.status !== "REACHOUT").length / total) * 100) : 0;
 
       document.getElementById("dc-pipeline-stats").innerHTML = `
-        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--cyan);">📦 候選人總數: ${total}</div>
-        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--red);">⚠️ 低分警示: ${lowScore}</div>
-        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--yellow);">⚡ 中等分數: ${midScore}</div>
-        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--green);">📈 推進率: ${progress}%</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--cyan);">📦 Total Pool: ${total}</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--red);">⚠️ Low Score: ${lowScore}</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--yellow);">⚡ Mid Score: ${midScore}</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--green);">📈 Progress Rate: ${progress}%</div>
       `;
     }
 
@@ -607,9 +662,12 @@
                     <span style="background:var(--yellow); color:#000; padding:1px 6px; border-radius:10px; font-size:10px; font-weight:900;">${c.score}pt</span>
                   </div>
                   <div style="font-size:11px; color:#8a8a93; margin-bottom:8px;">${c.roleLabel}</div>
-                  <div class="jira-nav-btns">
-                    <button class="jira-move-btn" ${sIdx === 0 ? 'style="opacity:0.3;cursor:not-allowed;"' : ''} onclick="moveCandidate('${c.roleKey}', '${c.id}', -1)">◀ 往前</button>
-                    <button class="jira-move-btn" ${sIdx === PIPELINE_STAGES.length - 1 ? 'style="opacity:0.3;cursor:not-allowed;"' : ''} onclick="moveCandidate('${c.roleKey}', '${c.id}', 1)">往後 ▶</button>
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div class="jira-nav-btns" style="margin-top:0;">
+                      <button class="jira-move-btn" ${sIdx === 0 ? 'style="opacity:0.3;cursor:not-allowed;"' : ''} onclick="moveCandidate('${c.roleKey}', '${c.id}', -1)">◀</button>
+                      <button class="jira-move-btn" ${sIdx === PIPELINE_STAGES.length - 1 ? 'style="opacity:0.3;cursor:not-allowed;"' : ''} onclick="moveCandidate('${c.roleKey}', '${c.id}', 1)">▶</button>
+                    </div>
+                    <button class="jira-edit-btn" onclick="openEditModal('${c.roleKey}', '${c.id}')">Edit</button>
                   </div>
                 </div>
               `).join("")}
@@ -619,18 +677,13 @@
       }).join("");
     }
 
-    function loadSample(type) {
-      document.getElementById("cv-textarea").value = "Senior Web3 Protocol PM with 5+ years experience designing tokenomics, staking pools, and governance.";
-    }
-
     function runAIScore() {
       document.getElementById("score-result").style.display = "block";
-      document.getElementById("res-summary").textContent = "✨ AI 評分完成：匹配度 92 分 (A級候選人)，建議直接推進至 1ST INTERVIEW。";
+      document.getElementById("res-summary").textContent = "✨ AI Screening Complete: Match Score 92/100 (Grade A), recommended to proceed to 1st Interview.";
     }
 
     renderTabs();
     renderRole();
-    populateLiRoleDropdown();
     populateScreenerRoleDropdown();
   </script>
 </body>
