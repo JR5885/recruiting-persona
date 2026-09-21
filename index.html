@@ -500,9 +500,9 @@
 
     <!-- AI Screener View -->
     <div id="dc-score-view" style="display: none;">
-      <div class="eyebrow"><span class="lang-zh">AI智能簡歷篩選與評分器</span><span class="lang-tw">AI智慧履歷篩選與評分器</span><span class="lang-en">AI Smart CV Screener &amp; Scorer</span></div>
+      <div class="eyebrow"><span class="lang-zh">AI 智慧簡歷篩選與評分器</span><span class="lang-en">AI Smart CV Screener & Scorer</span></div>
       <div class="panel" style="margin-bottom:20px;">
-        <div class="panel-title"><span class="lang-zh">輸入候選人簡歷文本 / 快速選擇預置案例</span><span class="lang-tw">輸入候選人履歷文本 / 快速選擇預置案例</span><span class="lang-en">Input Candidate CV Text / Quick Preset Cases</span></div>
+        <div class="panel-title"><span class="lang-zh">輸入候選人簡歷文本 / 快速選擇預置案例</span><span class="lang-en">Input Candidate CV Text / Quick Preset Cases</span></div>
         
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
           <button class="rs-btn" onclick="loadSample('token')">🔗 Token PM 樣本</button>
@@ -515,8 +515,8 @@
         <div class="sb-upload" id="drop-zone" onclick="document.getElementById('cv-file').click()">
           <div class="sb-upload-icon">📄</div>
           <div class="sb-upload-text">
-            <span class="lang-zh"><strong>點擊上傳簡歷文件</strong>（支持 PDF, TXT, MD）或將文件拖拽至此處<br><span style="font-size:11px;color:var(--muted)">支持自動解析多鏈經驗、代幣經濟設計、TradFi背景與管理年限</span></span>
-            <span class="lang-en"><strong>Click to upload CV file</strong> (PDF, TXT, MD supported) or drag &amp; drop here</span>
+            <span class="lang-zh"><strong>點擊上傳簡歷文件</strong>（支持 PDF, TXT, MD）或將文件拖拽至此處<br><span style="font-size:11px;color:var(--muted)">支持自動解析多鏈經驗、代幣經濟設計、TradFi 背景與管理年限</span></span>
+            <span class="lang-en"><strong>Click to upload CV file</strong> (PDF, TXT, MD supported) or drag & drop here</span>
           </div>
           <input type="file" id="cv-file" accept=".pdf,.txt,.md,.doc,.docx" onchange="handleFileSelect(event)">
         </div>
@@ -529,7 +529,7 @@
 
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
           <div style="font-size:11.5px;color:var(--muted)">
-            💡 提示：AI將對照 16 職缺全景檔案與業務價值進行綜合評分。
+            💡 提示：AI 將對照 16 職缺全景檔案與業務價值進行綜合評分。
           </div>
           <button id="score-btn" onclick="runAIScore()">✨ 開始 AI 智慧評分</button>
         </div>
@@ -1173,7 +1173,6 @@
         document.getElementById("score-loading").style.display = "none";
         document.getElementById("score-result").style.display = "block";
 
-        // Simple mock intelligence based on content keywords
         let score = 85;
         let grade = "A";
         let title = "資深專業候選人 (Senior Specialist)";
@@ -1232,7 +1231,7 @@
       const select = document.getElementById("liRole");
       if (!select) return;
       const en = currentLang === "en";
-      select.innerHTML = Object.entries(roles).map(([key, role]) => `
+      select.innerHTML = Object.entries(roles).map(([key, role] ) => `
         <option value="${key}">${role.icon} ${en ? role.label_en : role.label}</option>
       `).join("");
       select.value = currentRole;
