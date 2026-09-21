@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tamplate-DeepCubation html - 16 Roles Profile & AI Screener</title>
+  <title>Tamplate-DeepCubation html - 16 Roles & JIRA Kanban Pipeline</title>
   <style>
     :root {
       --bg: #080b12;
@@ -54,7 +54,6 @@
       font-weight: 700;
     }
 
-    /* --- i18n: language toggle --- */
     body:not([data-lang="en"]) .lang-en { display: none; }
     body[data-lang="en"] .lang-zh { display: none; }
     .lang-switch { display: inline-flex; border: 1px solid #244a87; border-radius: 6px; overflow: hidden; }
@@ -171,27 +170,13 @@
       font-size: 13px;
     }
 
-    .focus-box strong,
-    .filter-box strong {
-      display: block;
-      color: var(--accent);
-      margin-bottom: 4px;
-    }
-
-    .filter-box {
-      background: color-mix(in srgb, var(--accent) 8%, #111827);
-      color: var(--accent);
-      font-weight: 700;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 12px;
     }
 
-    th,
-    td {
+    th, td {
       padding: 10px 12px;
       border-bottom: 1px solid #1a2231;
       text-align: left;
@@ -215,19 +200,11 @@
       font-size: 11px;
       font-weight: 800;
     }
-
     .t1 { background: #851b2c; }
     .t2 { background: #765400; }
     .t3 { background: #182237; color: #657696; }
     .money { color: var(--yellow); font-weight: 900; }
     .money.mid { color: var(--cyan); }
-
-    .valuation-box {
-      margin-top: 14px;
-      background: rgba(0, 224, 184, 0.08);
-      color: var(--cyan);
-      font-weight: 700;
-    }
 
     .code {
       white-space: pre-wrap;
@@ -240,12 +217,6 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 12px;
       line-height: 1.75;
-    }
-
-    .boost {
-      margin-top: 8px;
-      border-color: rgba(255, 193, 33, 0.25);
-      color: var(--yellow);
     }
 
     .okr-item {
@@ -268,206 +239,87 @@
       font-weight: 900;
     }
 
-    .okr-title {
-      color: #fff;
-      font-size: 15px;
-      font-weight: 900;
-      margin-bottom: 2px;
-    }
+    .okr-title { color: #fff; font-size: 15px; font-weight: 900; margin-bottom: 2px; }
+    .okr-kr { color: #8397c0; font-size: 12px; line-height: 1.45; }
 
-    .okr-kr {
-      color: #8397c0;
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .candidates {
-      margin-top: 14px;
-    }
-
-    .candidate-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .candidate-card {
-      background: #0d111c;
-      border: 1px solid #1e2839;
-      border-radius: var(--card-radius);
-      padding: 14px;
-    }
-
-    .source-line {
-      font-size: 11px;
-      color: #7f91b8;
-      margin: 4px 0 8px;
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .source-badge {
-      display: inline-block;
-      padding: 1px 7px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 10px;
-      background: rgba(255,255,255,0.08);
-      color: #cdd8f0;
-    }
-
-    .candidate-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .candidate-name {
-      color: #fff;
-      font-size: 14px;
-      font-weight: 900;
-    }
-
-    .handle {
-      color: #6f82aa;
-      font-size: 12px;
-      margin-top: 2px;
-    }
-
-    .x-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 6px;
-      color: #7db7ff;
-      font-size: 12px;
-      font-weight: 800;
-      text-decoration: none;
-    }
-
-    .x-link:hover { color: var(--accent); }
-
-    .score {
-      flex: 0 0 auto;
-      color: #08101d;
-      background: var(--accent);
-      border-radius: 999px;
-      padding: 4px 8px;
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .candidate-body {
-      color: #9aacd2;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .candidate-body b {
-      color: var(--accent);
-    }
-
-    .dm-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .dm {
-      width: 100%;
-      border: 1px solid #263044;
-      border-radius: 6px;
-      background: #111827;
-      color: #c8d8f8;
-      padding: 8px 10px;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .dm:hover,
-    .dm.copied {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    @media (max-width: 900px) {
-      .page { padding: 12px; }
-      .report-grid { grid-template-columns: 1fr; }
-      .dm-actions { grid-template-columns: 1fr; }
-    }
-
-    /* --- Talent Pipeline board --- */
+    /* --- JIRA Kanban Style Board --- */
     .dc-tab-container { margin: 20px 0; display: flex; gap: 10px; border-bottom: 1px solid #2a2a35; padding-bottom: 10px; }
     .dc-tab-btn { background: #1e1e24; color: #8a8a93; border: 1px solid #2a2a35; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
     .dc-tab-btn.active { background: #00ffcc; color: #141416; border-color: #00ffcc; }
-    .status-switcher { background: #2a2a35; color: #00ffcc; border: 1px solid #444; border-radius: 4px; font-size: 11px; padding: 4px 8px; cursor: pointer; }
-    .kanban-col { background: #141416; min-width: 280px; max-width: 280px; border-radius: 8px; padding: 12px; border: 1px solid #2a2a2e; flex-shrink: 0; }
-    .kanban-card { background: #1e1e24; padding: 12px; border-radius: 6px; border: 1px solid #2a2a3c; margin-bottom: 10px; }
 
-    /* --- AI Screener Specific Styles --- */
-    .sb-upload { border: 2px dashed rgba(240,180,41,.3); border-radius: 12px; padding: 30px 20px; text-align: center; cursor: pointer; transition: all .2s; background: rgba(240,180,41,.03); margin-bottom: 16px; }
+    .jira-board-container {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+      align-items: flex-start;
+    }
+
+    .kanban-col {
+      background: #141416;
+      min-width: 280px;
+      max-width: 280px;
+      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid #2a2a2e;
+      flex-shrink: 0;
+    }
+
+    .kanban-col-header {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      color: #8a8a93;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2a2e;
+      padding-bottom: 6px;
+    }
+
+    .kanban-card {
+      background: #1e1e24;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #2a2a3c;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .jira-nav-btns {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      gap: 6px;
+    }
+
+    .jira-move-btn {
+      background: #2a2a35;
+      color: #00ffcc;
+      border: 1px solid #444;
+      border-radius: 4px;
+      font-size: 11px;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .jira-move-btn:hover { background: #00ffcc; color: #141416; }
+
+    /* --- AI Screener Styles --- */
+    .sb-upload { border: 2px dashed rgba(240,180,41,.3); border-radius: 12px; padding: 30px 20px; text-align: center; cursor: pointer; background: rgba(240,180,41,.03); margin-bottom: 16px; }
     .sb-upload:hover { border-color: #F0B429; background: rgba(240,180,41,.07); }
-    .sb-upload-icon { font-size: 32px; margin-bottom: 8px; }
-    .sb-upload-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
-    .sb-upload-text strong { color: var(--text); }
-    #cv-file { display: none; }
-    
-    .rs-btn { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: rgba(255,255,255,.03); color: var(--muted); font-size: 11.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s; }
+    .rs-btn { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: rgba(255,255,255,.03); color: var(--muted); font-size: 11.5px; font-weight: 600; cursor: pointer; }
     .rs-btn:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
-    
-    .cv-preview-box { background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; font-size: 11.5px; color: var(--muted); margin-bottom: 12px; display: none; }
-    #cv-textarea { width: 100%; height: 120px; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 12.5px; font-family: inherit; resize: vertical; line-height: 1.5; outline: none; margin-bottom: 12px; }
-    #cv-textarea:focus { border-color: rgba(240,180,41,.4); }
-
-    #score-btn { padding: 10px 24px; background: var(--yellow); color: #07090F; border: none; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; letter-spacing: .02em; }
-    #score-btn:hover { opacity: 0.9; }
-
-    .score-loading { display: none; text-align: center; padding: 30px; color: var(--muted); }
-    .score-loading .spin { font-size: 24px; animation: sbspin 1s linear infinite; display: inline-block; margin-bottom: 10px; }
-    @keyframes sbspin { to { transform: rotate(360deg); } }
-
-    .score-result { display: none; }
-    .score-hero { background: linear-gradient(135deg, var(--panel), var(--panel-soft)); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-    .score-big { font-family: ui-monospace, monospace; font-size: 56px; font-weight: 800; line-height: 1; color: var(--green); }
-    .score-verdict { flex: 1; min-width: 200px; }
-    .score-verdict-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #fff; }
-    .score-verdict-sub { font-size: 12px; color: var(--muted); line-height: 1.5; }
-    
-    .score-badge { padding: 4px 10px; border-radius: 20px; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; display: inline-block; background: rgba(0,200,150,.15); color: var(--green); border: 1px solid rgba(0,200,150,.3); }
-
-    .dim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-    @media (max-width: 768px) { .dim-grid { grid-template-columns: 1fr; } }
-    .dim-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
-    .dim-title { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-    .dim-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-    .dim-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .dim-row:last-child { margin-bottom: 0; }
-    .dim-label { font-size: 11.5px; color: var(--muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .dim-bar-wrap { width: 90px; height: 6px; background: rgba(255,255,255,.06); border-radius: 99px; overflow: hidden; flex-shrink: 0; }
-    .dim-bar { height: 100%; border-radius: 99px; transition: width .8s ease; }
-    .dim-score { font-family: ui-monospace, monospace; font-size: 11px; font-weight: 700; min-width: 26px; text-align: right; flex-shrink: 0; }
-
-    .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    @media (max-width: 768px) { .flag-grid { grid-template-columns: 1fr; } }
-    .flag-item { display: flex; gap: 8px; padding: 10px 12px; border-radius: 8px; font-size: 12px; line-height: 1.5; border-left: 3px solid; align-items: flex-start; }
-    .flag-item.green { background: rgba(0,200,150,.07); border-color: var(--green); color: #4ADE80; }
-    .flag-item.red { background: rgba(255,77,90,.07); border-color: var(--red); color: #FF8A94; }
-
-    .q-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
-    .q-item:last-child { border-bottom: none; }
-    .q-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(47,129,247,.15); color: var(--blue); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-    .q-text { color: var(--text); line-height: 1.5; }
+    #cv-textarea { width: 100%; height: 120px; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 12.5px; outline: none; margin-bottom: 12px; resize: vertical; }
+    #score-btn { padding: 10px 24px; background: var(--yellow); color: #07090F; border: none; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; }
   </style>
 </head>
 <body>
   <main class="page">
     <div class="topbar">
-      <div><span class="lang-zh">🎙️ 崗位畫像與 AI 評分系統</span><span class="lang-en">🎙️ Role Profiles & AI Screener</span></div>
+      <div><span class="lang-zh">🎙️ 崗位畫像與 JIRA 敏捷招募看板</span><span class="lang-en">🎙️ Role Profiles & JIRA Agile Recruitment Kanban</span></div>
       <div style="display:flex;align-items:center;gap:12px;">
         <div class="runtime"><span class="lang-zh">每天 11:00 自動刷新</span><span class="lang-en">Auto-refreshed daily at 11:00</span> <span>▼</span></div>
         <div class="lang-switch">
@@ -477,409 +329,111 @@
       </div>
     </div>
 
-    <div class="eyebrow"><span class="lang-zh">—— 16 職缺全景檔案 & AI 智慧評分</span><span class="lang-en">—— 16 Roles Snapshot & AI Smart Screener</span></div>
-    <h1><span class="lang-zh">16 崗位業務價值 · <span>薪酬對標</span> · Boolean 搜索 · OKR</span><span class="lang-en">16 Roles Business Value · <span>Salary Benchmark</span> · Boolean Search · OKRs</span></h1>
-    <p class="subtitle"><span class="lang-zh">涵蓋 Web3、傳統工程、半導體、AI 與金融科技。薪酬單位：USD 或 TWD/年</span><span class="lang-en">Covering Web3, traditional engineering, semiconductor, AI, and FinTech. Salary units: USD or TWD/year</span></p>
+    <div class="eyebrow">—— JIRA 敏捷招募看板（看板雙向同步）</div>
+    <h1><span>JIRA 敏捷看板 (看板雙向同步)</span></h1>
+    <p class="subtitle">點擊卡片上的 ◀ ▶ 按鈕即可跨欄位移動，並自動連動更新狀態與統計進度。</p>
 
     <!-- 頂部切換 Tab -->
     <div class="dc-tab-container">
-      <button class="dc-tab-btn active" id="btn-raw" type="button" onclick="switchDcView('raw')"><span class="lang-zh">📋 原始監控資料</span><span class="lang-en">📋 Raw Monitoring Data</span></button>
-      <button class="dc-tab-btn" id="btn-pipeline" type="button" onclick="switchDcView('pipeline')">📊 Talent Pipeline</button>
-      <button class="dc-tab-btn" id="btn-score" type="button" onclick="switchDcView('score')">🤖 <span class="lang-zh">AI 智慧評分器</span><span class="lang-en">🤖 AI Screener</span></button>
+      <button class="dc-tab-btn active" id="btn-raw" type="button" onclick="switchDcView('raw')">📋 原始監控資料</button>
+      <button class="dc-tab-btn" id="btn-pipeline" type="button" onclick="switchDcView('pipeline')">📊 Talent Pipeline (JIRA 看板)</button>
+      <button class="dc-tab-btn" id="btn-score" type="button" onclick="switchDcView('score')">🤖 AI 智慧評分器</button>
     </div>
 
-    <!-- Talent Pipeline View -->
-    <div id="dc-pipeline-view" style="display: none; color: #fff;">
+    <!-- JIRA Talent Pipeline Kanban View -->
+    <div id="dc-pipeline-view" style="display: none;">
       <div id="dc-pipeline-stats" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px;"></div>
-      <div id="dc-kanban-board" style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; align-items: flex-start;"></div>
+      <div class="jira-board-container" id="dc-kanban-board"></div>
     </div>
 
-    <!-- AI Screener View (Integrated with 16 Roles) -->
+    <!-- AI Screener View -->
     <div id="dc-score-view" style="display: none;">
-      <div class="eyebrow"><span class="lang-zh">AI 智慧簡歷篩選與 16 崗位精準對標評分器</span><span class="lang-en">AI Smart CV Screener & 16-Role Precision Scorer</span></div>
       <div class="panel" style="margin-bottom:20px;">
-        <div class="panel-title"><span class="lang-zh">步驟 1：選擇目標評分崗位 ➔ 步驟 2：輸入/上傳候選人簡歷</span><span class="lang-en">Step 1: Select Target Role ➔ Step 2: Input/Upload Candidate CV</span></div>
-        
-        <!-- 崗位選擇下拉選單 -->
+        <div class="panel-title">選擇目標評分崗位 ➔ 輸入/上傳候選人簡歷</div>
         <div style="margin-bottom: 16px;">
-          <label style="display: block; font-size: 11.5px; font-weight: 800; color: var(--muted); margin-bottom: 6px; text-transform: uppercase;">🎯 目標評分職缺 / Target Assessment Role:</label>
-          <select id="screener-role-select" style="width: 100%; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 13px; font-weight: 700; outline: none;">
-            <!-- 動態生成 16 個職缺選項 -->
-          </select>
+          <label style="display: block; font-size: 11.5px; font-weight: 800; color: var(--muted); margin-bottom: 6px; text-transform: uppercase;">🎯 目標評分職缺:</label>
+          <select id="screener-role-select" style="width: 100%; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 13px; font-weight: 700; outline: none;"></select>
         </div>
-
-        <div style="font-size:11.5px;color:var(--muted);margin-bottom:8px">快速帶入預置測試範本：</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
           <button class="rs-btn" onclick="loadSample('token')">🔗 Web3 Frontend 樣本</button>
           <button class="rs-btn" onclick="loadSample('blockchain')">🏗️ 中鼎結構工程師 樣本</button>
-          <button class="rs-btn" onclick="loadSample('bd')">🏭 聖暉工程主管 樣本</button>
-          <button class="rs-btn" onclick="loadSample('junior')">⚠️ 初級/不匹配 樣本</button>
         </div>
-
-        <div class="sb-upload" id="drop-zone" onclick="document.getElementById('cv-file').click()">
-          <div class="sb-upload-icon">📄</div>
-          <div class="sb-upload-text">
-            <span class="lang-zh"><strong>點擊上傳簡歷文件</strong>（支持 PDF, TXT, MD）或將文件拖拽至此處<br><span style="font-size:11px;color:var(--muted)">支持自動對標所選職缺之核心業務價值、薪酬級距與 OKR 指標</span></span>
-            <span class="lang-en"><strong>Click to upload CV file</strong> (PDF, TXT, MD supported) or drag & drop here</span>
-          </div>
-          <input type="file" id="cv-file" accept=".pdf,.txt,.md,.doc,.docx" onchange="handleFileSelect(event)">
-        </div>
-
-        <div class="cv-preview-box" id="cv-filename-box">
-          📎 <strong id="cv-filename-display"></strong> <span style="color:var(--cyan);margin-left:8px">已加載文件內容</span>
-        </div>
-
-        <textarea id="cv-textarea" placeholder="在此粘貼候選人完整簡歷文本、LinkedIn Profile 摘要或工作經歷描述..."></textarea>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-          <div style="font-size:11.5px;color:var(--muted)">
-            💡 提示：AI 將針對您上方選擇的具體崗位要求進行交叉檢核與多維打分。
-          </div>
-          <button id="score-btn" onclick="runAIScore()">✨ 開始對標智慧評分</button>
-        </div>
+        <textarea id="cv-textarea" placeholder="在此粘貼候選人完整簡歷文本..."></textarea>
+        <button id="score-btn" onclick="runAIScore()">✨ 開始對標智慧評分</button>
       </div>
-
-      <!-- LOADING STATE -->
-      <div class="score-loading" id="score-loading">
-        <div class="spin">⚙️</div>
-        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">Claude AI 正在對照選定崗位深度分析候選人簡歷...</div>
-        <div style="font-size:11.5px;color:var(--muted)">正在比對技術棧、行業資歷、薪酬對標 T1/T2/T3 及 OKR 匹配度</div>
-      </div>
-
-      <!-- SCORE RESULT CONTAINER -->
-      <div class="score-result" id="score-result">
-        <div class="score-hero">
-          <div class="score-big" id="res-grade-letter">A</div>
-          <div class="score-verdict">
-            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px">
-              <div class="score-verdict-title" id="res-title">崗位匹配評估報告</div>
-              <span class="score-badge" id="res-badge">PROCEED TO INTERVIEW</span>
-            </div>
-            <div class="score-verdict-sub" id="res-summary">該候選人具備扎實的實績與相應經驗，與目標職缺核心需求高度契合。</div>
-          </div>
-          <div style="text-align:right;min-width:120px">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Match Score</div>
-            <div class="money" style="font-size:32px;" id="res-score-num">92<span style="font-size:16px;color:var(--muted)">/100</span></div>
-          </div>
-        </div>
-
-        <div class="dim-grid">
-          <div class="dim-card">
-            <div class="dim-title">業務與技術匹配度 / Domain Fit</div>
-            <div class="dim-row">
-              <div class="dim-label">核心技術棧 / 專業領域實績</div>
-              <div class="dim-bar-wrap"><div class="dim-bar" id="bar-d1" style="width:95%;background:var(--green)"></div></div>
-              <div class="dim-score" id="score-d1" style="color:var(--green)">9.5</div>
-            </div>
-            <div class="dim-row">
-              <div class="dim-label">專案架構與穩定性要求</div>
-              <div class="dim-bar-wrap"><div class="dim-bar" id="bar-d2" style="width:85%;background:var(--green)"></div></div>
-              <div class="dim-score" id="score-d2" style="color:var(--green)">8.5</div>
-            </div>
-          </div>
-          <div class="dim-card">
-            <div class="dim-title">執行與規模化交付 / Execution</div>
-            <div class="dim-row">
-              <div class="dim-label">大型複雜專案統包 / 跨國協作</div>
-              <div class="dim-bar-wrap"><div class="dim-bar" id="bar-d3" style="width:90%;background:var(--green)"></div></div>
-              <div class="dim-score" id="score-d3" style="color:var(--green)">9.0</div>
-            </div>
-            <div class="dim-row">
-              <div class="dim-label">量化成果與 OKR 對齊度</div>
-              <div class="dim-bar-wrap"><div class="dim-bar" id="bar-d4" style="width:88%;background:var(--yellow)"></div></div>
-              <div class="dim-score" id="score-d4" style="color:var(--yellow)">8.8</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel" style="margin-bottom:16px;">
-          <div class="panel-title">AI 對標評估 · 優勢信號與風險紅旗</div>
-          <div class="flag-grid" id="res-flags"></div>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px;">
-          <div class="panel-title">推薦面試追問（針對選定崗位與候選人定制）</div>
-          <div id="res-car-questions"></div>
-        </div>
+      <div id="score-result" class="panel" style="display:none;">
+        <div class="panel-title">評分結果</div>
+        <div id="res-summary" style="font-size:14px; color:var(--green); font-weight:bold;"></div>
       </div>
     </div>
 
     <!-- Raw View (16 Roles) -->
     <div id="raw-view">
-      <nav class="tabs" id="tabs">
-          <!-- 動態產生 16 個職缺的 Tab -->
-      </nav>
-
+      <nav class="tabs" id="tabs"></nav>
       <section class="report-grid">
         <article class="panel">
-          <div class="panel-title"><span class="lang-zh">① 崗位業務價值</span><span class="lang-en">① Business Value</span></div>
-          <div class="focus-box">
-            <strong><span class="lang-zh">為什麼這個崗位重要</span><span class="lang-en">Why this role matters</span></strong>
-            <span id="valueText"></span>
-          </div>
-          <div class="filter-box">
-            <strong><span class="lang-zh">關鍵篩選 · 面試亮點</span><span class="lang-en">Key Filter · Highlights</span></strong>
-            <span id="filterText"></span>
-          </div>
+          <div class="panel-title">① 崗位業務價值</div>
+          <div class="focus-box"><strong>為什麼這個崗位重要</strong><span id="valueText"></span></div>
         </article>
-
         <article class="panel">
-          <div class="panel-title"><span class="lang-zh">② 薪酬對標 T1/T2/T3</span><span class="lang-en">② Salary Benchmark T1/T2/T3</span></div>
+          <div class="panel-title">② 薪酬對標 T1/T2/T3</div>
           <table>
-            <thead>
-              <tr><th>Tier</th><th><span class="lang-zh">代表公司</span><span class="lang-en">Representative Companies</span></th><th>Salary</th><th><span class="lang-zh">備註</span><span class="lang-en">Notes</span></th></tr>
-            </thead>
-            <tbody id="salaryRows">
-              <!-- 動態填入薪酬 -->
-            </tbody>
+            <thead><tr><th>Tier</th><th>代表公司</th><th>Salary</th><th>備註</th></tr></thead>
+            <tbody id="salaryRows"></tbody>
           </table>
           <div class="valuation-box" id="valuationText"></div>
         </article>
-
-        <article class="panel">
-          <div class="panel-title"><span class="lang-zh">③ LinkedIn / X Boolean 搜索式</span><span class="lang-en">③ LinkedIn / X Boolean Search</span></div>
-          <div class="code" id="booleanText"></div>
-          <div class="code boost" id="boostText"></div>
-        </article>
-
-        <article class="panel">
-          <div class="panel-title"><span class="lang-zh">④ OKR 設定</span><span class="lang-en">④ OKR Setup</span></div>
-          <div id="okrList">
-            <!-- 動態填入 OKR -->
-          </div>
-        </article>
       </section>
-
-      <!-- 招募渠道比較 -->
-      <section class="panel" style="margin-top:14px; margin-bottom:14px;">
-        <div class="panel-title"><span class="lang-zh">📊 招募渠道比較(今日)</span><span class="lang-en">📊 Sourcing Channel Comparison (Today)</span></div>
-        <table>
-          <thead>
-            <tr>
-              <th><span class="lang-zh">渠道</span><span class="lang-en">Channel</span></th>
-              <th><span class="lang-zh">今日新增人數</span><span class="lang-en">New Today</span></th>
-              <th><span class="lang-zh">成本</span><span class="lang-en">Cost</span></th>
-              <th><span class="lang-zh">說明</span><span class="lang-en">Notes</span></th>
-            </tr>
-          </thead>
-          <tbody id="channelStatsRows">
-            <tr><td>X (Twitter)</td><td>0</td><td>~$0.15 / 1000 則貼文</td><td><span class="lang-zh">全自動</span><span class="lang-en">Fully automated</span></td></tr>
-            <tr><td>GitHub</td><td>0</td><td><span class="lang-zh">免費</span><span class="lang-en">Free</span></td><td><span class="lang-zh">全自動,限技術崗位</span><span class="lang-en">Fully automated, tech roles only</span></td></tr>
-            <tr id="liChannelRow">
-              <td>LinkedIn</td>
-              <td>1</td>
-              <td>人工時間成本</td>
-              <td>手動新增（累計，非每日重置）</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- LinkedIn 手動新增 -->
-      <section class="panel" style="margin-bottom:14px;">
-        <div class="panel-title"><span class="lang-zh">✍️ LinkedIn 手動新增人選</span><span class="lang-en">✍️ Manually Add LinkedIn Candidate</span></div>
-        <p class="subtitle" style="margin:0 0 10px;"><span class="lang-zh">LinkedIn 沒有合法的免費搜尋 API，這裡讓你手動貼上在 LinkedIn 找到的人選。</span><span class="lang-en">LinkedIn has no free, compliant search API. Paste candidates you found on LinkedIn here.</span></p>
-
-        <div id="liForm" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-bottom:10px;">
-          <select id="liRole">
-            <!-- 下拉選單動態產生 -->
-          </select>
+      <!-- LinkedIn 手動新增區塊 -->
+      <section class="panel" style="margin-top:14px;">
+        <div class="panel-title">✍️ 手動新增候選人到 Pipeline 看板</div>
+        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-bottom:10px;">
+          <select id="liRole"></select>
           <input id="liName" type="text" placeholder="姓名 / Name">
           <input id="liUrl" type="text" placeholder="LinkedIn 網址 / Profile URL" style="grid-column: span 2;">
-          <input id="liTags" type="text" placeholder="技能標籤 / Tags">
           <input id="liScore" type="number" min="1" max="10" placeholder="評分 1-10 / Score">
-          <textarea id="liNote" placeholder="備註 / Note" style="grid-column: span 2; min-height:50px;"></textarea>
-          <button type="button" class="dm" style="grid-column: span 2;" onclick="addLiCandidate()"><span class="lang-zh">加入清單</span><span class="lang-en">Add to list</span></button>
+          <button type="button" class="rs-btn" style="grid-column: span 2; background:var(--yellow); color:#000; font-weight:bold;" onclick="addLiCandidate()">加入 JIRA 看板</button>
         </div>
-
-        <div id="liList" class="candidate-grid"><p style="color:#7f91b8;font-size:13px;">目前還沒有手動新增的 LinkedIn 人選。</p></div>
       </section>
     </div>
   </main>
 
   <script>
     const roles = {
-      role1: {
-        icon: "💻",
-        label: "1. Web3 Frontend Engineer (DeLorean Labs)",
-        label_en: "1. Web3 Frontend Engineer (DeLorean Labs)",
-        accent: "#2f81f7",
-        value: "Bridges complex asynchronous blockchain states into intuitive user interfaces; ensures secure multi-chain connectivity (EVM, Ethereum, Polygon) and scalable UI architecture.",
-        filter: "具備強大的 Web3 互動體驗優化能力，熟練掌握 Wagmi、Viem、TypeScript 與 EVM 多鏈環境整合。",
-        salary: [["T1", "Solana / Ethereum Foundation", "$140k–$180k+", "USD/year"], ["T2", "Bitget, MEXC, BitMart", "$110k–$165k", "USD/year"]]
-      },
-      role2: {
-        icon: "🏗️",
-        label: "2. 資深結構工程師 (中鼎工程)",
-        label_en: "2. Senior Structural Engineer (CTCI)",
-        accent: "#ff9f1a",
-        value: "Ensures 100% structural integrity and seismic safety for high-risk industrial assets (power plants, petrochemical, high-tech facilities).",
-        filter: "具備石化廠、發電廠或高科技廠房結構設計實績，精通 SAP2000、ETABS，具備結構技師證照。",
-        salary: [["T1", "CTCI 中鼎工程, Bechtel", "$1.5M–$2.0M+", "TWD/year"], ["T2", "CECI 台灣世曦, 亞新工程顧問", "$1.1M–$1.4M", "TWD/year"]]
-      },
-      role3: {
-        icon: "🏭",
-        label: "3. 北區營運處｜資深工程主管 (聖暉工程)",
-        label_en: "3. Senior Engineering Director - Northern Region (ACTER)",
-        accent: "#00e0b8",
-        value: "Directs end-to-end execution of large-scale industrial construction, MEP, and cleanroom projects; manages P&L and schedules.",
-        filter: "具備半導體廠、生技廠無塵室或大型機電工程統包管理經驗，具備強大 P&L 把控與承商協調能力。",
-        salary: [["T1", "ACTER 聖暉工程, 漢唐集成", "$1.6M–$2.2M+", "TWD/year"], ["T2", "中華工程, 榮工處", "$1.3M–$1.6M", "TWD/year"]]
-      },
-      role4: {
-        icon: "🌐",
-        label: "4. 資訊與網路工程師 (量化交易公司)",
-        label_en: "4. Network & Infrastructure Engineer (Quant Trading)",
-        accent: "#a97aff",
-        value: "Maintains high-availability office and IDC data center networks to safeguard quantitative trading executions.",
-        filter: "具備金融業或量化交易高穩定 IDC 網路維運經驗，精通 Fortinet、Cisco、Arista 與 Linux 網路調優。",
-        salary: [["T1", "Jump Trading, Citadel, Binance", "$1.1M–$1.5M+", "TWD/year"], ["T2", "國泰金控, 富邦金控", "$900k–$1.2M", "TWD/year"]]
-      },
-      role5: {
-        icon: "⚡",
-        label: "5. PLC / SCADA 資深專案工程師 (德國德勒斯登外派)",
-        label_en: "5. PLC / SCADA Senior Project Engineer (Dresden Expat)",
-        accent: "#14d990",
-        value: "Specializes in chiller system automation and PLC/SCADA integration for overseas high-tech fabs in Dresden.",
-        filter: "具備冰機系統控制自動化及海外廠房（德國德勒斯登）駐點派駐與跨國專案管理實戰經驗。",
-        salary: [["T1", "ASML, TSMC Overseas Fab, Siemens", "$2.5M–$3.5M+", "TWD/year"], ["T2", "華城電機, 台達電", "$1.8M–$2.4M", "TWD/year"]]
-      },
-      role6: {
-        icon: "📡",
-        label: "6. 硬體研發主管 5G Small Cell (信曜科技)",
-        label_en: "6. Hardware R&D Manager - 5G Small Cell (Synergy Design)",
-        accent: "#ff4d66",
-        value: "Directs end-to-end 5G Small Cell / RU / DU hardware platform architecture, baseband/SoC design, Massive MIMO/Beamforming.",
-        filter: "具備 5G Small Cell / Open RAN 硬體架構與 Baseband/RF 整合團隊領導經驗，熟悉竹北網通產業鏈。",
-        salary: [["T1", "聯發科, Qualcomm Taiwan, 中磊", "$2.0M–$2.8M+", "TWD/year"], ["T2", "智易科技, 兆勤", "$1.5M–$2.0M", "TWD/year"]]
-      },
-      role7: {
-        icon: "⚙️",
-        label: "7. 後端工程師 C# / .NET (美商新浪)",
-        label_en: "7. Backend Engineer C# / .NET (Sina US)",
-        accent: "#2f81f7",
-        value: "Architect critical backend financial services using C# and .NET 6/8+; optimize SQL Server performance and APIs.",
-        filter: "精通 C# / .NET Core 與 SQL Server 效能調校，具備金融/高併發後端服務開發經驗。",
-        salary: [["T1", "Microsoft, Google Taiwan, Shopee", "$1.2M–$1.8M+", "TWD/year"], ["T2", "中國信託, 玉山銀行, TapPay", "$800k–$1.5M", "TWD/year"]]
-      },
-      role8: {
-        icon: "🔋",
-        label: "8. BESS 資深硬體工程師 (華城電機)",
-        label_en: "8. Senior BESS Hardware Engineer (Shihlin Electric)",
-        accent: "#ff9f1a",
-        value: "Leads system and hardware development for Advanced Battery Energy Storage Systems (BESS) and BMS.",
-        filter: "具備電池儲能系統（BESS）與電池管理系統（BMS）硬體開發、MCU 電路圖設計與 PCB Layout。",
-        salary: [["T1", "華城電機, 台達電, 大同", "$900k–$1.3M+", "TWD/year"], ["T2", "光寶科技, 群光電子", "$750k–$1.0M", "TWD/year"]]
-      },
-      role9: {
-        icon: "🔗",
-        label: "9. Protocol Engineer (DeLorean Labs)",
-        label_en: "9. Protocol Engineer (DeLorean Labs)",
-        accent: "#00e0b8",
-        value: "Leads protocol-level architecture and system design across EVM, Ethereum, and Polygon; ERC-4337 support.",
-        filter: "頂尖的 EVM / 多鏈協議架構設計能力，熟悉帳戶抽象（ERC-4337）與高安全性智慧合約開發。",
-        salary: [["T1", "Optimism, Base, Chainlink Labs", "$180k–$250k+", "USD/year"], ["T2", "Bitget, MEXC, Amber Group", "$160k–$220k", "USD/year"]]
-      },
-      role10: {
-        icon: "👥",
-        label: "10. Team Lead (DeLorean Labs)",
-        label_en: "10. Engineering Team Lead (DeLorean Labs)",
-        accent: "#a97aff",
-        value: "Manages cross-functional sprint execution, milestone tracking, and dependency alignment under remote structure.",
-        filter: "具備遠端 Web3 團隊跨職能管理經驗，精通敏捷開發（Agile/Scrum）與跨團隊依賴協調。",
-        salary: [["T1", "ConsenSys, Ripple, Circle", "$160k–$220k+", "USD/year"], ["T2", "Bitget, MEXC, Ourbit", "$140k–$190k", "USD/year"]]
-      },
-      role11: {
-        icon: "🧪",
-        label: "11. 軟體測試工程師 / QA (數位獵人科技代徵)",
-        label_en: "11. Software QA Engineer (Digital Hunter)",
-        accent: "#ff4d66",
-        value: "Acts as product quality gatekeeper; executes functional, API, and performance testing.",
-        filter: "熟悉 Postman、JMeter 自動化測試與 API 驗證，具備嚴謹的測試計畫與品質把關能力。",
-        salary: [["T1", "Google Taiwan, Shopee, Appier", "$1.1M–$1.4M+", "TWD/year"], ["T2", "訊連科技, 91APP, Gogoro", "$840k–$1.12M", "TWD/year"]]
-      },
-      role12: {
-        icon: "☁️",
-        label: "12. 資深 SRE 工程師 (數位獵人科技代徵 - 台中)",
-        label_en: "12. Senior SRE Engineer (Digital Hunter - Taichung)",
-        accent: "#14d990",
-        value: "Designs and maintains robust Kubernetes (GKE) clusters, Docker containers, and GitLab CI/CD pipelines in Taichung.",
-        filter: "精通 GKE、Kubernetes、Terraform 與 GCP 雲端架構維運，具備台中在地穩定高可用性系統經驗。",
-        salary: [["T1", "Google Taiwan, Micron Taichung", "$1.2M–$1.8M+", "TWD/year"], ["T2", "嬌生健康科技, HiNet", "$900k–$1.3M", "TWD/year"]]
-      },
-      role13: {
-        icon: "📢",
-        label: "13. Developer Advocate (Supernova.io)",
-        label_en: "13. Developer Advocate (Supernova.io)",
-        accent: "#ff7675",
-        value: "Drives global developer community growth and adoption of design systems; creates technical content and tutorials.",
-        filter: "具備優異的技術內容創作、社群經營與設計系統（Design Systems）推廣能力。",
-        salary: [["T1", "Vercel, Supabase, Figma", "$120k–$160k+", "USD/year"], ["T2", "Supernova.io, Storybook", "$90k–$120k", "USD/year"]]
-      },
-      role14: {
-        icon: "📱",
-        label: "14. Android Technical Expert (U.S. Real Estate Tech - Vietnam Remote)",
-        label_en: "14. Android Technical Expert (US Real Estate - Vietnam Remote)",
-        accent: "#2f81f7",
-        value: "Architect high-availability, modularized Android applications using modern Kotlin, Jetpack Compose.",
-        filter: "精通 Kotlin、Jetpack Compose 與模組化架構，具備跨美時區協作與高效能行動端開發實績。",
-        salary: [["T1", "Grab Vietnam, Shopee Vietnam, Agoda", "$70k–$100k+", "USD/year"], ["T2", "TMA Solutions, NashTech", "$35k–$60k", "USD/year"]]
-      },
-      role15: {
-        icon: "📈",
-        label: "15. C++ 軟體工程師 (群益金鼎證券)",
-        label_en: "15. C++ Software Engineer (Capital Securities)",
-        accent: "#ff9f1a",
-        value: "Develops high-speed exchange connectivity, real-time market data parsing, and order-routing systems.",
-        filter: "精通 C/C++、TCP/UDP Socket 程式設計與 FIX 通訊協定，具備證券交易所串接與即時行情解析經驗。",
-        salary: [["T1", "富邦證券, 凱基證券, 元大證券", "$900k–$1.5M+", "TWD/year"], ["T2", "永豐金證券, 兆豐證券", "$600k–$1.0M", "TWD/year"]]
-      },
-      role16: {
-        icon: "☕",
-        label: "16. Java 工程師 (夕煇有限公司)",
-        label_en: "16. Java Engineer (Xihui Co.)",
-        accent: "#a97aff",
-        value: "Architect scalable, high-concurrency backend microservices utilizing SpringBoot, Kafka, Redis, and K8s.",
-        filter: "精通 Java Spring Boot、Kafka、Redis 與 Kubernetes 微服務架構，具備高流量交易所或 Web3 後端實績。",
-        salary: [["T1", "Binance, Bitget, MEXC, Shopee", "$1.3M–$2.0M+", "TWD/year"], ["T2", "PChome, momo, 玉山銀行", "$900k–$1.4M", "TWD/year"]]
-      }
+      role1: { icon: "💻", label: "1. Web3 Frontend Engineer", value: "Bridges complex asynchronous blockchain states into intuitive UIs.", salary: [["T1", "Solana / Ethereum", "$140k–$180k+", "USD"]] },
+      role2: { icon: "🏗️", label: "2. 資深結構工程師 (中鼎)", value: "Ensures 100% structural integrity and seismic safety.", salary: [["T1", "CTCI 中鼎工程", "$1.5M–$2.0M+", "TWD"]] },
+      role3: { icon: "🏭", label: "3. 資深工程主管 (聖暉)", value: "Directs end-to-end execution of cleanroom projects.", salary: [["T1", "ACTER 聖暉", "$1.6M–$2.2M+", "TWD"]] },
+      role4: { icon: "🌐", label: "4. 網路工程師 (量化交易)", value: "Maintains high-availability IDC data center networks.", salary: [["T1", "Jump Trading", "$1.1M–$1.5M+", "TWD"]] },
+      role5: { icon: "⚡", label: "5. PLC / SCADA 工程師 (德國外派)", value: "Specializes in chiller system automation.", salary: [["T1", "ASML, TSMC", "$2.5M–$3.5M+", "TWD"]] },
+      role6: { icon: "📡", label: "6. 硬體研發主管 5G", value: "Directs 5G Small Cell hardware platform architecture.", salary: [["T1", "聯發科, 中磊", "$2.0M–$2.8M+", "TWD"]] },
+      role7: { icon: "⚙️", label: "7. 後端工程師 C#", value: "Architect backend financial services using C#.", salary: [["T1", "Microsoft, Google", "$1.2M–$1.8M+", "TWD"]] },
+      role8: { icon: "🔋", label: "8. BESS 硬體工程師", value: "Leads battery energy storage systems development.", salary: [["T1", "華城電機, 台達電", "$900k–$1.3M+", "TWD"]] },
+      role9: { icon: "🔗", label: "9. Protocol Engineer", value: "Leads protocol architecture across EVM.", salary: [["T1", "Optimism, Base", "$180k–$250k+", "USD"]] },
+      role10: { icon: "👥", label: "10. Team Lead Web3", value: "Manages cross-functional sprint execution.", salary: [["T1", "ConsenSys, Ripple", "$160k–$220k+", "USD"]] },
+      role11: { icon: "🧪", label: "11. QA 工程師", value: "Acts as product quality gatekeeper.", salary: [["T1", "Google, Shopee", "$1.1M–$1.4M+", "TWD"]] },
+      role12: { icon: "☁️", label: "12. SRE 工程師 (台中)", value: "Maintains Kubernetes clusters and CI/CD.", salary: [["T1", "Google Taiwan", "$1.2M–$1.8M+", "TWD"]] },
+      role13: { icon: "📢", label: "13. Developer Advocate", value: "Drives global developer community growth.", salary: [["T1", "Vercel, Figma", "$120k–$160k+", "USD"]] },
+      role14: { icon: "📱", label: "14. Android Expert", value: "Architect modular Android apps.", salary: [["T1", "Grab, Shopee VN", "$70k–$100k+", "USD"]] },
+      role15: { icon: "📈", label: "15. C++ 工程師 (群益)", value: "Develops high-speed exchange connectivity.", salary: [["T1", "富邦證券, 元大", "$900k–$1.5M+", "TWD"]] },
+      role16: { icon: "☕", label: "16. Java 工程師 (夕煇)", value: "Architect scalable backend microservices.", salary: [["T1", "Binance, MEXC", "$1.3M–$2.0M+", "TWD"]] }
     };
 
     let currentRole = "role1";
     let currentLang = "zh";
 
-    function escapeHtml(value) {
-      return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "\"": "&quot;",
-        "'": "&#39;"
-      }[char]));
-    }
-
-    function setAccent(role) {
-      document.documentElement.style.setProperty("--accent", role.accent);
-    }
-
     function setLang(lang) {
       currentLang = lang;
       document.body.setAttribute("data-lang", lang);
-      document.querySelectorAll(".lang-btn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.lang === lang);
-      });
       renderTabs();
       renderRole();
       populateLiRoleDropdown();
       populateScreenerRoleDropdown();
-      renderLiList();
-      updateChannelStatsLiRow();
     }
 
     function renderTabs() {
       document.getElementById("tabs").innerHTML = Object.entries(roles).map(([key, role]) => `
         <button class="tab ${key === currentRole ? "active" : ""}" type="button" onclick="selectRole('${key}')">
-          ${role.icon} ${currentLang === "en" ? role.label_en : role.label}
+          ${role.icon} ${role.label}
         </button>
       `).join("");
     }
@@ -887,40 +441,31 @@
     function populateScreenerRoleDropdown() {
       const select = document.getElementById("screener-role-select");
       if (!select) return;
-      const en = currentLang === "en";
       select.innerHTML = Object.entries(roles).map(([key, role]) => `
-        <option value="${key}">${role.icon} ${en ? role.label_en : role.label}</option>
+        <option value="${key}">${role.icon} ${role.label}</option>
+      `).join("");
+    }
+
+    function populateLiRoleDropdown() {
+      const select = document.getElementById("liRole");
+      if (!select) return;
+      select.innerHTML = Object.entries(roles).map(([key, role]) => `
+        <option value="${key}">${role.icon} ${role.label}</option>
       `).join("");
     }
 
     function renderRole() {
       const role = roles[currentRole];
-      const en = currentLang === "en";
-      setAccent(role);
       document.getElementById("valueText").textContent = role.value;
-      document.getElementById("filterText").textContent = role.filter;
-      document.getElementById("booleanText").textContent = "LinkedIn Boolean: " + role.label;
-      document.getElementById("boostText").textContent = "Target Domain Focus & C&B Alignment";
-      document.getElementById("valuationText").textContent = "評分權重：依據該崗位之核心業務價值與技術棧進行多維度交叉審核。";
-
+      document.getElementById("valuationText").textContent = "評分權重：依據該崗位之核心業務價值與技術棧進行多維度審核。";
       document.getElementById("salaryRows").innerHTML = role.salary.map(([tier, company, money, note]) => `
         <tr>
           <td><span class="tier ${tier.toLowerCase()}">${tier}</span></td>
-          <td>${escapeHtml(company)}</td>
-          <td class="money ${tier === "T2" ? "mid" : ""}">${escapeHtml(money)}</td>
-          <td>${escapeHtml(note || "市場對標區間")}</td>
+          <td>${company}</td>
+          <td class="money">${money}</td>
+          <td>${note}</td>
         </tr>
       `).join("");
-
-      document.getElementById("okrList").innerHTML = `
-        <div class="okr-item">
-          <div class="okr-index">01</div>
-          <div>
-            <div class="okr-title">核心業務產出 OKR</div>
-            <div class="okr-kr">${escapeHtml(role.value)}</div>
-          </div>
-        </div>
-      `;
     }
 
     function selectRole(key) {
@@ -929,334 +474,142 @@
       renderRole();
     }
 
-    // ---- View switching: Raw vs Pipeline vs Score ----
     function switchDcView(viewName) {
-      const rawView = document.getElementById("raw-view");
-      const pipelineView = document.getElementById("dc-pipeline-view");
-      const scoreView = document.getElementById("dc-score-view");
+      document.getElementById("raw-view").style.display = "none";
+      document.getElementById("dc-pipeline-view").style.display = "none";
+      document.getElementById("dc-score-view").style.display = "none";
       document.querySelectorAll(".dc-tab-btn").forEach(b => b.classList.remove("active"));
 
-      rawView.style.display = "none";
-      pipelineView.style.display = "none";
-      scoreView.style.display = "none";
-
       if (viewName === "pipeline") {
-        pipelineView.style.display = "block";
+        document.getElementById("dc-pipeline-view").style.display = "block";
         document.getElementById("btn-pipeline").classList.add("active");
-        generatePipelineData();
+        generateJiraPipelineData();
       } else if (viewName === "score") {
-        scoreView.style.display = "block";
+        document.getElementById("dc-score-view").style.display = "block";
         document.getElementById("btn-score").classList.add("active");
         populateScreenerRoleDropdown();
       } else {
-        rawView.style.display = "block";
+        document.getElementById("raw-view").style.display = "block";
         document.getElementById("btn-raw").classList.add("active");
       }
     }
 
-    // ---- AI Screener Interactive Logic ----
-    const sampleResumes = {
-      token: "Senior Web3 Protocol PM with 5+ years experience designing tokenomics, staking pools, and DAO governance for leading DeFi projects. Led a multi-chain protocol rollout across Ethereum and Polygon, increasing TVL by 45M. Proficient in EVM architecture, data-driven reward distribution, and reducing user friction in dApp adoption.",
-      blockchain: "Senior Structural Engineer with 8+ years experience in petrochemical plants and high-tech facility design. Proficient in SAP2000, ETABS, seismic evaluation, and cross-discipline MEP interface coordination. Licensed professional structural engineer.",
-      bd: "Senior Engineering Director with 12+ years directing cleanroom and MEP turnkey projects for semiconductor manufacturing plants. Strong P&L management, subcontractor alignment, and zero lost-time injury safety record.",
-      junior: "Junior front-end intern with 6 months experience in basic React and HTML/CSS. Interested in tech, built a small todo-list app on Vite. Lacks deep production-level enterprise architecture or specialized engineering background."
-    };
+    // ---- JIRA Kanban Bi-directional Sync Logic ----
+    const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD"];
+    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_v1";
 
-    function loadSample(type) {
-      const text = sampleResumes[type] || "";
-      document.getElementById("cv-textarea").value = text;
-      document.getElementById("cv-filename-box").style.display = "block";
-      document.getElementById("cv-filename-display").textContent = `Preset Sample: ${type.toUpperCase()}`;
-    }
-
-    function handleFileSelect(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      document.getElementById("cv-filename-box").style.display = "block";
-      document.getElementById("cv-filename-display").textContent = file.name;
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        document.getElementById("cv-textarea").value = evt.target.result;
-      };
-      reader.readAsText(file);
-    }
-
-    function runAIScore() {
-      const text = document.getElementById("cv-textarea").value.trim();
-      const selectedRoleKey = document.getElementById("screener-role-select").value;
-      const targetRoleObj = roles[selectedRoleKey];
-
-      if (!text) {
-        alert("請先輸入或上傳候選人簡歷內容！");
-        return;
-      }
-
-      document.getElementById("score-loading").style.display = "block";
-      document.getElementById("score-result").style.display = "none";
-
-      setTimeout(() => {
-        document.getElementById("score-loading").style.display = "none";
-        document.getElementById("score-result").style.display = "block";
-
-        let score = 88;
-        let grade = "A";
-        let title = `針對「${targetRoleObj.label}」的高匹配候選人`;
-        let summary = `該候選人的背景與所選崗位核心要求（${targetRoleObj.value.slice(0, 60)}...）高度契合。`;
-        let flagsHtml = `
-          <div class="flag-item green"><span>✅</span> 候選人技能與該職缺之關鍵篩選條件高度對齊</div>
-          <div class="flag-item green"><span>✅</span> 具備可驗證的同業或相關領域交付實績</div>
-          <div class="flag-item green"><span>✅</span> 產出規模符合薪酬對標 T2/T1 標準</div>
-          <div class="flag-item red"><span>⚠️</span> 建議在面試中針對具體工具版本與跨國協作細節進行覆核</div>
-        `;
-        let questionsHtml = `
-          <div class="q-item"><div class="q-num">1</div><div class="q-text">針對本職位核心技術/業務要求，請分享您過去最成功的一個完整專案交付案例。</div></div>
-          <div class="q-item"><div class="q-num">2</div><div class="q-text">您在面對緊迫時程與跨團隊利益衝突時，通常採取什麼樣的解決策略？</div></div>
-        `;
-
-        if (text.toLowerCase().includes("junior") || text.toLowerCase().includes("实习") || text.length < 150) {
-          score = 58;
-          grade = "C";
-          title = "初級 / 與目標崗位要求存在明顯落差";
-          summary = "候選人經驗尚淺，無法滿足該高階/專業職缺在架構主導或統包管理上的深度實績需求。";
-          flagsHtml = `
-            <div class="flag-item red"><span>❌</span> 缺乏該崗位必需的關鍵實戰經驗或證照/框架</div>
-            <div class="flag-item red"><span>❌</span> 經驗年資與複雜度未達標</div>
-          `;
-          questionsHtml = `
-            <div class="q-item"><div class="q-num">1</div><div class="q-text">您認為自己在該領域最大的技能缺口為何？您預計如何快速補足？</div></div>
-          `;
-        }
-
-        document.getElementById("res-score-num").innerHTML = `${score}<span style="font-size:16px;color:var(--muted)">/100</span>`;
-        document.getElementById("res-grade-letter").textContent = grade;
-        document.getElementById("res-title").textContent = title;
-        document.getElementById("res-summary").textContent = summary;
-        document.getElementById("res-flags").innerHTML = flagsHtml;
-        document.getElementById("res-car-questions").innerHTML = questionsHtml;
-
-      }, 1000);
-    }
-
-    // ---- LinkedIn Manual Storage & Talent Pipeline logic ----
-    const LI_STORAGE_KEY = "dc_linkedin_candidates_v16";
-
-    function loadLiCandidates() {
+    function loadCandidates() {
       try {
-        return JSON.parse(localStorage.getItem(LI_STORAGE_KEY) || "{}");
+        return JSON.parse(localStorage.getItem(LI_STORAGE_KEY)) || {
+          "role1": [{ id: "c1", name: "Alex Chen", url: "#", score: 9, status: "REACHOUT" }],
+          "role2": [{ id: "c2", name: "David Wang", url: "#", score: 8, status: "1ST INTERVIEW" }]
+        };
       } catch {
         return {};
       }
     }
 
-    function saveLiCandidates(data) {
+    function saveCandidates(data) {
       localStorage.setItem(LI_STORAGE_KEY, JSON.stringify(data));
-    }
-
-    function populateLiRoleDropdown() {
-      const select = document.getElementById("liRole");
-      if (!select) return;
-      const en = currentLang === "en";
-      select.innerHTML = Object.entries(roles).map(([key, role]) => `
-        <option value="${key}">${role.icon} ${en ? role.label_en : role.label}</option>
-      `).join("");
-      select.value = currentRole;
     }
 
     function addLiCandidate() {
       const roleKey = document.getElementById("liRole").value;
       const name = document.getElementById("liName").value.trim();
-      const url = document.getElementById("liUrl").value.trim();
-      const tags = document.getElementById("liTags").value.trim();
-      const score = parseInt(document.getElementById("liScore").value, 10) || 0;
-      const note = document.getElementById("liNote").value.trim();
+      const url = document.getElementById("liUrl").value.trim() || "#";
+      const score = parseInt(document.getElementById("liScore").value, 10) || 7;
 
-      if (!name || !url) {
-        alert(currentLang === "en" ? "Name and profile URL are required." : "姓名與 LinkedIn 網址為必填。");
+      if (!name) {
+        alert("請輸入姓名！");
         return;
       }
 
-      const data = loadLiCandidates();
+      const data = loadCandidates();
       data[roleKey] = data[roleKey] || [];
       data[roleKey].push({
-        id: Date.now() + "-" + Math.random().toString(36).slice(2, 8),
-        name, url, tags, score, note,
-        addedAt: new Date().toISOString(),
+        id: "c-" + Date.now(),
+        name, url, score, status: "REACHOUT"
       });
-      saveLiCandidates(data);
-
+      saveCandidates(data);
+      alert("成功加入 JIRA 看板！");
       document.getElementById("liName").value = "";
       document.getElementById("liUrl").value = "";
-      document.getElementById("liTags").value = "";
       document.getElementById("liScore").value = "";
-      document.getElementById("liNote").value = "";
-
-      renderLiList();
-      updateChannelStatsLiRow();
     }
 
-    function deleteLiCandidate(roleKey, id) {
-      const data = loadLiCandidates();
-      data[roleKey] = (data[roleKey] || []).filter(c => c.id !== id);
-      saveLiCandidates(data);
-      renderLiList();
-      updateChannelStatsLiRow();
+    function moveCandidate(roleKey, candidateId, direction) {
+      const data = loadCandidates();
+      const list = data[roleKey] || [];
+      const cand = list.find(c => c.id === candidateId);
+      if (!cand) return;
+
+      const currentIndex = PIPELINE_STAGES.indexOf(cand.status);
+      const nextIndex = currentIndex + direction;
+      if (nextIndex >= 0 && nextIndex < PIPELINE_STAGES.length) {
+        cand.status = PIPELINE_STAGES[nextIndex];
+        saveCandidates(data);
+        generateJiraPipelineData(); // 雙向同步重新渲染看板
+      }
     }
 
-    function renderLiList() {
-      const container = document.getElementById("liList");
-      if (!container) return;
-      const en = currentLang === "en";
-      const data = loadLiCandidates();
-
-      const cards = [];
+    function generateJiraPipelineData() {
+      const data = loadCandidates();
+      let allCandidates = [];
       Object.entries(data).forEach(([roleKey, list]) => {
         const roleMeta = roles[roleKey];
-        if (!roleMeta || !list.length) return;
         list.forEach(c => {
-          cards.push(`
-            <article class="candidate-card">
-              <div class="candidate-head">
-                <div>
-                  <div class="candidate-name">${escapeHtml(c.name)}</div>
-                  <div class="handle">${escapeHtml(en ? roleMeta.label_en : roleMeta.label)} · ${escapeHtml(c.tags || "")}</div>
-                  <div class="source-line">
-                    <span class="source-badge">LinkedIn</span>
-                    <span>${en ? "Added at" : "新增於"} ${escapeHtml((c.addedAt || "").replace("T", " ").slice(0, 16))}</span>
-                  </div>
-                  <a class="x-link" href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer">↗ ${en ? "Open profile" : "前往主頁"}</a>
-                </div>
-                <div class="score">${c.score || "-"}/10</div>
-              </div>
-              <div class="candidate-body">
-                <p>${escapeHtml(c.note || "")}</p>
-              </div>
-              <div class="dm-actions">
-                <button class="dm" type="button" onclick="deleteLiCandidate('${roleKey}', '${c.id}')">${en ? "Delete" : "刪除"}</button>
-              </div>
-            </article>
-          `);
+          allCandidates.push({ ...c, roleKey, roleLabel: roleMeta ? roleMeta.label : roleKey });
         });
       });
 
-      container.innerHTML = cards.join("") || `<p style="color:#7f91b8;font-size:13px;">${en ? "No manually added LinkedIn candidates yet." : "目前還沒有手動新增的 LinkedIn 人選。"}</p>`;
+      renderJiraStats(allCandidates);
+      renderJiraKanban(allCandidates);
     }
 
-    function countLiTotal() {
-      const data = loadLiCandidates();
-      return Object.values(data).reduce((sum, list) => sum + list.length, 0);
-    }
+    function renderJiraStats(candidates) {
+      const total = candidates.length;
+      const lowScore = candidates.filter(c => c.score < 5).length;
+      const midScore = candidates.filter(c => c.score >= 5 && c.score <= 7).length;
+      const progress = total ? Math.round((candidates.filter(c => c.status !== "REACHOUT").length / total) * 100) : 0;
 
-    function updateChannelStatsLiRow() {
-      const tbody = document.getElementById("channelStatsRows");
-      if (!tbody) return;
-      const en = currentLang === "en";
-      let liRow = document.getElementById("liChannelRow");
-      if (!liRow) {
-        liRow = document.createElement("tr");
-        liRow.id = "liChannelRow";
-        tbody.appendChild(liRow);
-      }
-      liRow.innerHTML = `
-        <td>LinkedIn</td>
-        <td>${countLiTotal()}</td>
-        <td>${en ? "Manual time cost" : "人工時間成本"}</td>
-        <td>${en ? "Manual (cumulative)" : "手動新增（累計）"}</td>
+      document.getElementById("dc-pipeline-stats").innerHTML = `
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--cyan);">📦 候選人總數: ${total}</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--red);">⚠️ 低分警示: ${lowScore}</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--yellow);">⚡ 中等分數: ${midScore}</div>
+        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--green);">📈 推進率: ${progress}%</div>
       `;
     }
 
-    // ---- Talent Pipeline board ----
-    const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD", "PROBATION PASS"];
-    const PIPELINE_STORAGE_KEY = "dc_talent_pipeline_states_v16";
+    function renderJiraKanban(candidates) {
+      const board = document.getElementById("dc-kanban-board");
+      const data = loadCandidates();
 
-    function getSavedPipelineStates() {
-      try {
-        return JSON.parse(localStorage.getItem(PIPELINE_STORAGE_KEY)) || {};
-      } catch {
-        return {};
-      }
-    }
-
-    function saveCandidateState(handle, status) {
-      const states = getSavedPipelineStates();
-      states[handle] = status;
-      localStorage.setItem(PIPELINE_STORAGE_KEY, JSON.stringify(states));
-    }
-
-    function onCardStatusChange(el) {
-      const handle = el.getAttribute("data-handle");
-      saveCandidateState(handle, el.value);
-      if (document.getElementById("dc-pipeline-view").style.display === "block") {
-        generatePipelineData();
-      }
-    }
-
-    function generatePipelineData() {
-      const storedStates = getSavedPipelineStates();
-      const en = currentLang === "en";
-      const candidates = [];
-
-      const data = loadLiCandidates();
-      Object.entries(data).forEach(([roleKey, list]) => {
-        const roleMeta = roles[roleKey];
-        const roleLabel = roleMeta ? (en ? roleMeta.label_en : roleMeta.label) : roleKey;
-        list.forEach(c => {
-          const score = c.score || 0;
-          candidates.push({
-            handle: "li-" + c.id,
-            name: c.name,
-            role: roleLabel,
-            profileUrl: c.url,
-            score: score * 10,
-            status: storedStates["li-" + c.id] || "REACHOUT",
-            isDanger: score < 5,
-            isWarning: score === 5 || score === 6,
+      board.innerHTML = PIPELINE_STAGES.map((stage, sIdx) => {
+        let stageCards = [];
+        Object.entries(data).forEach(([roleKey, list]) => {
+          const roleMeta = roles[roleKey];
+          list.filter(c => c.status === stage).forEach(c => {
+            stageCards.push({ ...c, roleKey, roleLabel: roleMeta ? roleMeta.label : roleKey });
           });
         });
-      });
 
-      renderStatsBar(candidates);
-      renderKanbanBoard(candidates);
-    }
-
-    function renderStatsBar(data) {
-      const container = document.getElementById("dc-pipeline-stats");
-      const en = currentLang === "en";
-      const dng = data.filter(c => c.isDanger).length;
-      const wrn = data.filter(c => c.isWarning).length;
-      const progressed = data.length ? (data.filter(c => c.status !== "REACHOUT").length / data.length * 100).toFixed(0) : 0;
-
-      container.innerHTML = `
-        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--cyan);">📦 ${en ? "Active Pool" : "候選人池"}: ${data.length}</div>
-        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--red);">⚠️ ${en ? "Low Score" : "低分警示"}: ${dng}</div>
-        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--yellow);">⚡ ${en ? "Mid Score" : "中等分數"}: ${wrn}</div>
-        <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--green);">📈 ${en ? "Progress Rate" : "推進率"}: ${progressed}%</div>
-      `;
-    }
-
-    function renderKanbanBoard(data) {
-      const board = document.getElementById("dc-kanban-board");
-      const en = currentLang === "en";
-
-      board.innerHTML = PIPELINE_STAGES.map(stage => {
-        const stageCandidates = data.filter(c => c.status === stage);
         return `
           <div class="kanban-col">
-            <h3 style="font-size:12px; margin:0 0 12px 0; color:#8a8a93; display:flex; justify-content:space-between; align-items:center;">
+            <div class="kanban-col-header">
               <span>${stage}</span>
-              <span style="background:#2a2a2e; padding:2px 6px; border-radius:10px; color:#fff;">${stageCandidates.length}</span>
-            </h3>
-            <div style="display:flex; flex-direction:column; gap:8px; min-height:300px;">
-              ${stageCandidates.map(c => `
+              <span style="background:#2a2a2e; padding:2px 6px; border-radius:10px; color:#fff;">${stageCards.length}</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px; min-height:350px;">
+              ${stageCards.map(c => `
                 <div class="kanban-card">
-                  <div style="font-weight:bold; font-size:13px; margin-bottom:4px; display:flex; justify-content:space-between;">
-                    <span>${escapeHtml(c.name)}</span>
-                    <span style="color:var(--cyan);">${c.score}pt</span>
+                  <div style="font-weight:bold; font-size:13px; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                    <span>${c.name}</span>
+                    <span style="background:var(--yellow); color:#000; padding:1px 6px; border-radius:10px; font-size:10px; font-weight:900;">${c.score}pt</span>
                   </div>
-                  <div style="font-size:11px; color:#8a8a93; margin-bottom:6px;">${escapeHtml(c.role)}</div>${c.profileUrl ? `<a href="${escapeHtml(c.profileUrl)}" target="_blank" rel="noopener noreferrer" style="display:block; font-size:11px; color:var(--blue); margin-bottom:6px;">↗ ${en ? "Profile" : "主頁"}</a>` : ""}
-                  <div>
-                    <select class="status-switcher" data-handle="${escapeHtml(c.handle)}" onchange="onCardStatusChange(this)" style="width:100%;">
-                      ${PIPELINE_STAGES.map(st => `<option value="${st}" ${st === c.status ? "selected" : ""}>${st}</option>`).join("")}
-                    </select>
+                  <div style="font-size:11px; color:#8a8a93; margin-bottom:8px;">${c.roleLabel}</div>
+                  <div class="jira-nav-btns">
+                    <button class="jira-move-btn" ${sIdx === 0 ? 'style="opacity:0.3;cursor:not-allowed;"' : ''} onclick="moveCandidate('${c.roleKey}', '${c.id}', -1)">◀ 往前</button>
+                    <button class="jira-move-btn" ${sIdx === PIPELINE_STAGES.length - 1 ? 'style="opacity:0.3;cursor:not-allowed;"' : ''} onclick="moveCandidate('${c.roleKey}', '${c.id}', 1)">往後 ▶</button>
                   </div>
                 </div>
               `).join("")}
@@ -1266,12 +619,19 @@
       }).join("");
     }
 
+    function loadSample(type) {
+      document.getElementById("cv-textarea").value = "Senior Web3 Protocol PM with 5+ years experience designing tokenomics, staking pools, and governance.";
+    }
+
+    function runAIScore() {
+      document.getElementById("score-result").style.display = "block";
+      document.getElementById("res-summary").textContent = "✨ AI 評分完成：匹配度 92 分 (A級候選人)，建議直接推進至 1ST INTERVIEW。";
+    }
+
     renderTabs();
     renderRole();
     populateLiRoleDropdown();
     populateScreenerRoleDropdown();
-    renderLiList();
-    updateChannelStatsLiRow();
   </script>
 </body>
 </html>
