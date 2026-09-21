@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Talent Command Center - 16 Roles, JIRA Kanban & Dynamic AI Screener</title>
+  <title>Talent Command Center - 16 Roles, JIRA Kanban & Pro AI Screener</title>
   <style>
     :root {
       --bg: #080b12;
@@ -320,8 +320,8 @@
 
     .rs-btn { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: rgba(255,255,255,.03); color: var(--muted); font-size: 11.5px; font-weight: 600; cursor: pointer; }
     .rs-btn:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
-    #cv-textarea { width: 100%; height: 130px; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 12.5px; outline: none; margin-bottom: 12px; resize: vertical; }
-    #score-btn { padding: 10px 24px; background: var(--yellow); color: #07090F; border: none; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; }
+    #cv-textarea { width: 100%; height: 120px; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 12.5px; outline: none; margin-bottom: 12px; resize: vertical; }
+    #score-btn { padding: 12px 24px; background: var(--yellow); color: #07090F; border: none; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; width: 100%; }
 
     /* --- Pro AI Screener Report Specific Styles --- */
     .screener-hero-card {
@@ -354,19 +354,34 @@
     
     .risk-table { width: 100%; font-size: 12px; border-collapse: collapse; }
     .risk-table td { padding: 10px 12px; border-bottom: 1px solid #1a2231; }
+
+    /* Form Grid for Candidate Metadata Inputs */
+    .meta-form-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;
+    }
+    @media(max-width: 768px) { .meta-form-grid { grid-template-columns: 1fr; } }
+    .meta-field {
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .meta-field label {
+      font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase;
+    }
+    .meta-field select, .meta-field input {
+      background: var(--panel-soft); border: 1px solid var(--line); border-radius: 6px; padding: 9px 12px; color: var(--text); font-size: 12px; outline: none;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <main class="page">
     <div class="topbar">
-      <div>🎙️ 16 Roles Profile, JIRA Kanban & Dynamic AI Screener</div>
+      <div>🎙️ 16 Roles Profile, JIRA Kanban & Pro AI Screener</div>
       <div class="runtime">Auto-refreshed daily at 11:00 ▼</div>
     </div>
 
     <div class="eyebrow">— Enterprise Recruitment Command Center</div>
     <h1><span>Talent Operations Command Center</span></h1>
-    <p class="subtitle">Complete 16-Role Framework, Bi-directional JIRA Kanban, Dynamic AI Screener, and Analytics Charts.</p>
+    <p class="subtitle">Complete 16-Role Framework, Bi-directional JIRA Kanban, Pro AI Screener, and Analytics Charts.</p>
 
     <!-- Tab Switcher -->
     <div class="dc-tab-container">
@@ -374,7 +389,7 @@
         <button class="dc-tab-btn active" id="btn-raw" type="button" onclick="switchDcView('raw')">📋 Raw Data</button>
         <button class="dc-tab-btn" id="btn-pipeline" type="button" onclick="switchDcView('pipeline')">📊 Talent Pipeline (JIRA Board)</button>
         <button class="dc-tab-btn" id="btn-charts" type="button" onclick="switchDcView('charts')">📈 Analytics Charts</button>
-        <button class="dc-tab-btn" id="btn-score" type="button" onclick="switchDcView('score')">🤖 Dynamic AI Screener</button>
+        <button class="dc-tab-btn" id="btn-score" type="button" onclick="switchDcView('score')">🤖 Pro AI Screener</button>
       </div>
       <div>
         <button class="rs-btn" style="background:var(--cyan); color:#0b1120; font-weight:900;" onclick="openAddModal()">+ Add Candidate</button>
@@ -444,19 +459,71 @@
       </div>
     </div>
 
-    <!-- Dynamic AI Screener View -->
+    <!-- Pro AI Screener View -->
     <div id="dc-score-view" style="display: none;">
       <div class="panel" style="margin-bottom:20px;">
-        <div class="panel-title">Select Target Role ➔ Paste Candidate CV / LinkedIn Profile ➔ Generate Dynamic Report</div>
-        <div style="margin-bottom: 16px;">
+        <div class="panel-title">Select Target Role ➔ Input Candidate Metadata & CV ➔ Generate Assessment Report</div>
+        
+        <div style="margin-bottom: 14px;">
           <label style="display: block; font-size: 11.5px; font-weight: 800; color: var(--muted); margin-bottom: 6px; text-transform: uppercase;">🎯 Target Role:</label>
           <select id="screener-role-select" style="width: 100%; background: var(--panel-soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; color: var(--text); font-size: 13px; font-weight: 700; outline: none;"></select>
         </div>
-        <textarea id="cv-textarea" placeholder="Paste candidate full resume or LinkedIn profile text here... (e.g. Candidate Name, Experience, Skills, Tech Stack)"></textarea>
-        <button id="score-btn" onclick="runDynamicAIScore()">✨ Analyze & Generate Pro AI Screener Report</button>
+
+        <!-- 候選人手動編輯欄位區塊 -->
+        <div class="meta-form-grid">
+          <div class="meta-field">
+            <label>English Fluency</label>
+            <select id="meta-eng">
+              <option value="Excellent">Yes - Excellent</option>
+              <option value="Good" selected>Yes - Good</option>
+              <option value="Basic">Yes - Basic</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div class="meta-field">
+            <label>Mandarin Chinese Fluency</label>
+            <select id="meta-chi">
+              <option value="Excellent" selected>Yes - Excellent</option>
+              <option value="Good">Yes - Good</option>
+              <option value="Basic">Yes - Basic</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div class="meta-field">
+            <label>Current Location</label>
+            <input type="text" id="meta-loc" value="Taipei, Taiwan" placeholder="e.g. Taipei, Taiwan">
+          </div>
+          <div class="meta-field">
+            <label>Citizenship</label>
+            <input type="text" id="meta-cit" value="Taiwan" placeholder="e.g. Taiwan">
+          </div>
+          <div class="meta-field">
+            <label>Work Visa Sponsorship for Taiwan</label>
+            <select id="meta-visa">
+              <option value="No" selected>No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+          <div class="meta-field">
+            <label>Last Monthly Salary Drawn</label>
+            <input type="text" id="meta-last-sal" placeholder="NTD ________________">
+          </div>
+          <div class="meta-field">
+            <label>Expected Monthly Salary</label>
+            <input type="text" id="meta-exp-sal" placeholder="NTD ________________">
+          </div>
+          <div class="meta-field">
+            <label>Notice Period</label>
+            <input type="text" id="meta-notice" value="1 Month" placeholder="e.g. 1 Month">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 6px; font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase;">Candidate CV / Profile Text:</div>
+        <textarea id="cv-textarea" placeholder="Paste candidate full resume, bio or LinkedIn text here..."></textarea>
+        <button id="score-btn" onclick="runDynamicAIScore()">✨ Generate Pro AI Screener Report</button>
       </div>
 
-      <!-- DYNAMIC ASSESSMENT REPORT CONTAINER -->
+      <!-- PRO ASSESSMENT REPORT CONTAINER -->
       <div id="score-result" style="display:none;">
         
         <!-- Hero Header Card -->
@@ -469,6 +536,7 @@
               <div style="font-size: 12px; color: var(--muted); max-width: 650px; line-height: 1.5;" id="rep-overview">
                 Analyzing candidate profile against target role requirements...
               </div>
+              <div style="font-size: 11px; color: var(--cyan); margin-top: 6px; font-weight: 700;" id="rep-meta-summary"></div>
             </div>
           </div>
           <div style="text-align: right;">
@@ -572,7 +640,7 @@
   <script>
     const roles = {
       role1: {
-        icon: "💻", label: "1. Web3 Frontend Engineer",
+        icon: "💻", label: "1. Web3 Frontend Engineer", keywords: ["react", "typescript", "wagmi", "viem", "evm", "frontend", "web3", "dapp", "blockchain"],
         value: "Bridges complex asynchronous blockchain states into intuitive UIs; ensures secure multi-chain connectivity (EVM, Ethereum, Polygon).",
         salary: [["T1", "Solana / Ethereum Foundation", "$140k–$180k+", "USD/year"], ["T2", "Bitget, MEXC, BitMart", "$110k–$165k", "USD/year"], ["T3", "Regional Web3 Startups", "$75k–$105k", "USD/year"]],
         boolean: "(\"Web3 Frontend Engineer\" OR \"DApp Frontend\") AND (React OR TypeScript) AND (Wagmi OR Viem OR EVM)",
@@ -583,7 +651,7 @@
         ]
       },
       role2: {
-        icon: "🏗️", label: "2. Senior Structural Engineer (CTCI)",
+        icon: "🏗️", label: "2. Senior Structural Engineer (CTCI)", keywords: ["structural", "sap2000", "etabs", "staad", "civil", "concrete", "steel", "seismic", "結構", "土木"],
         value: "Ensures 100% structural integrity and seismic safety for high-risk industrial assets (power plants, petrochemical).",
         salary: [["T1", "CTCI, Bechtel, Fluor", "$1.5M–$2.0M+", "TWD/year"], ["T2", "CECI, Moh and Associates", "$1.1M–$1.4M", "TWD/year"], ["T3", "Local Engineering Offices", "$800k–$1.1M", "TWD/year"]],
         boolean: "(\"Structural Engineer\" OR \"結構工程師\") AND (SAP2000 OR ETABS) AND (Petrochemical OR Power Plant)",
@@ -594,7 +662,7 @@
         ]
       },
       role3: {
-        icon: "🏭", label: "3. Senior Engineering Director (ACTER)",
+        icon: "🏭", label: "3. Senior Engineering Director (ACTER)", keywords: ["cleanroom", "mep", "p&l", "construction", "project director", "無塵室", "機電", "統包", "廠務"],
         value: "Directs end-to-end execution of large-scale industrial construction, MEP, and cleanroom projects; manages P&L.",
         salary: [["T1", "ACTER, MII, Marketech", "$1.6M–$2.2M+", "TWD/year"], ["T2", "BES Engineering, RSEA", "$1.3M–$1.6M", "TWD/year"], ["T3", "Regional Contracting Firms", "$1.0M–$1.3M", "TWD/year"]],
         boolean: "(\"Project Director\") AND (\"Cleanroom\" OR \"無塵室\") AND (\"Semiconductor\")",
@@ -605,7 +673,7 @@
         ]
       },
       role4: {
-        icon: "🌐", label: "4. Network Engineer (Quant)",
+        icon: "🌐", label: "4. Network Engineer (Quant)", keywords: ["network", "cisco", "fortinet", "arista", "idc", "tcp/ip", "linux", "routing", "switching"],
         value: "Maintains high-availability office and IDC data center networks to safeguard quantitative trading executions.",
         salary: [["T1", "Jump Trading, Citadel, Binance", "$1.1M–$1.5M+", "TWD/year"], ["T2", "Cathay Financial, Fubon", "$900k–$1.2M", "TWD/year"], ["T3", "Systex, Acer e-Enabling", "$700k–$950k", "TWD/year"]],
         boolean: "(\"Network Engineer\") AND (Fortinet OR Cisco) AND (FinTech OR Trading)",
@@ -616,7 +684,7 @@
         ]
       },
       role5: {
-        icon: "⚡", label: "5. PLC / SCADA Engineer (Dresden Expat)",
+        icon: "⚡", label: "5. PLC / SCADA Engineer (Dresden Expat)", keywords: ["plc", "scada", "chiller", "hvac", "automation", "siemens", "mitsubishi", "factory", "冰機"],
         value: "Specializes in chiller system automation and PLC/SCADA integration for overseas high-tech fabs in Dresden.",
         salary: [["T1", "ASML, TSMC Fab, Siemens", "$2.5M–$3.5M+", "TWD/year"], ["T2", "Shihlin Electric, Delta", "$1.8M–$2.4M", "TWD/year"], ["T3", "Local Automation SIs", "$1.2M–$1.7M", "TWD/year"]],
         boolean: "(\"PLC Engineer\") AND (Chiller OR HVAC) AND (Semiconductor OR Dresden)",
@@ -627,7 +695,7 @@
         ]
       },
       role6: {
-        icon: "📡", label: "6. Hardware R&D Manager 5G",
+        icon: "📡", label: "6. Hardware R&D Manager 5G", keywords: ["5g", "small cell", "rf", "fpga", "baseband", "soc", "antenna", "mimo", "beamforming"],
         value: "Directs end-to-end 5G Small Cell / RU / DU hardware platform architecture, baseband/SoC design.",
         salary: [["T1", "MediaTek, Qualcomm, Sercomm", "$2.0M–$2.8M+", "TWD/year"], ["T2", "Arcadyan, Zyxel", "$1.5M–$2.0M", "TWD/year"], ["T3", "Regional Comm Makers", "$1.2M–$1.5M", "TWD/year"]],
         boolean: "(\"Hardware Manager\") AND (\"5G\" OR \"Small Cell\") AND (FPGA OR SoC)",
@@ -638,7 +706,8 @@
         ]
       },
       role7: {
-        icon: "⚙️", label: "7. Backend Engineer C#", value: "Architect critical backend financial services using C# and .NET; optimize SQL Server performance.",
+        icon: "⚙️", label: "7. Backend Engineer C#", keywords: ["c#", ".net", "dotnet", "sql server", "entity framework", "asp.net", "web api", "microservices"],
+        value: "Architect critical backend financial services using C# and .NET; optimize SQL Server performance.",
         salary: [["T1", "Microsoft, Google, Shopee", "$1.2M–$1.8M+", "TWD/year"], ["T2", "CTBC Bank, E.Sun Bank", "$800k–$1.5M", "TWD/year"], ["T3", "Traditional Software Houses", "$650k–$900k", "TWD/year"]],
         boolean: "(\"Backend Engineer\") AND (\"C#\" OR \".NET Core\") AND (SQL Server)",
         okrs: [
@@ -648,7 +717,8 @@
         ]
       },
       role8: {
-        icon: "🔋", label: "8. BESS Hardware Engineer", value: "Leads system and hardware development for BESS and BMS.",
+        icon: "🔋", label: "8. BESS Hardware Engineer", keywords: ["bess", "bms", "battery", "mcu", "pcb", "schematic", "power supply", "储能", "電池"],
+        value: "Leads system and hardware development for BESS and BMS.",
         salary: [["T1", "Shihlin Electric, Delta, Tatung", "$900k–$1.3M+", "TWD/year"], ["T2", "Lite-On, Chicony", "$750k–$1.0M", "TWD/year"], ["T3", "Regional Solar/Storage SIs", "$600k–$800k", "TWD/year"]],
         boolean: "(\"BESS Engineer\") AND (Battery OR BESS) AND (MCU OR Schematic)",
         okrs: [
@@ -658,7 +728,8 @@
         ]
       },
       role9: {
-        icon: "🔗", label: "9. Protocol Engineer", value: "Leads protocol-level architecture and system design across EVM, Ethereum, and Polygon.",
+        icon: "🔗", label: "9. Protocol Engineer", keywords: ["solidity", "rust", "evm", "smart contract", "protocol", "ethereum", "polygon", "erc-4337", "defi"],
+        value: "Leads protocol-level architecture and system design across EVM, Ethereum, and Polygon.",
         salary: [["T1", "Optimism, Base, Chainlink", "$180k–$250k+", "USD/year"], ["T2", "Bitget, MEXC, Fireblocks", "$160k–$220k", "USD/year"], ["T3", "Early-Stage Startups", "$110k–$150k", "USD/year"]],
         boolean: "(\"Protocol Engineer\") AND (EVM OR Ethereum) AND (\"Account Abstraction\")",
         okrs: [
@@ -668,7 +739,8 @@
         ]
       },
       role10: {
-        icon: "👥", label: "10. Team Lead Web3", value: "Manages cross-functional sprint execution and dependency alignment.",
+        icon: "👥", label: "10. Team Lead Web3", keywords: ["manager", "lead", "agile", "scrum", "roadmap", "sprint", "tech lead", "engineering manager"],
+        value: "Manages cross-functional sprint execution and dependency alignment.",
         salary: [["T1", "ConsenSys, Ripple, Circle", "$160k–$220k+", "USD/year"], ["T2", "Bitget, MEXC, Ourbit", "$140k–$190k", "USD/year"], ["T3", "Venture Studios", "$95k–$135k", "USD/year"]],
         boolean: "(\"Engineering Team Lead\") AND (Web3) AND (Agile)",
         okrs: [
@@ -678,7 +750,8 @@
         ]
       },
       role11: {
-        icon: "🧪", label: "11. Software QA Engineer", value: "Acts as product quality gatekeeper; executes functional and API testing.",
+        icon: "🧪", label: "11. Software QA Engineer", keywords: ["qa", "test", "automation", "postman", "jmeter", "selenium", "cypress", "quality assurance"],
+        value: "Acts as product quality gatekeeper; executes functional and API testing.",
         salary: [["T1", "Google Taiwan, Shopee", "$1.1M–$1.4M+", "TWD/year"], ["T2", "CyberLink, 91APP, Gogoro", "$840k–$1.12M", "TWD/year"], ["T3", "Local IT Outsource", "$650k–$850k", "TWD/year"]],
         boolean: "(\"QA Engineer\") AND (Postman OR JMeter)",
         okrs: [
@@ -688,9 +761,10 @@
         ]
       },
       role12: {
-        icon: "☁️", label: "12. Senior SRE (Taichung)", value: "Designs and maintains robust Kubernetes (GKE) clusters and CI/CD pipelines.",
+        icon: "☁️", label: "12. Senior SRE (Taichung)", keywords: ["sre", "devops", "kubernetes", "gke", "terraform", "docker", "gcp", "ci/cd", "台中"],
+        value: "Designs and maintains robust Kubernetes (GKE) clusters and CI/CD pipelines.",
         salary: [["T1", "Google Taiwan, Micron", "$1.2M–$1.8M+", "TWD/year"], ["T2", "Johnson Health Tech, HiNet", "$900k–$1.3M", "TWD/year"], ["T3", "Central Taiwan SIs", "$700k–$950k", "TWD/year"]],
-        boolean: "(\"SRE Engineer\") AND (Kubernetes OR GKE) AND (Taichung)",
+        boolean: "(\"SRE Engineer\") AND (Kubernetes OR GKE OR Terraform) AND (GCP) AND (Taichung)",
         okrs: [
           ["Objective 1", "Maximize GKE infrastructure availability. (KR1: 99.99% production uptime; KR2: Automated auto-scaling)."],
           ["Objective 2", "Optimize CI/CD and observability. (KR1: Reduce deployment duration by 25%; KR2: 100% IaC coverage)."],
@@ -698,7 +772,8 @@
         ]
       },
       role13: {
-        icon: "📢", label: "13. Developer Advocate", value: "Drives global developer community growth and adoption of design systems.",
+        icon: "📢", label: "13. Developer Advocate", keywords: ["devrel", "advocate", "community", "technical writing", "design systems", "developer relations"],
+        value: "Drives global developer community growth and adoption of design systems; creates technical content.",
         salary: [["T1", "Vercel, Supabase, Figma", "$120k–$160k+", "USD/year"], ["T2", "Supernova.io, Storybook", "$90k–$120k", "USD/year"], ["T3", "Early Developer Tools", "$65k–$90k", "USD/year"]],
         boolean: "(\"Developer Advocate\") AND (\"Design Systems\")",
         okrs: [
@@ -708,7 +783,8 @@
         ]
       },
       role14: {
-        icon: "📱", label: "14. Android Expert (Remote)", value: "Architect high-availability, modularized Android applications using Kotlin and Jetpack Compose.",
+        icon: "📱", label: "14. Android Expert (Remote)", keywords: ["android", "kotlin", "jetpack compose", "mobile", "mvvm", "coroutines"],
+        value: "Architect high-availability, modularized Android applications using Kotlin and Jetpack Compose.",
         salary: [["T1", "Grab Vietnam, Shopee", "$70k–$100k+", "USD/year"], ["T2", "TMA Solutions, NashTech", "$35k–$60k", "USD/year"], ["T3", "Local VN Outsource", "$20k–$33k", "USD/year"]],
         boolean: "(\"Android Technical Expert\") AND (\"Jetpack Compose\")",
         okrs: [
@@ -718,7 +794,8 @@
         ]
       },
       role15: {
-        icon: "📈", label: "15. C++ Engineer (Securities)", value: "Develops high-speed exchange connectivity and real-time market data parsing.",
+        icon: "📈", label: "15. C++ Engineer (Securities)", keywords: ["c++", "cpp", "socket", "fix protocol", "low latency", "trading", "securities", "證券"],
+        value: "Develops high-speed exchange connectivity and real-time market data parsing.",
         salary: [["T1", "Fubon, KGI, Yuanta", "$900k–$1.5M+", "TWD/year"], ["T2", "SinoPac, Mega Securities", "$600k–$1.0M", "TWD/year"], ["T3", "Smaller Brokerages", "$450k–$700k", "TWD/year"]],
         boolean: "(\"C++ Software Engineer\") AND (Socket OR FIX)",
         okrs: [
@@ -728,7 +805,8 @@
         ]
       },
       role16: {
-        icon: "☕", label: "16. Java Engineer", value: "Architect scalable backend microservices utilizing SpringBoot, Kafka, and K8s.",
+        icon: "☕", label: "16. Java Engineer", keywords: ["java", "spring boot", "kafka", "redis", "microservices", "jvm", "kubernetes"],
+        value: "Architect scalable backend microservices utilizing SpringBoot, Kafka, and K8s.",
         salary: [["T1", "Binance, MEXC, Shopee", "$1.3M–$2.0M+", "TWD/year"], ["T2", "PChome, momo, E.Sun Bank", "$900k–$1.4M", "TWD/year"], ["T3", "Traditional IT Outsource", "$700k–$950k", "TWD/year"]],
         boolean: "(\"Java Engineer\") AND (\"Spring Boot\") AND (Kafka)",
         okrs: [
@@ -838,7 +916,7 @@
 
     // ---- JIRA Kanban, Mock Data & Modal Logic ----
     const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD"];
-    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v9";
+    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v12";
 
     function generateInitialMockData() {
       const firstNames = ["Alex", "David", "Michael", "Sarah", "Jessica", "Kevin", "Brian", "Emily", "Daniel", "Chris", "Ryan", "Amanda", "Jason", "Andrew", "Rachel"];
@@ -1093,132 +1171,156 @@
       });
     }
 
-    // ---- DYNAMIC AI SCREENER ENGINE (Generates Pro Report from User CV Input) ----
+    // ---- DYNAMIC AI SCREENER ENGINE WITH METADATA ----
     function runDynamicAIScore() {
       const cvText = document.getElementById("cv-textarea").value.trim();
       const roleKey = document.getElementById("screener-role-select").value;
       const roleObj = roles[roleKey];
+
+      // 取得上方手動編輯的欄位數值
+      const engFluency = document.getElementById("meta-eng").value;
+      const chiFluency = document.getElementById("meta-chi").value;
+      const currLoc = document.getElementById("meta-loc").value.trim() || "Not Specified";
+      const citizenship = document.getElementById("meta-cit").value.trim() || "Not Specified";
+      const visaSponsorship = document.getElementById("meta-visa").value;
+      const lastSalary = document.getElementById("meta-last-sal").value.trim() || "Not Disclosed";
+      const expSalary = document.getElementById("meta-exp-sal").value.trim() || "Negotiable";
+      const noticePeriod = document.getElementById("meta-notice").value.trim() || "1 Month";
 
       if(!cvText) {
         alert("Please paste candidate CV text first!");
         return;
       }
 
-      // 提取候選人姓名（若有提供）或預設
+      // 1. 智慧提取姓名
       let candidateName = "Candidate Applicant";
-      const firstLine = cvText.split("\n")[0].trim();
-      if(firstLine && firstLine.length < 30) {
-        candidateName = firstLine;
+      const lines = cvText.split("\n");
+      if(lines[0] && lines[0].trim().length < 30) {
+        candidateName = lines[0].trim();
       }
 
-      // 模擬智慧關鍵字對標分析
+      // 2. 關鍵字動態比對計分
       const textLower = cvText.toLowerCase();
-      let matchScore = 72;
+      let matchedCount = 0;
+      if(roleObj.keywords) {
+        roleObj.keywords.forEach(kw => {
+          if(textLower.includes(kw)) matchedCount++;
+        });
+      }
+
+      let score = 45 + (matchedCount * 12) + Math.min(25, Math.floor(cvText.length / 80));
+      score = Math.max(30, Math.min(98, score));
+
       let grade = "B";
-      let action = "Review";
-      let actionColor = "var(--yellow)";
-      let actionBg = "rgba(255,193,33,0.15)";
-      let actionBorder = "rgba(255,193,33,0.3)";
+      let action = "Proceed to Interview";
+      let actionColor = "var(--green)";
+      let actionBg = "rgba(20,217,144,0.15)";
+      let actionBorder = "rgba(20,217,144,0.3)";
 
-      // 依據關鍵字調整分數
-      if(textLower.includes("senior") || textLower.includes("lead") || textLower.includes("architect") || textLower.includes("director")) {
-        matchScore += 15;
-      }
-      if(textLower.includes("react") || textLower.includes("python") || textLower.includes("solidity") || textLower.includes("c++") || textLower.includes("java") || textLower.includes("sap2000") || textLower.includes("plc")) {
-        matchScore += 10;
-      }
-      if(cvText.length < 100) {
-        matchScore = 45;
-      }
-
-      if(matchScore >= 85) {
+      if(score >= 80) {
         grade = "A";
-        action = "Proceed";
-        actionColor = "var(--green)";
-        actionBg = "rgba(20,217,144,0.15)";
-        actionBorder = "rgba(20,217,144,0.3)";
-      } else if(matchScore < 60) {
+        action = "Strong Hire / Fast Track";
+      } else if(score < 60) {
         grade = "C";
-        action = "Reject";
+        action = "Reject / Skill Gap";
         actionColor = "var(--red)";
         actionBg = "rgba(255,77,90,0.15)";
         actionBorder = "rgba(255,77,90,0.3)";
       }
 
-      // 填入 Hero 資訊
+      // 3. 渲染 Hero 區塊與 Metadata 摘要
       document.getElementById("rep-grade").textContent = grade;
       document.getElementById("rep-grade").style.color = actionColor;
       document.getElementById("rep-name").textContent = candidateName;
-      document.getElementById("rep-role-tag").textContent = `${roleObj.label} · AI Precision Matching Matrix`;
-      document.getElementById("rep-overview").textContent = `Dynamic analysis of ${candidateName} against target role "${roleObj.label}". The candidate exhibits relevant professional background and practical execution markers, aligning with core business requirements.`;
-      
+      document.getElementById("rep-role-tag").textContent = `${roleObj.label} · Dynamic AI Match Assessment`;
+      document.getElementById("rep-overview").textContent = `Evaluated candidate "${candidateName}" against target role requirements. Text analysis detected ${matchedCount} matching technical/domain competency markers for this track.`;
+
+      document.getElementById("rep-meta-summary").innerHTML = `
+        📍 <strong>Location:</strong> ${currLoc} | 🛂 <strong>Citizenship:</strong> ${citizenship} | 📋 <strong>Visa Sponsorship:</strong> ${visaSponsorship}<br>
+        🗣️ <strong>English:</strong> ${engFluency} | 🗣️ <strong>Mandarin:</strong> ${chiFluency}<br>
+        💰 <strong>Last Salary:</strong> ${lastSalary} | 💰 <strong>Expected Salary:</strong> ${expSalary} | ⏳ <strong>Notice Period:</strong> ${noticePeriod}
+      `;
+
       const actionBadge = document.getElementById("rep-action-badge");
       actionBadge.textContent = action;
       actionBadge.style.color = actionColor;
       actionBadge.style.background = actionBg;
       actionBadge.style.border = `1px solid ${actionBorder}`;
 
-      document.getElementById("rep-score-num").innerHTML = `${matchScore}<span style="font-size:11px">/100</span>`;
+      document.getElementById("rep-score-num").innerHTML = `${score}<span style="font-size:11px">/100</span>`;
 
-      // 動態產生技術與業務能力分數條
-      const leftDims = [
-        { label: "Core Technical Stack", score: Math.min(10, Math.max(3, Math.round(matchScore / 10))) },
-        { label: "Domain Experience", score: Math.min(10, Math.max(3, Math.round((matchScore - 5) / 10))) },
-        { label: "System Architecture / Design", score: Math.min(10, Math.max(2, Math.round((matchScore - 8) / 10))) },
-        { label: "Execution & Tooling", score: Math.min(10, Math.max(4, Math.round(matchScore / 10))) }
-      ];
+      // 4. 動態能力分數條
+      const s1 = Math.min(10, Math.max(3, Math.round(score / 10)));
+      const s2 = Math.min(10, Math.max(2, Math.round((score - 6) / 10)));
+      const s3 = Math.min(10, Math.max(4, Math.round((score - 4) / 10)));
+      const s4 = Math.min(10, Math.max(3, Math.round(score / 10)));
+      const s5 = Math.min(10, Math.max(4, Math.round((score - 2) / 10)));
 
-      document.getElementById("dim-left-container").innerHTML = leftDims.map(d => `
+      document.getElementById("dim-left-container").innerHTML = `
         <div class="score-bar-row">
-          <div class="score-bar-label">${d.label}</div>
-          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${d.score * 10}%; background: ${d.score >= 7 ? 'var(--green)' : d.score >= 5 ? 'var(--yellow)' : 'var(--red)'};"></div></div>
-          <div class="score-bar-val" style="color: ${d.score >= 7 ? 'var(--green)' : d.score >= 5 ? 'var(--yellow)' : 'var(--red)'};">${d.score}/10</div>
+          <div class="score-bar-label">Core Technical Stack Match</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s1 * 10}%; background: ${s1 >= 7 ? 'var(--green)' : s1 >= 5 ? 'var(--yellow)' : 'var(--red)'};"></div></div>
+          <div class="score-bar-val" style="color: ${s1 >= 7 ? 'var(--green)' : s1 >= 5 ? 'var(--yellow)' : 'var(--red)'};">${s1}/10</div>
         </div>
-      `).join("");
-
-      // 動態產生軟技能能力分數條
-      const rightDims = [
-        { label: "0-to-1 Builder Evidence", score: 7 },
-        { label: "Cross-functional Fluency", score: 8 },
-        { label: "Ownership and Proactivity", score: 8 },
-        { label: "Communication & Leadership", score: 7 }
-      ];
-
-      document.getElementById("dim-right-container").innerHTML = rightDims.map(d => `
         <div class="score-bar-row">
-          <div class="score-bar-label">${d.label}</div>
-          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${d.score * 10}%; background: var(--yellow);"></div></div>
-          <div class="score-bar-val" style="color: var(--yellow);">${d.score}/10</div>
+          <div class="score-bar-label">Domain Professionalism & Tools</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s2 * 10}%; background: ${s2 >= 7 ? 'var(--green)' : s2 >= 5 ? 'var(--yellow)' : 'var(--orange)'};"></div></div>
+          <div class="score-bar-val" style="color: ${s2 >= 7 ? 'var(--green)' : s2 >= 5 ? 'var(--yellow)' : 'var(--orange)'};">${s2}/10</div>
         </div>
-      `).join("");
-
-      // 動態亮點與風險
-      document.getElementById("rep-highlights").innerHTML = `
-        <div class="screener-flag-item green"><span>✅</span> Demonstrated hands-on project exposure matching key requirements for ${roleObj.label}.</div>
-        <div class="screener-flag-item green"><span>✅</span> Solid foundational background in required frameworks and engineering workflows.</div>
+        <div class="score-bar-row">
+          <div class="score-bar-label">System Architecture & Stability</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s3 * 10}%; background: ${s3 >= 7 ? 'var(--green)' : 'var(--yellow)'};"></div></div>
+          <div class="score-bar-val" style="color: ${s3 >= 7 ? 'var(--green)' : 'var(--yellow)'};">${s3}/10</div>
+        </div>
       `;
 
-      document.getElementById("rep-risks").innerHTML = `
-        <div class="screener-flag-item red"><span>🚫</span> Requires deeper validation on large-scale production scaling metrics during interview.</div>
-        <div class="screener-flag-item red" style="border-color: var(--yellow); background: rgba(255,193,33,0.06); color: var(--yellow);"><span>⚠️</span> Salary expectations and notice period need to be verified against budget.</div>
+      document.getElementById("dim-right-container").innerHTML = `
+        <div class="score-bar-row">
+          <div class="score-bar-label">0-to-1 Builder Evidence</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s4 * 10}%; background: var(--yellow);"></div></div>
+          <div class="score-bar-val" style="color: var(--yellow);">${s4}/10</div>
+        </div>
+        <div class="score-bar-row">
+          <div class="score-bar-label">Cross-functional Collaboration</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s5 * 10}%; background: var(--green);"></div></div>
+          <div class="score-bar-val" style="color: var(--green);">${s5}/10</div>
+        </div>
+        <div class="score-bar-row">
+          <div class="score-bar-label">Language Fluency (Eng/Chi)</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width: 90%; background: var(--green);"></div></div>
+          <div class="score-bar-val" style="color: var(--green);">9/10</div>
+        </div>
       `;
 
-      // 動態面試追問
+      // 5. 動態亮點與風險信號
+      let highlightHTML = `<div class="screener-flag-item green"><span>✅</span> Language proficiency verified: English (${engFluency}), Mandarin (${chiFluency}).</div>`;
+      let riskHTML = `<div class="screener-flag-item red"><span>🚫</span> Notice period is set to ${noticePeriod}; verify team onboarding schedule.</div>`;
+
+      if(visaSponsorship === "Yes") {
+        riskHTML += `<div class="screener-flag-item red" style="border-color: var(--yellow); background: rgba(255,193,33,0.06); color: var(--yellow);"><span>⚠️</span> Requires Work Visa sponsorship for Taiwan.</div>`;
+      } else {
+        highlightHTML += `<div class="screener-flag-item green"><span>✅</span> Local candidate / Citizenship verified (${citizenship}); zero visa sponsorship required.</div>`;
+      }
+
+      document.getElementById("rep-highlights").innerHTML = highlightHTML;
+      document.getElementById("rep-risks").innerHTML = riskHTML;
+
+      // 6. 動態面試追問
       document.getElementById("rep-questions").innerHTML = `
-        <div class="q-box"><div class="q-num">Q1</div><div style="color:var(--text)">Can you elaborate on your most complex project implementation related to ${roleObj.label} and how you handled critical bottlenecks?</div></div>
-        <div class="q-box"><div class="q-num">Q2</div><div style="color:var(--text)">How do you ensure code quality, system stability, and cross-team alignment under tight delivery deadlines?</div></div>
-        <div class="q-box"><div class="q-num">Q3</div><div style="color:var(--text)">What is your familiarity with the specific tools and standards (e.g., CI/CD, testing, compliance) required for this role?</div></div>
+        <div class="q-box"><div class="q-num">Q1</div><div style="color:var(--text)">Based on your expectation of ${expSalary}, can you discuss your core value proposition for ${roleObj.label}?</div></div>
+        <div class="q-box"><div class="q-num">Q2</div><div style="color:var(--text)">Given your notice period of ${noticePeriod}, how can we best plan your transition and onboarding timeline?</div></div>
+        <div class="q-box"><div class="q-num">Q3</div><div style="color:var(--text)">Can you walk us through a complex milestone or project you delivered under tight constraints?</div></div>
       `;
 
-      // 風險評估矩陣
+      // 7. 風險評估矩陣
       document.getElementById("rep-risk-matrix").innerHTML = `
-        <tr><td style="font-weight:700; width: 220px;">Early Exit Risk</td><td>Stable tenure history indicated in resume.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
-        <tr><td style="font-weight:700;">Culture Mismatch Risk</td><td>Aligns well with fast-paced engineering and product expectations.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
-        <tr><td style="font-weight:700;">Skill Gap Risk</td><td>Minor gaps in niche domain tools, correctable via onboarding.</td><td style="text-align: right; font-weight: 800; color: var(--yellow);">Medium</td></tr>
-        <tr><td style="font-weight:700;">Overqualification Risk</td><td>Appropriately leveled for the target position.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
+        <tr><td style="font-weight:700; width: 220px;">Visa Sponsorship Risk</td><td>Requires Taiwan work visa: ${visaSponsorship}.</td><td style="text-align: right; font-weight: 800; color: ${visaSponsorship === 'Yes' ? 'var(--orange)' : 'var(--green)'};">${visaSponsorship === 'Yes' ? 'Medium' : 'Low'}</td></tr>
+        <tr><td style="font-weight:700;">Early Exit Risk</td><td>Stable career trajectory observed in CV.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
+        <tr><td style="font-weight:700;">Salary Expectation Risk</td><td>Targeting ${expSalary} vs last drawn ${lastSalary}.</td><td style="text-align: right; font-weight: 800; color: var(--yellow);">Medium</td></tr>
+        <tr><td style="font-weight:700;">Skill Gap Risk</td><td>${matchedCount >= 3 ? 'Minor domain gaps, easily bridgeable via onboarding.' : 'Notable gap in specific stack requirements.'}</td><td style="text-align: right; font-weight: 800; color: ${matchedCount >= 3 ? 'var(--yellow)' : 'var(--red)'};">${matchedCount >= 3 ? 'Medium' : 'High'}</td></tr>
       `;
 
-      // 顯示結果區塊並平滑滾動過去
+      // 8. 顯示結果並平滑滾動
       const resultBox = document.getElementById("score-result");
       resultBox.style.display = "block";
       resultBox.scrollIntoView({ behavior: 'smooth' });
