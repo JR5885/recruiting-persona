@@ -364,6 +364,17 @@
     .meta-field select, .meta-field input {
       background: var(--panel-soft); border: 1px solid var(--line); border-radius: 6px; padding: 9px 12px; color: var(--text); font-size: 12px; outline: none;
     }
+
+    /* Print / PDF Styles */
+    @media print {
+      body { background: #ffffff !important; color: #000000 !important; }
+      .topbar, .dc-tab-container, .pipeline-controls, .panel:has(#cv-textarea), .modal-overlay, .eyebrow, h1, .subtitle { display: none !important; }
+      #score-result { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      .panel { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #000000 !important; box-shadow: none !important; }
+      .screener-hero-card { background: #f1f5f9 !important; border: 1px solid #cbd5e1 !important; color: #000 !important; }
+      .panel-title { color: #1e293b !important; border-bottom: 2px solid #cbd5e1 !important; }
+      .score-bar-label, .screener-flag-item, .q-box, .risk-table td { color: #1e293b !important; }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -565,6 +576,13 @@
       <!-- PRO ASSESSMENT REPORT CONTAINER -->
       <div id="score-result" style="display:none;">
         
+        <!-- 🖨️ Print / Export PDF Action Bar -->
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;" class="print-hide">
+          <button onclick="window.print()" class="rs-btn" style="background: var(--yellow); color: #000; font-weight: 900; display: inline-flex; align-items: center; gap: 6px;">
+            🖨️ Print / Save AI Score Report PDF
+          </button>
+        </div>
+
         <!-- Hero Header Card -->
         <div class="screener-hero-card">
           <div style="display:flex; align-items:center; gap:16px;">
@@ -959,7 +977,7 @@
 
     // ---- JIRA Kanban, Mock Data & Modal Logic ----
     const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD"];
-    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v14";
+    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v15";
 
     function generateInitialMockData() {
       const firstNames = ["Alex", "David", "Michael", "Sarah", "Jessica", "Kevin", "Brian", "Emily", "Daniel", "Chris", "Ryan", "Amanda", "Jason", "Andrew", "Rachel"];
@@ -1299,10 +1317,9 @@
 
       document.getElementById("rep-score-num").innerHTML = `${score}<span style="font-size:11px">/100</span>`;
 
-      // 獨立計算能力條分數 (3 - 10 pt)
       const s1 = Math.min(10, Math.max(3, Math.round(score / 10)));
-      const s2 = Math.min(10, Math.max(2, Math.round((score - 10) / 10)));
-      const s3 = Math.min(10, Math.max(4, Math.round((score - 5) / 10)));
+      const s2 = Math.min(10, Math.max(2, Math.round((score - 8) / 10)));
+      const s3 = Math.min(10, Math.max(4, Math.round((score - 4) / 10)));
       const s4 = Math.min(10, Math.max(3, Math.round((charSum % 5) + 4)));
       const s5 = Math.min(10, Math.max(4, Math.round((score - 8) / 10)));
 
