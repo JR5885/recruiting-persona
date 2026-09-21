@@ -876,17 +876,20 @@
     let currentRole = "role1";
 
     function renderTabs() {
-      document.getElementById("tabs").innerHTML = Object.entries(roles).map(([key, role]) => `
-        <button class="tab ${key === currentRole ? "active" : ""}" type="button" onclick="selectRole('${key}')">
-          ${role.icon} ${role.label}
-        </button>
-      `).join("");
+      const tabsEl = document.getElementById("tabs");
+      if(tabsEl) {
+        tabsEl.innerHTML = Object.entries(roles).map(([key, role]) => `
+          <button class="tab ${key === currentRole ? "active" : ""}" type="button" onclick="selectRole('${key}')">
+            ${role.icon} ${role.label}
+          </button>
+        `).join("");
+      }
     }
 
     function populateScreenerRoleDropdown() {
       const select = document.getElementById("screener-role-select");
       if (!select) return;
-      select.innerHTML = Object.entries(roles).map(([key, role]) => `
+      select.innerHTML = Object.entries(roles).map(([key, role] ) => `
         <option value="${key}">${role.icon} ${role.label}</option>
       `).join("");
     }
@@ -903,39 +906,54 @@
 
     function populateModalDropdowns() {
       const roleSelect = document.getElementById("modal-role");
-      roleSelect.innerHTML = Object.entries(roles).map(([key, role]) => `
-        <option value="${key}">${role.label}</option>
-      `).join("");
+      if(roleSelect) {
+        roleSelect.innerHTML = Object.entries(roles).map(([key, role]) => `
+          <option value="${key}">${role.label}</option>
+        `).join("");
+      }
 
       const stageSelect = document.getElementById("modal-stage");
-      stageSelect.innerHTML = PIPELINE_STAGES.map(st => `
-        <option value="${st}">${st}</option>
-      `).join("");
+      if(stageSelect) {
+        stageSelect.innerHTML = PIPELINE_STAGES.map(st => `
+          <option value="${st}">${st}</option>
+        `).join("");
+      }
     }
 
     function renderRole() {
       const role = roles[currentRole];
-      document.getElementById("valueText").textContent = role.value;
-      document.getElementById("booleanText").textContent = role.boolean;
-      document.getElementById("valuationText").textContent = "Scoring weight: Multi-dimensional evaluation based on core business value and technical stack.";
-      document.getElementById("salaryRows").innerHTML = role.salary.map(([tier, company, money, note]) => `
-        <tr>
-          <td><span class="tier ${tier.toLowerCase()}">${tier}</span></td>
-          <td>${company}</td>
-          <td class="money">${money}</td>
-          <td>${note}</td>
-        </tr>
-      `).join("");
+      if(!role) return;
+      const valText = document.getElementById("valueText");
+      if(valText) valText.textContent = role.value;
+      const boolText = document.getElementById("booleanText");
+      if(boolText) boolText.textContent = role.boolean;
+      const valBox = document.getElementById("valuationText");
+      if(valBox) valBox.textContent = "Scoring weight: Multi-dimensional evaluation based on core business value and technical stack.";
+      
+      const salaryRows = document.getElementById("salaryRows");
+      if(salaryRows && role.salary) {
+        salaryRows.innerHTML = role.salary.map(([tier, company, money, note]) => `
+          <tr>
+            <td><span class="tier ${tier.toLowerCase()}">${tier}</span></td>
+            <td>${company}</td>
+            <td class="money">${money}</td>
+            <td>${note}</td>
+          </tr>
+        `).join("");
+      }
 
-      document.getElementById("okrList").innerHTML = role.okrs.map(([title, kr], index) => `
-        <div class="okr-item">
-          <div class="okr-index">0${index + 1}</div>
-          <div>
-            <div class="okr-title">${title}</div>
-            <div class="okr-kr">${kr}</div>
+      const okrList = document.getElementById("okrList");
+      if(okrList && role.okrs) {
+        okrList.innerHTML = role.okrs.map(([title, kr], index) => `
+          <div class="okr-item">
+            <div class="okr-index">0${index + 1}</div>
+            <div>
+              <div class="okr-title">${title}</div>
+              <div class="okr-kr">${kr}</div>
+            </div>
           </div>
-        </div>
-      `).join("");
+        `).join("");
+      }
     }
 
     function selectRole(key) {
@@ -945,38 +963,47 @@
     }
 
     function switchDcView(viewName) {
-      document.getElementById("raw-view").style.display = "none";
-      document.getElementById("dc-pipeline-view").style.display = "none";
-      document.getElementById("dc-charts-view").style.display = "none";
-      document.getElementById("dc-score-view").style.display = "none";
-      document.getElementById("dc-rubric-view").style.display = "none";
+      ['raw', 'dc-pipeline-view', 'dc-charts-view', 'dc-score-view', 'dc-rubric-view'].forEach(id => {
+        const el = document.getElementById(id === 'raw' ? 'raw-view' : id);
+        if(el) el.style.display = "none";
+      });
       document.querySelectorAll(".dc-tab-btn").forEach(b => b.classList.remove("active"));
 
       if (viewName === "pipeline") {
-        document.getElementById("dc-pipeline-view").style.display = "block";
-        document.getElementById("btn-pipeline").classList.add("active");
+        const pView = document.getElementById("dc-pipeline-view");
+        if(pView) pView.style.display = "block";
+        const btn = document.getElementById("btn-pipeline");
+        if(btn) btn.classList.add("active");
         populateFilterRoleDropdown();
         generateJiraPipelineData();
       } else if (viewName === "charts") {
-        document.getElementById("dc-charts-view").style.display = "block";
-        document.getElementById("btn-charts").classList.add("active");
+        const cView = document.getElementById("dc-charts-view");
+        if(cView) cView.style.display = "block";
+        const btn = document.getElementById("btn-charts");
+        if(btn) btn.classList.add("active");
         renderAllCharts();
       } else if (viewName === "score") {
-        document.getElementById("dc-score-view").style.display = "block";
-        document.getElementById("btn-score").classList.add("active");
+        const sView = document.getElementById("dc-score-view");
+        if(sView) sView.style.display = "block";
+        const btn = document.getElementById("btn-score");
+        if(btn) btn.classList.add("active");
         populateScreenerRoleDropdown();
       } else if (viewName === "rubric") {
-        document.getElementById("dc-rubric-view").style.display = "block";
-        document.getElementById("btn-rubric").classList.add("active");
+        const rView = document.getElementById("dc-rubric-view");
+        if(rView) rView.style.display = "block";
+        const btn = document.getElementById("btn-rubric");
+        if(btn) btn.classList.add("active");
       } else {
-        document.getElementById("raw-view").style.display = "block";
-        document.getElementById("btn-raw").classList.add("active");
+        const rView = document.getElementById("raw-view");
+        if(rView) rView.style.display = "block";
+        const btn = document.getElementById("btn-raw");
+        if(btn) btn.classList.add("active");
       }
     }
 
     // ---- JIRA Kanban, Mock Data & Modal Logic ----
     const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD"];
-    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v18";
+    const LI_STORAGE_KEY = "dc_jira_pipeline_candidates_en_v19";
 
     function generateInitialMockData() {
       const firstNames = ["Alex", "David", "Michael", "Sarah", "Jessica", "Kevin", "Brian", "Emily", "Daniel", "Chris", "Ryan", "Amanda", "Jason", "Andrew", "Rachel"];
@@ -1022,13 +1049,19 @@
     }
 
     function openAddModal() {
-      document.getElementById("modal-title").textContent = "Add New Candidate";
-      document.getElementById("edit-candidate-id").value = "";
-      document.getElementById("modal-name").value = "";
-      document.getElementById("modal-url").value = "";
-      document.getElementById("modal-score").value = "8";
+      const modalTitle = document.getElementById("modal-title");
+      if(modalTitle) modalTitle.textContent = "Add New Candidate";
+      const editId = document.getElementById("edit-candidate-id");
+      if(editId) editId.value = "";
+      const mName = document.getElementById("modal-name");
+      if(mName) mName.value = "";
+      const mUrl = document.getElementById("modal-url");
+      if(mUrl) mUrl.value = "";
+      const mScore = document.getElementById("modal-score");
+      if(mScore) mScore.value = "8";
       populateModalDropdowns();
-      document.getElementById("candidate-modal").style.display = "flex";
+      const modal = document.getElementById("candidate-modal");
+      if(modal) modal.style.display = "flex";
     }
 
     function openEditModal(roleKey, candidateId) {
@@ -1037,28 +1070,45 @@
       const cand = list.find(c => c.id === candidateId);
       if (!cand) return;
 
-      document.getElementById("modal-title").textContent = "Edit Candidate";
-      document.getElementById("edit-candidate-id").value = candidateId;
+      const modalTitle = document.getElementById("modal-title");
+      if(modalTitle) modalTitle.textContent = "Edit Candidate";
+      const editId = document.getElementById("edit-candidate-id");
+      if(editId) editId.value = candidateId;
       populateModalDropdowns();
-      document.getElementById("modal-role").value = roleKey;
-      document.getElementById("modal-name").value = cand.name;
-      document.getElementById("modal-url").value = cand.url || "";
-      document.getElementById("modal-score").value = cand.score || 7;
-      document.getElementById("modal-stage").value = cand.status;
-      document.getElementById("candidate-modal").style.display = "flex";
+      const mRole = document.getElementById("modal-role");
+      if(mRole) mRole.value = roleKey;
+      const mName = document.getElementById("modal-name");
+      if(mName) mName.value = cand.name;
+      const mUrl = document.getElementById("modal-url");
+      if(mUrl) mUrl.value = cand.url || "";
+      const mScore = document.getElementById("modal-score");
+      if(mScore) mScore.value = cand.score || 7;
+      const mStage = document.getElementById("modal-stage");
+      if(mStage) mStage.value = cand.status;
+      const modal = document.getElementById("candidate-modal");
+      if(modal) modal.style.display = "flex";
     }
 
     function closeModal() {
-      document.getElementById("candidate-modal").style.display = "none";
+      const modal = document.getElementById("candidate-modal");
+      if(modal) modal.style.display = "none";
     }
 
     function saveCandidateModal() {
-      const editId = document.getElementById("edit-candidate-id").value;
-      const roleKey = document.getElementById("modal-role").value;
-      const name = document.getElementById("modal-name").value.trim();
-      const url = document.getElementById("modal-url").value.trim() || "#";
-      const score = parseInt(document.getElementById("modal-score").value, 10) || 7;
-      const status = document.getElementById("modal-stage").value;
+      const editIdEl = document.getElementById("edit-candidate-id");
+      const roleKeyEl = document.getElementById("modal-role");
+      const nameEl = document.getElementById("modal-name");
+      const urlEl = document.getElementById("modal-url");
+      const scoreEl = document.getElementById("modal-score");
+      const statusEl = document.getElementById("modal-stage");
+
+      if(!nameEl || !roleKeyEl) return;
+      const editId = editIdEl ? editIdEl.value : "";
+      const roleKey = roleKeyEl.value;
+      const name = nameEl.value.trim();
+      const url = urlEl ? urlEl.value.trim() || "#" : "#";
+      const score = scoreEl ? parseInt(scoreEl.value, 10) || 7 : 7;
+      const status = statusEl ? statusEl.value : PIPELINE_STAGES[0];
 
       if (!name) {
         alert("Please enter candidate name!");
@@ -1100,7 +1150,8 @@
 
     function generateJiraPipelineData() {
       const data = loadCandidates();
-      const selectedFilter = document.getElementById("pipeline-role-filter") ? document.getElementById("pipeline-role-filter").value : "all";
+      const filterEl = document.getElementById("pipeline-role-filter");
+      const selectedFilter = filterEl ? filterEl.value : "all";
 
       let allCandidates = [];
       Object.entries(data).forEach(([roleKey, list]) => {
@@ -1117,12 +1168,14 @@
     }
 
     function renderJiraStats(candidates) {
+      const statsEl = document.getElementById("dc-pipeline-stats");
+      if(!statsEl) return;
       const total = candidates.length;
       const lowScore = candidates.filter(c => c.score < 5).length;
       const midScore = candidates.filter(c => c.score >= 5 && c.score <= 7).length;
       const progress = total ? Math.round((candidates.filter(c => c.status !== "REACHOUT").length / total) * 100) : 0;
 
-      document.getElementById("dc-pipeline-stats").innerHTML = `
+      statsEl.innerHTML = `
         <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--cyan);">📦 Total Pool: ${total}</div>
         <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--red);">⚠️ Low Score: ${lowScore}</div>
         <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid var(--yellow);">⚡ Mid Score: ${midScore}</div>
@@ -1132,7 +1185,9 @@
 
     function renderJiraKanban(candidates) {
       const board = document.getElementById("dc-kanban-board");
-      const selectedFilter = document.getElementById("pipeline-role-filter") ? document.getElementById("pipeline-role-filter").value : "all";
+      if(!board) return;
+      const filterEl = document.getElementById("pipeline-role-filter");
+      const selectedFilter = filterEl ? filterEl.value : "all";
       const data = loadCandidates();
 
       board.innerHTML = PIPELINE_STAGES.map((stage, sIdx) => {
@@ -1181,57 +1236,63 @@
     let bubbleChartInstance = null;
 
     function renderAllCharts() {
-      const ctxLine = document.getElementById('lineChart').getContext('2d');
-      if (lineChartInstance) lineChartInstance.destroy();
-      lineChartInstance = new Chart(ctxLine, {
-        type: 'line',
-        data: {
-          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Current'],
-          datasets: [
-            { label: 'Reachout', data: [120, 150, 180, 210, 245], borderColor: '#2f81f7', tension: 0.3 },
-            { label: '1st Interview', data: [40, 55, 70, 85, 110], borderColor: '#ffc121', tension: 0.3 },
-            { label: 'Offer', data: [5, 8, 12, 16, 24], borderColor: '#14d990', tension: 0.3 }
-          ]
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#d8e6ff', font: { size: 10 } } } } }
-      });
+      const ctxLine = document.getElementById('lineChart');
+      if(ctxLine) {
+        if (lineChartInstance) lineChartInstance.destroy();
+        lineChartInstance = new Chart(ctxLine.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Current'],
+            datasets: [
+              { label: 'Reachout', data: [120, 150, 180, 210, 245], borderColor: '#2f81f7', tension: 0.3 },
+              { label: '1st Interview', data: [40, 55, 70, 85, 110], borderColor: '#ffc121', tension: 0.3 },
+              { label: 'Offer', data: [5, 8, 12, 16, 24], borderColor: '#14d990', tension: 0.3 }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#d8e6ff', font: { size: 10 } } } } }
+        });
+      }
 
-      const ctxPie = document.getElementById('pieChart').getContext('2d');
-      if (pieChartInstance) pieChartInstance.destroy();
-      pieChartInstance = new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-          labels: ['LinkedIn', 'X (Twitter)', 'GitHub Sourcing', 'Referrals', 'Direct Apply'],
-          datasets: [{
-            data: [45, 20, 15, 12, 8],
-            backgroundColor: ['#2f81f7', '#ffc121', '#14d990', '#a97aff', '#ff4d66']
-          }]
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#d8e6ff', font: { size: 10 } } } } }
-      });
+      const ctxPie = document.getElementById('pieChart');
+      if(ctxPie) {
+        if (pieChartInstance) pieChartInstance.destroy();
+        pieChartInstance = new Chart(ctxPie.getContext('2d'), {
+          type: 'pie',
+          data: {
+            labels: ['LinkedIn', 'X (Twitter)', 'GitHub Sourcing', 'Referrals', 'Direct Apply'],
+            datasets: [{
+              data: [45, 20, 15, 12, 8],
+              backgroundColor: ['#2f81f7', '#ffc121', '#14d990', '#a97aff', '#ff4d66']
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#d8e6ff', font: { size: 10 } } } } }
+        });
+      }
 
-      const ctxBubble = document.getElementById('bubbleChart').getContext('2d');
-      if (bubbleChartInstance) bubbleChartInstance.destroy();
-      bubbleChartInstance = new Chart(ctxBubble, {
-        type: 'bubble',
-        data: {
-          datasets: [{
-            label: 'Candidate Pool Matrix',
-            data: [
-              { x: 5, y: 120, r: 12 },
-              { x: 8, y: 160, r: 18 },
-              { x: 3, y: 90, r: 8 },
-              { x: 10, y: 210, r: 22 },
-              { x: 6, y: 140, r: 15 }
-            ],
-            backgroundColor: 'rgba(0, 224, 184, 0.6)'
-          }]
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#d8e6ff', font: { size: 10 } } } } }
-      });
+      const ctxBubble = document.getElementById('bubbleChart');
+      if(ctxBubble) {
+        if (bubbleChartInstance) bubbleChartInstance.destroy();
+        bubbleChartInstance = new Chart(ctxBubble.getContext('2d'), {
+          type: 'bubble',
+          data: {
+            datasets: [{
+              label: 'Candidate Pool Matrix',
+              data: [
+                { x: 5, y: 120, r: 12 },
+                { x: 8, y: 160, r: 18 },
+                { x: 3, y: 90, r: 8 },
+                { x: 10, y: 210, r: 22 },
+                { x: 6, y: 140, r: 15 }
+              ],
+              backgroundColor: 'rgba(0, 224, 184, 0.6)'
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#d8e6ff', font: { size: 10 } } } } }
+        });
+      }
     }
 
-    // ---- PRO AI SCREENER ENGINE (WITH SAFE TEXT SANITIZATION) ----
+    // ---- PRO AI SCREENER ENGINE (SAFE & ROBUST) ----
     function runDynamicAIScore() {
       try {
         const cvTextEl = document.getElementById("cv-textarea");
@@ -1251,14 +1312,14 @@
           return;
         }
 
-        const engFluency = document.getElementById("meta-eng").value;
-        const chiFluency = document.getElementById("meta-chi").value;
-        const currLoc = document.getElementById("meta-loc").value.trim() || "Taipei, Taiwan";
-        const citizenship = document.getElementById("meta-cit").value.trim() || "Taiwan";
-        const visaSponsorship = document.getElementById("meta-visa").value;
-        const lastSalary = document.getElementById("meta-last-sal").value.trim() || "Not Disclosed";
-        const expSalary = document.getElementById("meta-exp-sal").value.trim() || "Negotiable";
-        const noticePeriod = document.getElementById("meta-notice").value.trim() || "1 Month";
+        const engFluency = document.getElementById("meta-eng") ? document.getElementById("meta-eng").value : "Good";
+        const chiFluency = document.getElementById("meta-chi") ? document.getElementById("meta-chi").value : "Excellent";
+        const currLoc = document.getElementById("meta-loc") ? document.getElementById("meta-loc").value.trim() || "Taipei, Taiwan" : "Taipei, Taiwan";
+        const citizenship = document.getElementById("meta-cit") ? document.getElementById("meta-cit").value.trim() || "Taiwan" : "Taiwan";
+        const visaSponsorship = document.getElementById("meta-visa") ? document.getElementById("meta-visa").value : "No";
+        const lastSalary = document.getElementById("meta-last-sal") ? document.getElementById("meta-last-sal").value.trim() || "Not Disclosed" : "Not Disclosed";
+        const expSalary = document.getElementById("meta-exp-sal") ? document.getElementById("meta-exp-sal").value.trim() || "Negotiable" : "Negotiable";
+        const noticePeriod = document.getElementById("meta-notice") ? document.getElementById("meta-notice").value.trim() || "1 Month" : "1 Month";
 
         let candidateName = "Candidate Applicant";
         const lines = cvText.split("\n");
@@ -1304,25 +1365,37 @@
           actionBorder = "rgba(255,77,90,0.3)";
         }
 
-        document.getElementById("rep-grade").textContent = grade;
-        document.getElementById("rep-grade").style.color = actionColor;
-        document.getElementById("rep-name").textContent = candidateName;
-        document.getElementById("rep-role-tag").textContent = `${roleObj.label} · Pro AI Match Assessment`;
-        document.getElementById("rep-overview").textContent = `Evaluated candidate "${candidateName}" against target role requirements. Text scan matched specific domain keywords: [${matchedKeywords.join(', ') || 'General Profile'}].`;
+        const repGrade = document.getElementById("rep-grade");
+        if(repGrade) {
+          repGrade.textContent = grade;
+          repGrade.style.color = actionColor;
+        }
+        const repName = document.getElementById("rep-name");
+        if(repName) repName.textContent = candidateName;
+        const repRoleTag = document.getElementById("rep-role-tag");
+        if(repRoleTag && roleObj) repRoleTag.textContent = `${roleObj.label} · Pro AI Match Assessment`;
+        const repOverview = document.getElementById("rep-overview");
+        if(repOverview && roleObj) repOverview.textContent = `Evaluated candidate "${candidateName}" against target role requirements. Text scan matched specific domain keywords: [${matchedKeywords.join(', ') || 'General Profile'}].`;
 
-        document.getElementById("rep-meta-summary").innerHTML = `
-          📍 <strong>Location:</strong> ${currLoc} | 🛂 <strong>Citizenship:</strong> ${citizenship} | 📋 <strong>Visa Sponsorship:</strong> ${visaSponsorship}<br>
-          🗣️ <strong>English:</strong> ${engFluency} | 🗣️ <strong>Mandarin:</strong> ${chiFluency}<br>
-          💰 <strong>Last Salary:</strong> ${lastSalary} | 💰 <strong>Expected Salary:</strong> ${expSalary} | ⏳ <strong>Notice Period:</strong> ${noticePeriod}
-        `;
+        const repMeta = document.getElementById("rep-meta-summary");
+        if(repMeta) {
+          repMeta.innerHTML = `
+            📍 <strong>Location:</strong> ${currLoc} | 🛂 <strong>Citizenship:</strong> ${citizenship} | 📋 <strong>Visa Sponsorship:</strong> ${visaSponsorship}<br>
+            🗣️ <strong>English:</strong> ${engFluency} | 🗣️ <strong>Mandarin:</strong> ${chiFluency}<br>
+            💰 <strong>Last Salary:</strong> ${lastSalary} | 💰 <strong>Expected Salary:</strong> ${expSalary} | ⏳ <strong>Notice Period:</strong> ${noticePeriod}
+          `;
+        }
 
         const actionBadge = document.getElementById("rep-action-badge");
-        actionBadge.textContent = action;
-        actionBadge.style.color = actionColor;
-        actionBadge.style.background = actionBg;
-        actionBadge.style.border = `1px solid ${actionBorder}`;
+        if(actionBadge) {
+          actionBadge.textContent = action;
+          actionBadge.style.color = actionColor;
+          actionBadge.style.background = actionBg;
+          actionBadge.style.border = `1px solid ${actionBorder}`;
+        }
 
-        document.getElementById("rep-score-num").innerHTML = `${score}<span style="font-size:11px">/100</span>`;
+        const scoreNum = document.getElementById("rep-score-num");
+        if(scoreNum) scoreNum.innerHTML = `${score}<span style="font-size:11px">/100</span>`;
 
         const s1 = Math.min(10, Math.max(3, Math.round(score / 10)));
         const s2 = Math.min(10, Math.max(2, Math.round((score - 8) / 10)));
@@ -1330,76 +1403,94 @@
         const s4 = Math.min(10, Math.max(3, Math.round((charSum % 5) + 4)));
         const s5 = Math.min(10, Math.max(4, Math.round((score - 8) / 10)));
 
-        document.getElementById("dim-left-container").innerHTML = `
-          <div class="score-bar-row">
-            <div class="score-bar-label">Core Stack Match: [${matchedKeywords.slice(0,3).join(', ') || 'Basic Stack'}]</div>
-            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s1 * 10}%; background: ${s1 >= 7 ? 'var(--green)' : 'var(--yellow)'};"></div></div>
-            <div class="score-bar-val" style="color: ${s1 >= 7 ? 'var(--green)' : s1 >= 5 ? 'var(--yellow)' : 'var(--red)'};">${s1}/10</div>
-          </div>
-          <div class="score-bar-row">
-            <div class="score-bar-label">Domain Professionalism</div>
-            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s2 * 10}%; background: ${s2 >= 7 ? 'var(--green)' : 'var(--orange)'};"></div></div>
-            <div class="score-bar-val" style="color: ${s2 >= 7 ? 'var(--green)' : 'var(--orange)'};">${s2}/10</div>
-          </div>
-          <div class="score-bar-row">
-            <div class="score-bar-label">System Architecture & Stability</div>
-            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s3 * 10}%; background: var(--green);"></div></div>
-            <div class="score-bar-val" style="color: var(--green);">${s3}/10</div>
-          </div>
-        `;
+        const dimLeft = document.getElementById("dim-left-container");
+        if(dimLeft && roleObj) {
+          dimLeft.innerHTML = `
+            <div class="score-bar-row">
+              <div class="score-bar-label">Core Stack Match: [${matchedKeywords.slice(0,3).join(', ') || 'Basic Stack'}]</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s1 * 10}%; background: ${s1 >= 7 ? 'var(--green)' : 'var(--yellow)'};"></div></div>
+              <div class="score-bar-val" style="color: ${s1 >= 7 ? 'var(--green)' : 'var(--yellow)'};">${s1}/10</div>
+            </div>
+            <div class="score-bar-row">
+              <div class="score-bar-label">Domain Professionalism (${roleObj.label.slice(3, 15)})</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s2 * 10}%; background: ${s2 >= 7 ? 'var(--green)' : 'var(--orange)'};"></div></div>
+              <div class="score-bar-val" style="color: ${s2 >= 7 ? 'var(--green)' : 'var(--orange)'};">${s2}/10</div>
+            </div>
+            <div class="score-bar-row">
+              <div class="score-bar-label">System Architecture & Stability</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s3 * 10}%; background: var(--green);"></div></div>
+              <div class="score-bar-val" style="color: var(--green);">${s3}/10</div>
+            </div>
+          `;
+        }
 
-        document.getElementById("dim-right-container").innerHTML = `
-          <div class="score-bar-row">
-            <div class="score-bar-label">0-to-1 Builder Evidence (Derived from project scope)</div>
-            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s4 * 10}%; background: var(--yellow);"></div></div>
-            <div class="score-bar-val" style="color: var(--yellow);">${s4}/10</div>
-          </div>
-          <div class="score-bar-row">
-            <div class="score-bar-label">Cross-functional Collaboration</div>
-            <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s5 * 10}%; background: var(--green);"></div></div>
-            <div class="score-bar-val" style="color: var(--green);">${s5}/10</div>
-          </div>
-          <div class="score-bar-row">
-            <div class="score-bar-label">Language Fluency (Eng: ${engFluency} / Chi: ${chiFluency})</div>
-            <div class="score-bar-track"><div class="score-bar-fill" style="width: 90%; background: var(--green);"></div></div>
-            <div class="score-bar-val" style="color: var(--green);">9/10</div>
-          </div>
-        `;
+        const dimRight = document.getElementById("dim-right-container");
+        if(dimRight) {
+          dimRight.innerHTML = `
+            <div class="score-bar-row">
+              <div class="score-bar-label">0-to-1 Builder Evidence (Derived from project scope)</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s4 * 10}%; background: var(--yellow);"></div></div>
+              <div class="score-bar-val" style="color: var(--yellow);">${s4}/10</div>
+            </div>
+            <div class="score-bar-row">
+              <div class="score-bar-label">Cross-functional Collaboration</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: ${s5 * 10}%; background: var(--green);"></div></div>
+              <div class="score-bar-val" style="color: var(--green);">${s5}/10</div>
+            </div>
+            <div class="score-bar-row">
+              <div class="score-bar-label">Language Fluency (Eng: ${engFluency} / Chi: ${chiFluency})</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 90%; background: var(--green);"></div></div>
+              <div class="score-bar-val" style="color: var(--green);">9/10</div>
+            </div>
+          `;
+        }
 
-        document.getElementById("rep-highlights").innerHTML = `
-          <div class="screener-flag-item green"><span>✅</span> <strong>Technical Match:</strong> Successfully matched keywords [${matchedKeywords.join(', ') || 'General Experience'}] explicitly stated in resume text.</div>
-          <div class="screener-flag-item green"><span>✅</span> <strong>Language & Location:</strong> Verified fluency (English: ${engFluency}, Mandarin: ${chiFluency}); current location in ${currLoc}.</div>
-        `;
+        const repHigh = document.getElementById("rep-highlights");
+        if(repHigh && roleObj) {
+          repHigh.innerHTML = `
+            <div class="screener-flag-item green"><span>✅</span> <strong>Technical Match:</strong> Successfully matched keywords [${matchedKeywords.join(', ') || 'General Experience'}] explicitly stated in resume text.</div>
+            <div class="screener-flag-item green"><span>✅</span> <strong>Language & Location:</strong> Verified fluency (English: ${engFluency}, Mandarin: ${chiFluency}); current location in ${currLoc}.</div>
+          `;
+        }
 
-        document.getElementById("rep-risks").innerHTML = `
-          <div class="screener-flag-item red"><span>🚫</span> <strong>Notice Period:</strong> Set to ${noticePeriod}; requires careful alignment with project sprint schedule.</div>
-          <div class="screener-flag-item red" style="border-color: var(--yellow); background: rgba(255,193,33,0.06); color: var(--yellow);"><span>⚠️</span> <strong>Salary Expectation:</strong> Expected ${expSalary} vs Last Drawn ${lastSalary}.</div>
-        `;
+        const repRisk = document.getElementById("rep-risks");
+        if(repRisk) {
+          repRisk.innerHTML = `
+            <div class="screener-flag-item red"><span>🚫</span> <strong>Notice Period:</strong> Set to ${noticePeriod}; requires careful alignment with project sprint schedule.</div>
+            <div class="screener-flag-item red" style="border-color: var(--yellow); background: rgba(255,193,33,0.06); color: var(--yellow);"><span>⚠️</span> <strong>Salary Expectation:</strong> Expected ${expSalary} vs Last Drawn ${lastSalary}.</div>
+          `;
+        }
 
-        document.getElementById("rep-questions").innerHTML = `
-          <div class="q-box">
-            <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q1: Technical Architecture & Execution</div>
-            <div><strong>Main Question:</strong> Can you describe a complex system or feature related to ${roleObj.label} that you built from scratch?</div>
-            <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> Given the performance constraints, <em>(Action)</em> what specific architectural trade-offs did you make during implementation, and <em>(Result)</em> what was the measurable performance improvement?</div>
-          </div>
-          <div class="q-box">
-            <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q2: Problem Solving & Troubleshooting</div>
-            <div><strong>Main Question:</strong> How do you handle critical production incidents or performance bottlenecks under intense pressure?</div>
-            <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> Thinking about your toughest bug, <em>(Action)</em> what diagnostic steps and tools did you deploy to isolate the root cause, and <em>(Result)</em> how did you prevent recurrence?</div>
-          </div>
-          <div class="q-box">
-            <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q3: Collaboration & Delivery Alignment</div>
-            <div><strong>Main Question:</strong> How do you align cross-functional expectations when technical requirements shift mid-sprint?</div>
-            <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> In a scenario where scope changed abruptly, <em>(Action)</em> how did you negotiate deliverables with stakeholders, and <em>(Result)</em> what was the impact on sprint velocity?</div>
-          </div>
-        `;
+        const repQ = document.getElementById("rep-questions");
+        if(repQ && roleObj) {
+          repQ.innerHTML = `
+            <div class="q-box">
+              <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q1: Technical Architecture & Execution</div>
+              <div><strong>Main Question:</strong> Can you describe a complex system or feature related to ${roleObj.label} that you built from scratch?</div>
+              <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> Given the performance constraints, <em>(Action)</em> what specific architectural trade-offs did you make during implementation, and <em>(Result)</em> what was the measurable performance improvement?</div>
+            </div>
+            <div class="q-box">
+              <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q2: Problem Solving & Troubleshooting</div>
+              <div><strong>Main Question:</strong> How do you handle critical production incidents or performance bottlenecks under intense pressure?</div>
+              <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> Thinking about your toughest bug, <em>(Action)</em> what diagnostic steps and tools did you deploy to isolate the root cause, and <em>(Result)</em> how did you prevent recurrence?</div>
+            </div>
+            <div class="q-box">
+              <div style="font-weight:900; color:var(--blue); margin-bottom:4px;">Q3: Collaboration & Delivery Alignment</div>
+              <div><strong>Main Question:</strong> How do you align cross-functional expectations when technical requirements shift mid-sprint?</div>
+              <div style="margin-top:4px; color:var(--muted); font-size:11.5px;"><strong>C-A-R Follow-up:</strong> <em>(Context)</em> In a scenario where scope changed abruptly, <em>(Action)</em> how did you negotiate deliverables with stakeholders, and <em>(Result)</em> what was the impact on sprint velocity?</div>
+            </div>
+          `;
+        }
 
-        document.getElementById("rep-risk-matrix").innerHTML = `
-          <tr><td style="font-weight:700; width: 220px;">Visa Sponsorship Risk</td><td>Taiwan work visa required: ${visaSponsorship}.</td><td style="text-align: right; font-weight: 800; color: ${visaSponsorship === 'Yes' ? 'var(--orange)' : 'var(--green)'};">${visaSponsorship === 'Yes' ? 'Medium' : 'Low'}</td></tr>
-          <tr><td style="font-weight:700;">Early Exit Risk</td><td>Stable career progression observed in CV.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
-          <tr><td style="font-weight:700;">Salary Expectation Risk</td><td>Targeting ${expSalary} vs last drawn ${lastSalary}.</td><td style="text-align: right; font-weight: 800; color: var(--yellow);">Medium</td></tr>
-          <tr><td style="font-weight:700;">Skill Gap Risk</td><td>${matchedCount >= 3 ? 'Minor domain gaps; manageable via onboarding.' : 'Notable gap in specific stack requirements.'}</td><td style="text-align: right; font-weight: 800; color: ${matchedCount >= 3 ? 'var(--yellow)' : 'var(--red)'};">${matchedCount >= 3 ? 'Medium' : 'High'}</td></tr>
-        `;
+        const repMatrix = document.getElementById("rep-risk-matrix");
+        if(repMatrix) {
+          repMatrix.innerHTML = `
+            <tr><td style="font-weight:700; width: 220px;">Visa Sponsorship Risk</td><td>Taiwan work visa required: ${visaSponsorship}.</td><td style="text-align: right; font-weight: 800; color: ${visaSponsorship === 'Yes' ? 'var(--orange)' : 'var(--green)'};">${visaSponsorship === 'Yes' ? 'Medium' : 'Low'}</td></tr>
+            <tr><td style="font-weight:700;">Early Exit Risk</td><td>Stable career progression observed in CV.</td><td style="text-align: right; font-weight: 800; color: var(--green);">Low</td></tr>
+            <tr><td style="font-weight:700;">Salary Expectation Risk</td><td>Targeting ${expSalary} vs last drawn ${lastSalary}.</td><td style="text-align: right; font-weight: 800; color: var(--yellow);">Medium</td></tr>
+            <tr><td style="font-weight:700;">Skill Gap Risk</td><td>${matchedCount >= 3 ? 'Minor domain gaps; manageable via onboarding.' : 'Notable gap in specific stack requirements.'}</td><td style="text-align: right; font-weight: 800; color: ${matchedCount >= 3 ? 'var(--yellow)' : 'var(--red)'};">${matchedCount >= 3 ? 'Medium' : 'High'}</td></tr>
+          `;
+        }
 
         const resultBox = document.getElementById("score-result");
         if(resultBox) {
@@ -1409,7 +1500,7 @@
         }
       } catch (err) {
         console.error("AI Screener Error:", err);
-        alert("An error occurred during AI analysis. Please check console for details.");
+        alert("An error occurred during AI analysis: " + err.message);
       }
     }
 
