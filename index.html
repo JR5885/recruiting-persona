@@ -1,398 +1,1262 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" style="--accent: #ff7675;">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vicky Chen - 候選人簡介與多維度職缺總覽</title>
-    <style>
-        :root {
-            --bg: #080b12;
-            --panel: #0d111c;
-            --panel-soft: #111827;
-            --line: #202a3a;
-            --text: #d8e6ff;
-            --muted: #7f91b8;
-            --yellow: #ffc121;
-            --cyan: #00e0b8;
-            --accent: #2f81f7;
-        }
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: var(--bg);
-            color: var(--text);
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        h1, h2, h3 { color: #fff; }
-        h1 { font-size: clamp(24px, 3vw, 36px); border-bottom: 2px solid var(--line); padding-bottom: 10px; }
-        h2 { color: var(--yellow); margin-top: 40px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
-        .card {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .section-title {
-            color: var(--cyan);
-            font-size: 14px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 15px;
-            margin-bottom: 5px;
-        }
-        ul { padding-left: 20px; color: var(--muted); }
-        li { margin-bottom: 6px; }
-        .code {
-            white-space: pre-wrap;
-            word-break: break-word;
-            background: #060a13;
-            border: 1px solid #173a6b;
-            border-radius: 6px;
-            padding: 10px 14px;
-            color: #7db7ff;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-        .salary-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 8px;
-        }
-        .salary-tier {
-            background: var(--panel-soft);
-            padding: 8px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            border-left: 3px solid var(--accent);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tamplate-DeepCubation html - 16 Roles Profile</title>
+  <style>
+    :root {
+      --bg: #080b12;
+      --panel: #0d111c;
+      --panel-soft: #111827;
+      --line: #202a3a;
+      --line-hot: #244a87;
+      --text: #d8e6ff;
+      --muted: #7f91b8;
+      --blue: #2f81f7;
+      --cyan: #00e0b8;
+      --yellow: #ffc121;
+      --orange: #ff9f1a;
+      --red: #ff4d66;
+      --purple: #a97aff;
+      --green: #14d990;
+      --card-radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    .page {
+      width: min(1280px, 100%);
+      margin: 0 auto;
+      padding: 18px 20px 36px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 16px;
+      border: 1px solid #18345f;
+      border-radius: var(--card-radius);
+      background: #0b1629;
+      color: #68a7ff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* --- i18n: language toggle --- */
+    body:not([data-lang="en"]) .lang-en { display: none; }
+    body[data-lang="en"] .lang-zh { display: none; }
+    .lang-switch { display: inline-flex; border: 1px solid #244a87; border-radius: 6px; overflow: hidden; }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: #7f91b8;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+    .lang-btn.active { background: var(--accent, #ffc121); color: #0b1120; }
+
+    .runtime {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #7fb0ff;
+      background: #10285c;
+      border-radius: 999px;
+      padding: 3px 10px;
+    }
+
+    .eyebrow {
+      color: var(--yellow);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      font-weight: 800;
+      margin: 20px 0 4px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      color: #ffffff;
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    h1 span { color: var(--yellow); }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: #8da2ca;
+      font-size: 13px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .tab {
+      min-height: 29px;
+      padding: 6px 14px;
+      color: #b7c8ee;
+      background: #0d1019;
+      border: 1px solid #263044;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .tab:hover,
+    .tab.active {
+      color: var(--yellow);
+      border-color: #f5f0d1;
+      box-shadow: inset 0 0 0 1px rgba(255, 193, 33, 0.25);
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .panel {
+      min-height: 228px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--card-radius);
+      padding: 20px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #405178;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      border-bottom: 1px solid #182235;
+      padding-bottom: 8px;
+    }
+
+    .focus-box,
+    .filter-box,
+    .valuation-box {
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      background: var(--panel-soft);
+      padding: 13px 14px;
+      margin-bottom: 10px;
+      line-height: 1.65;
+      color: #a9bde7;
+      font-size: 13px;
+    }
+
+    .focus-box strong,
+    .filter-box strong {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .filter-box {
+      background: color-mix(in srgb, var(--accent) 8%, #111827);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th,
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #1a2231;
+      text-align: left;
+      color: #9fb1d8;
+    }
+
+    th {
+      color: #53658f;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .tier {
+      display: inline-flex;
+      min-width: 26px;
+      justify-content: center;
+      border-radius: 5px;
+      padding: 3px 7px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .t1 { background: #851b2c; }
+    .t2 { background: #765400; }
+    .t3 { background: #182237; color: #657696; }
+    .money { color: var(--yellow); font-weight: 900; }
+    .money.mid { color: var(--cyan); }
+
+    .valuation-box {
+      margin-top: 14px;
+      background: rgba(0, 224, 184, 0.08);
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    .code {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #060a13;
+      border: 1px solid #173a6b;
+      border-radius: 6px;
+      padding: 14px 16px;
+      color: #7db7ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    .boost {
+      margin-top: 8px;
+      border-color: rgba(255, 193, 33, 0.25);
+      color: var(--yellow);
+    }
+
+    .okr-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #1a2231;
+    }
+
+    .okr-index {
+      width: 23px;
+      height: 23px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: #08101d;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .okr-title {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 2px;
+    }
+
+    .okr-kr {
+      color: #8397c0;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .candidates {
+      margin-top: 14px;
+    }
+
+    .candidate-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .candidate-card {
+      background: #0d111c;
+      border: 1px solid #1e2839;
+      border-radius: var(--card-radius);
+      padding: 14px;
+    }
+
+    .source-line {
+      font-size: 11px;
+      color: #7f91b8;
+      margin: 4px 0 8px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .source-badge {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 10px;
+      background: rgba(255,255,255,0.08);
+      color: #cdd8f0;
+    }
+
+    .candidate-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .candidate-name {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .handle {
+      color: #6f82aa;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .x-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      color: #7db7ff;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .x-link:hover { color: var(--accent); }
+
+    .score {
+      flex: 0 0 auto;
+      color: #08101d;
+      background: var(--accent);
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .candidate-body {
+      color: #9aacd2;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .candidate-body b {
+      color: var(--accent);
+    }
+
+    .proof {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 6px;
+      background: rgba(125, 183, 255, 0.07);
+      border: 1px solid rgba(125, 183, 255, 0.14);
+    }
+
+    .fit-line {
+      color: #e8f0ff;
+      font-weight: 800;
+    }
+
+    .score-note {
+      color: #7f91b8;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .dm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .dm {
+      width: 100%;
+      border: 1px solid #263044;
+      border-radius: 6px;
+      background: #111827;
+      color: #c8d8f8;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .dm:hover,
+    .dm.copied {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @media (max-width: 900px) {
+      .page { padding: 12px; }
+      .report-grid { grid-template-columns: 1fr; }
+      .dm-actions { grid-template-columns: 1fr; }
+    }
+
+    /* --- Talent Pipeline board --- */
+    .dc-tab-container { margin: 20px 0; display: flex; gap: 10px; border-bottom: 1px solid #2a2a35; padding-bottom: 10px; }
+    .dc-tab-btn { background: #1e1e24; color: #8a8a93; border: 1px solid #2a2a35; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
+    .dc-tab-btn.active { background: #00ffcc; color: #141416; border-color: #00ffcc; }
+    .status-switcher { background: #2a2a35; color: #00ffcc; border: 1px solid #444; border-radius: 4px; font-size: 11px; padding: 4px 8px; cursor: pointer; }
+    .kanban-col { background: #141416; min-width: 280px; max-width: 280px; border-radius: 8px; padding: 12px; border: 1px solid #2a2a2e; flex-shrink: 0; }
+    .kanban-card { background: #1e1e24; padding: 12px; border-radius: 6px; border: 1px solid #2a2a3c; margin-bottom: 10px; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Vicky Chen - 候選人簡介與多維度職缺總覽</h1>
-        
-        <div class="card">
-            <h2>個人專業概述</h2>
-            <ul>
-                <li><strong>總工作經驗：</strong> 8年以上（7年以上企業端人才招募 TA 經驗，1年獵頭/機構招募經驗）</li>
-                <li><strong>技術招募領域：</strong> 軟體工程、金融科技系統、網頁與行動應用程式、AI/ML 工程、產品管理，以及機械/電機/汽車工程（採用 Google L3–L8 級別框架）</li>
-                <li><strong>核心資格：</strong> 具備流利英文與母語中文能力，台灣公民（無需工作簽證贊助）</li>
-            </ul>
-            
-            <h3>企業與公司網絡</h3>
-            <ul>
-                <li><strong>工程、營造與基礎設施：</strong> YCD、ACTER、CTCI、宏偉營造 (Hung Wei Construction)、ACLOUD、玖鼎集團 (Sparkle Group / Jiuding Group)</li>
-                <li><strong>科技、金融科技與半導體：</strong> BitMart、MEXC、Ourbit、Bitget、MemryX、Supernova.io Inc.</li>
-                <li><strong>汽車、硬體與 5G 創新：</strong> DeLorean、New Wave、信曜科技 (Synergy Design) 5G Small Cell 合作案、T Motion</li>
-            </ul>
-
-            <h3>應徵與排程資訊</h3>
-            <ul>
-                <li><strong>到職與面試期程：</strong> 1至2週內可收到 Offer</li>
-                <li><strong>面試可配合時段：</strong> 2026年9月22日 (二) 13:00 – 15:00 (CST) 或 2026年9月24日 (四) 11:00 – 12:00 (CST)</li>
-            </ul>
+  <main class="page">
+    <div class="topbar">
+      <div><span class="lang-zh">🎙️ 崗位畫像 · 發言要點</span><span class="lang-en">🎙️ Role Profile · Talking Points</span></div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="runtime"><span class="lang-zh">每天 11:00 自動刷新</span><span class="lang-en">Auto-refreshed daily at 11:00</span> <span>▼</span></div>
+        <div class="lang-switch">
+          <button type="button" class="lang-btn active" data-lang="zh" onclick="setLang('zh')">中文</button>
+          <button type="button" class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
         </div>
+      </div>
+    </div>
 
-        <h2>各崗位標準格式綜合總覽 (1 ~ 16)</h2>
+    <div class="eyebrow"><span class="lang-zh">—— 16 職缺全景檔案 · 對標多維度指標</span><span class="lang-en">—— 16 Roles Snapshot · Multi-dimensional Benchmarking</span></div>
+    <h1><span class="lang-zh">16 崗位業務價值 · <span>薪酬對標</span> · Boolean 搜索 · OKR</span><span class="lang-en">16 Roles Business Value · <span>Salary Benchmark</span> · Boolean Search · OKRs</span></h1>
+    <p class="subtitle"><span class="lang-zh">涵蓋 Web3、傳統工程、半導體、AI 與金融科技。薪酬單位：USD 或 TWD/年</span><span class="lang-en">Covering Web3, traditional engineering, semiconductor, AI, and FinTech. Salary units: USD or TWD/year</span></p>
 
-        <!-- 1 -->
-        <div class="card">
-            <h3>1. Web3 Frontend Engineer (DeLorean Labs)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Bridges complex asynchronous blockchain states (wallet connection, transaction signing, pending/confirmed/failed) into intuitive user interfaces; ensures secure multi-chain connectivity (EVM, Ethereum, Polygon) and scalable UI architecture.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $140,000 – $180,000+ USD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $110,000 – $165,000 USD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $75,000 – $105,000 USD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Deliver a flawless Web3 transaction experience. (KR1: 99.5% edge-case error-handling coverage; KR2: Sub-150ms UI feedback latency).<br><strong>Obj 2:</strong> Ensure multi-chain compatibility and strict code quality. (KR1: Zero critical state-sync bugs; KR2: 100% TypeScript type safety).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: ("Web3 Frontend Engineer" OR "DApp Frontend Developer") AND (React OR Vite OR TypeScript) AND ("WalletConnect" OR "Wagmi" OR "Viem" OR "EVM")
-X: (Frontend OR DApp) AND (Web3 OR React) AND (Wagmi OR Viem OR Solidity)</div>
+    <div class="dc-tab-container">
+      <button class="dc-tab-btn active" id="btn-raw" type="button" onclick="switchDcView('raw')"><span class="lang-zh">📋 原始監控資料</span><span class="lang-en">📋 Raw Monitoring Data</span></button>
+      <button class="dc-tab-btn" id="btn-pipeline" type="button" onclick="switchDcView('pipeline')">📊 Talent Pipeline</button>
+    </div>
+
+    <div id="dc-pipeline-view" style="display: none; color: #fff;">
+      <div id="dc-pipeline-stats" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px;"></div>
+      <div id="dc-kanban-board" style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; align-items: flex-start;"></div>
+    </div>
+
+    <div id="raw-view">
+    <nav class="tabs" id="tabs">
+        <!-- 動態產生 16 個職缺的 Tab -->
+    </nav>
+
+    <section class="report-grid">
+      <article class="panel">
+        <div class="panel-title"><span class="lang-zh">① 崗位業務價值</span><span class="lang-en">① Business Value</span></div>
+        <div class="focus-box">
+          <strong><span class="lang-zh">為什麼這個崗位重要</span><span class="lang-en">Why this role matters</span></strong>
+          <span id="valueText"></span>
         </div>
-
-        <!-- 2 -->
-        <div class="card">
-            <h3>2. 資深結構工程師 (中鼎工程)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Ensures 100% structural integrity and seismic safety for high-risk industrial assets (power plants, petrochemical, high-tech facilities); coordinates cross-disciplinary interfaces (piping, equipment) and optimizes structural material costs.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $1,500,000 – $2,000,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $1,100,000 – $1,400,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $800,000 – $1,100,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Deliver flawless structural designs meeting international EPC standards. (KR1: 0 major design rework incidents; KR2: 100% on-time deliverables via SAP2000/ETABS).<br><strong>Obj 2:</strong> Optimize material efficiency and cross-discipline coordination. (KR1: Reduce structural material costs by 3-5%; KR2: Resolve 95% of interface clashes within 48 hours).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: ("Senior Structural Engineer" OR "結構工程師" OR "結構技師") AND ("SAP2000" OR "STAAD" OR "ETABS") AND ("Petrochemical" OR "Power Plant" OR "High-tech Facility" OR "廠房")
-X: (Structural AND Engineer) AND (SAP2000 OR ETABS OR STAAD) AND (Industrial OR Petrochemical)</div>
+        <div class="filter-box">
+          <strong><span class="lang-zh">關鍵篩選 · 面試亮點</span><span class="lang-en">Key Filter · Highlights</span></strong>
+          <span id="filterText"></span>
         </div>
+      </article>
 
-        <!-- 3 -->
-        <div class="card">
-            <h3>3. 北區營運處｜資深工程主管 (聖暉工程)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Directs end-to-end execution of large-scale industrial construction, MEP, and cleanroom projects; manages P&L, project schedules, and complex stakeholder alignment between clients and subcontractors.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $1,600,000 – $2,200,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $1,300,000 – $1,600,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $1,000,000 – $1,300,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Ensure flawless execution of Northern region cleanroom projects. (KR1: 100% on-time milestone delivery; KR2: Gross margin variance within ±2%).<br><strong>Obj 2:</strong> Drive site safety and inter-discipline clash resolution. (KR1: Zero Lost-Time Injuries; KR2: Resolve 95% of MEP/HVAC clashes before installation).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("Project Director" OR "工程經理" OR "專案經理") AND ("Cleanroom" OR "無塵室" OR "MEP" OR "機電" OR "建廠") AND ("Semiconductor" OR "Pharma" OR "半導體") AND ("ACTER" OR "聖暉" OR "漢唐"))
-X: (Construction AND Manager) AND (Cleanroom OR MEP OR Semiconductor) AND (Engineering OR Plant)</div>
-        </div>
+      <article class="panel">
+        <div class="panel-title"><span class="lang-zh">② 薪酬對標 T1/T2/T3</span><span class="lang-en">② Salary Benchmark T1/T2/T3</span></div>
+        <table>
+          <thead>
+            <tr><th>Tier</th><th><span class="lang-zh">代表公司</span><span class="lang-en">Representative Companies</span></th><th>Salary</th><th><span class="lang-zh">備註</span><span class="lang-en">Notes</span></th></tr>
+          </thead>
+          <tbody id="salaryRows">
+            <!-- 動態填入薪酬 -->
+          </tbody>
+        </table>
+        <div class="valuation-box" id="valuationText"></div>
+      </article>
 
-        <!-- 4 -->
-        <div class="card">
-            <h3>4. 資訊與網路工程師 (量化交易公司)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Maintains high-availability office and IDC data center networks to safeguard quantitative trading executions; implements robust firewall topologies, VPNs, and automated infrastructure scripts.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $1,100,000 – $1,500,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $900,000 – $1,200,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $700,000 – $950,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Maximize network uptime and redundancy. (KR1: 99.99% uptime across IDC/office networks; KR2: Failover MTTR under 15 minutes).<br><strong>Obj 2:</strong> Drive automation and observability. (KR1: 100% automated monitoring coverage; KR2: Deploy ≥2 custom Python/Shell automation scripts).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("Network Engineer" OR "Infrastructure Engineer" OR "網管工程師") AND ("Fortinet" OR "Cisco" OR "Arista" OR "CCNA") AND ("Linux" OR "TCP/IP" OR "IDC") AND ("FinTech" OR "Trading" OR "金融"))
-X: (Network AND Engineer) AND (Linux OR Cisco OR Fortinet) AND (Infrastructure OR Datacenter)</div>
-        </div>
+      <article class="panel">
+        <div class="panel-title"><span class="lang-zh">③ LinkedIn / X Boolean 搜索式</span><span class="lang-en">③ LinkedIn / X Boolean Search</span></div>
+        <div class="code" id="booleanText"></div>
+        <div class="code boost" id="boostText"></div>
+      </article>
 
-        <!-- 5 -->
-        <div class="card">
-            <h3>5. PLC / SCADA 資深專案工程師 (德國德勒斯登外派)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Specializes in chiller system automation and PLC/SCADA integration for overseas high-tech fabs; serves as the onsite technical and project management anchor in Dresden, Germany.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $2,500,000 – $3,500,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $1,800,000 – $2,400,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $1,200,000 – $1,700,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Successfully execute chiller automation in Dresden. (KR1: 100% FAT/SAT completion without milestone delays; KR2: Zero unhandled system faults during commissioning).<br><strong>Obj 2:</strong> Manage international project stakeholders. (KR1: Schedule adherence within ±5% variance; KR2: Resolve 95% of cross-discipline issues within 48 hours).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("PLC Engineer" OR "SCADA Engineer" OR "控制工程師" OR "自動化工程師") AND ("Chiller" OR "HVAC" OR "冰機") AND ("Project Management" OR "PM") AND ("Semiconductor" OR "Dresden" OR "Germany"))
-X: (PLC OR SCADA) AND (Chiller OR HVAC) AND (Automation AND Engineer) AND (Expat OR Overseas)</div>
+      <article class="panel">
+        <div class="panel-title"><span class="lang-zh">④ OKR 設定</span><span class="lang-en">④ OKR Setup</span></div>
+        <div id="okrList">
+          <!-- 動態填入 OKR -->
         </div>
+      </article>
+    </section>
 
-        <!-- 6 -->
-        <div class="card">
-            <h3>6. 硬體研發主管 5G Small Cell (信曜科技)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Directs end-to-end 5G Small Cell / RU / DU hardware platform architecture, baseband/SoC design, Massive MIMO/Beamforming RF integration, and volume manufacturing compliance.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $2,000,000 – $2,800,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $1,500,000 – $2,000,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $1,200,000 – $1,500,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Deliver next-generation 5G Small Cell hardware. (KR1: Complete schematic and layout reviews on schedule; KR2: ≥85% first-pass prototype bring-up success rate).<br><strong>Obj 2:</strong> Secure regulatory compliance and RF performance. (KR1: Validate Massive MIMO/Beamforming per 3GPP specs; KR2: Secure 100% first-attempt FCC/CE/NCC approvals).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("Hardware Manager" OR "R&D Manager" OR "硬體研發主管") AND ("5G" OR "Small Cell" OR "Open RAN") AND ("FPGA" OR "SoC" OR "Baseband" OR "RF") AND ("竹北" OR "Hsinchu"))
-X: (Hardware AND Manager) AND (SmallCell OR "Open RAN" OR 5G) AND (FPGA OR RF)</div>
-        </div>
+    <!-- 招募渠道比較 -->
+    <section class="panel" style="margin-top:14px; margin-bottom:14px;">
+      <div class="panel-title"><span class="lang-zh">📊 招募渠道比較(今日)</span><span class="lang-en">📊 Sourcing Channel Comparison (Today)</span></div>
+      <table>
+        <thead>
+          <tr>
+            <th><span class="lang-zh">渠道</span><span class="lang-en">Channel</span></th>
+            <th><span class="lang-zh">今日新增人數</span><span class="lang-en">New Today</span></th>
+            <th><span class="lang-zh">成本</span><span class="lang-en">Cost</span></th>
+            <th><span class="lang-zh">說明</span><span class="lang-en">Notes</span></th>
+          </tr>
+        </thead>
+        <tbody id="channelStatsRows">
+          <tr><td>X (Twitter)</td><td>0</td><td>~$0.15 / 1000 則貼文</td><td><span class="lang-zh">全自動</span><span class="lang-en">Fully automated</span></td></tr>
+          <tr><td>GitHub</td><td>0</td><td><span class="lang-zh">免費</span><span class="lang-en">Free</span></td><td><span class="lang-zh">全自動,限技術崗位</span><span class="lang-en">Fully automated, tech roles only</span></td></tr>
+          <tr id="liChannelRow">
+            <td>LinkedIn</td>
+            <td>1</td>
+            <td>人工時間成本</td>
+            <td>手動新增（累計，非每日重置）</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-        <!-- 7 -->
-        <div class="card">
-            <h3>7. 後端工程師 C# / .NET (美商新浪)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Architect critical backend financial services using C# and .NET 6/8+; optimize SQL Server performance and transactional data integrity; build secure RESTful APIs adhering to OWASP standards.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $1,200,000 – $1,800,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $800,000 – $1,500,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $650,000 – $900,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Deliver secure and scalable backend core services. (KR1: 99.9% uptime for financial APIs; KR2: ≥80% unit test coverage).<br><strong>Obj 2:</strong> Optimize database performance and security. (KR1: Reduce average T-SQL query latency by 20%; KR2: 100% remediation of high/critical OWASP vulnerabilities).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("Backend Engineer" OR "後端工程師" OR ".NET Developer") AND ("C#" OR ".NET Core") AND ("SQL Server" OR "Entity Framework") AND ("FinTech" OR "Banking" OR "金融"))
-X: (DotNet OR "C#") AND (Backend OR API) AND (FinTech OR SQLServer)</div>
-        </div>
+    <!-- LinkedIn 手動新增 -->
+    <section class="panel" style="margin-bottom:14px;">
+      <div class="panel-title"><span class="lang-zh">✍️ LinkedIn 手動新增人選</span><span class="lang-en">✍️ Manually Add LinkedIn Candidate</span></div>
+      <p class="subtitle" style="margin:0 0 10px;"><span class="lang-zh">LinkedIn 沒有合法的免費搜尋 API，這裡讓你手動貼上在 LinkedIn 找到的人選。</span><span class="lang-en">LinkedIn has no free, compliant search API. Paste candidates you found on LinkedIn here.</span></p>
 
-        <!-- 8 -->
-        <div class="card">
-            <h3>8. BESS 資深硬體工程師 (華城電機)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Leads system and hardware development for Advanced Battery Energy Storage Systems (BESS) and BMS; owns power supply/MCU schematic design, PCB layout, and automated test fixture creation.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $900,000 – $1,300,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $750,000 – $1,000,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $600,000 – $800,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Deliver robust BESS/BMS hardware and schematic designs. (KR1: 100% schematic and layout milestone completion; KR2: ≥85% first-pass bring-up success).<br><strong>Obj 2:</strong> Automate testing and verification. (KR1: 100% automated test coverage for functional requirements; KR2: Reduce hardware debug turnaround by 15%).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("BESS Engineer" OR "Hardware Engineer" OR "BMS工程師" OR "電源工程師") AND ("Battery" OR "儲能" OR "BESS" OR "BMS") AND ("MCU" OR "Schematic" OR "PCB") AND ("Taipei" OR "台北" OR "華城電機"))
-X: (Hardware AND Engineer) AND (BESS OR BMS OR Battery) AND (Schematic OR PCB)</div>
-        </div>
+      <div id="liForm" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-bottom:10px;">
+        <select id="liRole">
+          <!-- 下拉選單動態產生 -->
+        </select>
+        <input id="liName" type="text" placeholder="姓名 / Name">
+        <input id="liUrl" type="text" placeholder="LinkedIn 網址 / Profile URL" style="grid-column: span 2;">
+        <input id="liTags" type="text" placeholder="技能標籤 / Tags">
+        <input id="liScore" type="number" min="1" max="10" placeholder="評分 1-10 / Score">
+        <textarea id="liNote" placeholder="備註 / Note" style="grid-column: span 2; min-height:50px;"></textarea>
+        <button type="button" class="dm" style="grid-column: span 2;" onclick="addLiCandidate()"><span class="lang-zh">加入清單</span><span class="lang-en">Add to list</span></button>
+      </div>
 
-        <!-- 9 -->
-        <div class="card">
-            <h3>9. Protocol Engineer (DeLorean Labs)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Leads protocol-level architecture and system design across EVM, Ethereum, and Polygon; establishes ownership consistency models, multi-chain scalability, and smart contract security frameworks.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $180,000 – $250,000+ USD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $160,000 – $220,000 USD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $110,000 – $150,000 USD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Architect a secure, multi-chain compatible protocol. (KR1: Ship core multi-chain protocol with zero architecture bottlenecks; KR2: Reduce failed transaction rates by 25%).<br><strong>Obj 2:</strong> Integrate Account Abstraction and security reviews. (KR1: Zero high/critical findings in external audits; KR2: Successfully integrate ERC-4337).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("Protocol Engineer" OR "Blockchain Architect" OR "Smart Contract Security") AND ("EVM" OR "Ethereum" OR "Polygon") AND ("Account Abstraction" OR "ERC-4337" OR "Protocol Architecture"))
-X: (Protocol AND Engineer) AND (Ethereum OR Solidity OR EVM) AND ("Account Abstraction" OR Security)</div>
-        </div>
-
-        <!-- 10 -->
-        <div class="card">
-            <h3>10. Team Lead (DeLorean Labs)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Manages cross-functional sprint execution, milestone tracking, and dependency alignment between Frontend, Backend, and Blockchain engineering squads under a remote structure.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $160,000 – $220,000+ USD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $140,000 – $190,000 USD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $95,000 – $135,000 USD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Drive predictable sprint delivery. (KR1: ≥90% sprint completion rate; KR2: Blocker resolution under 24 hours).<br><strong>Obj 2:</strong> Elevate engineering quality and release governance. (KR1: Zero post-deployment rollbacks; KR2: Conduct regular code reviews and technical mentoring).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("Engineering Team Lead" OR "Engineering Manager" OR "Technical Project Manager") AND ("Web3" OR "Blockchain" OR "Crypto") AND ("Agile" OR "Scrum" OR "Roadmap") AND ("Remote"))
-X: (Engineering AND Lead) AND (Web3 OR Crypto) AND (Manager OR Delivery)</div>
-        </div>
-
-        <!-- 11 -->
-        <div class="card">
-            <h3>11. 軟體測試工程師 / QA (數位獵人科技代徵)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Acts as product quality gatekeeper; designs test plans, test cases, and acceptance criteria; executes functional, API, and performance testing to ensure system stability prior to release.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $1,100,000 – $1,400,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $840,000 – $1,120,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $650,000 – $850,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Ensure rigorous pre-release quality assurance. (KR1: 100% test case coverage for core features; KR2: Reduce production bug escape rate by 20%).<br><strong>Obj 2:</strong> Optimize testing automation and API validation. (KR1: Automate ≥50% of regression tests via Postman/JMeter; KR2: Complete performance reports with zero unaddressed bottlenecks).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("QA Engineer" OR "Software Test Engineer" OR "軟體測試工程師") AND ("Postman" OR "JMeter" OR "API" OR "Automation" OR "自動化測試") AND ("Taipei" OR "台北" OR "南港"))
-X: (QA AND Engineer) AND (Testing OR Automation) AND (Postman OR JMeter)</div>
-        </div>
-
-        <!-- 12 -->
-        <div class="card">
-            <h3>12. 資深 SRE 工程師 (數位獵人科技代徵 - 台中)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Designs and maintains robust Kubernetes (GKE) clusters, Docker containers, and GitLab CI/CD pipelines; builds automated monitoring systems and leads Root Cause Analysis (RCA) for operational stability.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $1,200,000 – $1,800,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $900,000 – $1,300,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $700,000 – $950,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Maximize GKE infrastructure availability. (KR1: 99.99% production cluster uptime; KR2: Automated auto-scaling for traffic spikes).<br><strong>Obj 2:</strong> Optimize CI/CD and observability. (KR1: Reduce CI/CD deployment duration by 25%; KR2: 100% IaC coverage via Terraform/Helm).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("SRE Engineer" OR "Site Reliability Engineer" OR "DevOps工程師") AND ("Kubernetes" OR "GKE" OR "Terraform") AND ("GCP" OR "Google Cloud") AND ("台中" OR "Taichung" OR "西屯"))
-X: (SRE OR DevOps) AND (Kubernetes OR GKE) AND (Terraform OR GCP)</div>
-        </div>
-
-        <!-- 13 -->
-        <div class="card">
-            <h3>13. Developer Advocate (Supernova.io)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Drives global developer community growth and adoption of design systems; creates technical content, tutorials, and demos; bridges community feedback loops with internal product roadmaps.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $120,000 – $160,000+ USD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $90,000 – $120,000 USD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $65,000 – $90,000 USD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Expand developer community engagement. (KR1: Grow active community participation by 30% QoQ; KR2: Deliver ≥4 technical talks/workshops per quarter).<br><strong>Obj 2:</strong> Produce high-impact technical enablement resources. (KR1: Publish 12+ developer guides/tutorials; KR2: Achieve 90%+ positive documentation rating).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("Developer Advocate" OR "Developer Relations" OR "DevRel") AND ("Design Systems" OR "React" OR "Frontend") AND ("Community" OR "Technical Writing") AND ("Remote" OR "EU" OR "Prague"))
-X: (DevRel OR "Developer Advocate") AND (React OR DesignSystems) AND (Community OR Content)</div>
-        </div>
-
-        <!-- 14 -->
-        <div class="card">
-            <h3>14. Android Technical Expert (U.S. Real Estate Tech - Vietnam Remote)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Architect high-availability, modularized Android applications using modern Kotlin, Jetpack Compose, and advanced performance profiling; leads mobile engineering execution across U.S. time-zone alignments.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $70,000 – $100,000+ USD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $35,000 – $60,000 USD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $20,000 – $33,000 USD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Architect robust and scalable Android mobile systems. (KR1: Successfully migrate modules using Jetpack Compose with zero regressions; KR2: 100% architectural compliance).<br><strong>Obj 2:</strong> Optimize app performance and stability. (KR1: Reduce startup time and memory footprint by 20%; KR2: Maintain ≥99.5% crash-free session rate).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("Android Technical Expert" OR "Principal Android Engineer" OR "Senior Android Developer") AND ("Jetpack Compose" OR "Kotlin") AND ("Architecture" OR "Performance Optimization") AND ("Remote" OR "Vietnam"))
-X: (Android AND Engineer) AND (Kotlin OR JetpackCompose) AND (Architecture OR Performance)</div>
-        </div>
-
-        <!-- 15 -->
-        <div class="card">
-            <h3>15. C++ 軟體工程師 (群益金鼎證券)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Develops high-speed exchange connectivity, real-time market data parsing, and order-routing systems; builds robust client trading workstations using C/C++ and TCP/UDP socket programming.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $900,000 – $1,500,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $600,000 – $1,000,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $450,000 – $700,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Ensure ultra-low latency exchange connectivity. (KR1: 99.99% uptime for market data parsing and host order pipelines; KR2: Keep order transmission latency under 5ms).<br><strong>Obj 2:</strong> Deliver robust trading software modules. (KR1: 100% milestone delivery for trading platform development; KR2: Ensure 100% MSSQL database integrity).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("C++ Software Engineer" OR "C++ Developer" OR "金融軟體工程師") AND ("Socket" OR "TCP/UDP" OR "FIX Protocol") AND ("MSSQL" OR "Linux") AND ("Securities" OR "Trading" OR "證券" OR "群益"))
-X: (Cpp OR "C++") AND (Trading OR Exchange OR FIX) AND (Socket OR FinTech)</div>
-        </div>
-
-        <!-- 16 -->
-        <div class="card">
-            <h3>16. Java 工程師 (夕煇有限公司)</h3>
-            <div class="section-title">1. 崗位業務價值</div>
-            <p>Architect scalable, high-concurrency backend microservices utilizing SpringBoot, Kafka message queues, Redis caching, and K8s containerization for high-traffic exchange/Web3 environments.</p>
-            <div class="section-title">2. 薪酬對標 T1/T2/T3</div>
-            <div class="salary-row">
-                <div class="salary-tier"><strong>T1:</strong> $1,300,000 – $2,000,000+ TWD/yr</div>
-                <div class="salary-tier"><strong>T2:</strong> $900,000 – $1,400,000 TWD/yr</div>
-                <div class="salary-tier"><strong>T3:</strong> $700,000 – $950,000 TWD/yr</div>
-            </div>
-            <div class="section-title">3. OKR 設定</div>
-            <p><strong>Obj 1:</strong> Deliver resilient high-concurrency microservices. (KR1: 99.99% core Java backend uptime; KR2: Reduce API response latency by 20% via Redis/local caching).<br><strong>Obj 2:</strong> Ensure distributed messaging and DevOps reliability. (KR1: Successful Kafka integration with zero data loss; KR2: 100% K8s containerized deployment coverage).</p>
-            <div class="section-title">4. LinkedIn / X Boolean 搜索式</div>
-            <div class="code">LinkedIn: (("Java Engineer" OR "Backend Developer" OR "Java後端工程師") AND ("Spring Boot" OR "JVM") AND ("Kafka" OR "Redis" OR "分散式架構") AND ("Docker" OR "Kubernetes"))
-X: (Java AND SpringBoot) AND (Concurrency OR Distributed OR Kafka) AND (Backend)</div>
-        </div>
+      <div id="liList" class="candidate-grid"><p style="color:#7f91b8;font-size:13px;">目前還沒有手動新增的 LinkedIn 人選。</p></div>
+    </section>
 
     </div>
+  </main>
+
+  <script>
+    const roles = {
+      role1: {
+        icon: "💻",
+        label: "1. Web3 Frontend Engineer (DeLorean Labs)",
+        label_en: "1. Web3 Frontend Engineer (DeLorean Labs)",
+        accent: "#2f81f7",
+        value: "Bridges complex asynchronous blockchain states (wallet connection, transaction signing, pending/confirmed/failed) into intuitive user interfaces; ensures secure multi-chain connectivity (EVM, Ethereum, Polygon) and scalable UI architecture.",
+        value_en: "Bridges complex asynchronous blockchain states (wallet connection, transaction signing, pending/confirmed/failed) into intuitive user interfaces; ensures secure multi-chain connectivity (EVM, Ethereum, Polygon) and scalable UI architecture.",
+        filter: "具備強大的 Web3 互動體驗優化能力，熟練掌握 Wagmi、Viem、TypeScript 與 EVM 多鏈環境整合。",
+        filter_en: "Strong Web3 UX optimization capability, proficient in Wagmi, Viem, TypeScript, and EVM multi-chain integration.",
+        boolean: "LinkedIn: (\"Web3 Frontend Engineer\" OR \"DApp Frontend Developer\") AND (React OR Vite OR TypeScript) AND (\"WalletConnect\" OR \"Wagmi\" OR \"Viem\" OR \"EVM\")",
+        boost: "X: (Frontend OR DApp) AND (Web3 OR React) AND (Wagmi OR Viem OR Solidity)",
+        boost_en: "X: (Frontend OR DApp) AND (Web3 OR React) AND (Wagmi OR Viem OR Solidity)",
+        salary: [
+          ["T1", "Solana Foundation, Ethereum Foundation, Polygon Labs, Uniswap Labs", "$140,000 – $180,000+", "USD/year"],
+          ["T2", "Bitget, MEXC, BitMart, Ourbit, Amber Group", "$110,000 – $165,000", "USD/year (Matches JD range)"],
+          ["T3", "Regional Web3 startups, early-stage DeFi protocols", "$75,000 – $105,000", "USD/year"]
+        ],
+        valuation: "評分權重：① 非同步區塊鏈狀態處理經驗 ② TypeScript 程式碼規範與多鏈整合能力。",
+        valuation_en: "Scoring weight: ① Async blockchain state handling experience ② TypeScript coding standards and multi-chain integration capability.",
+        okrs: [["核心 OKR", "Obj 1: Deliver a flawless Web3 transaction experience. (KR1: 99.5% edge-case error-handling; KR2: Sub-150ms UI feedback latency). / Obj 2: Ensure multi-chain compatibility. (KR1: Zero state-sync bugs; KR2: 100% TypeScript type safety)."]]
+      },
+      role2: {
+        icon: "🏗️",
+        label: "2. 資深結構工程師 (中鼎工程)",
+        label_en: "2. Senior Structural Engineer (CTCI)",
+        accent: "#ff9f1a",
+        value: "Ensures 100% structural integrity and seismic safety for high-risk industrial assets (power plants, petrochemical, high-tech facilities); coordinates cross-disciplinary interfaces (piping, equipment) and optimizes structural material costs.",
+        value_en: "Ensures 100% structural integrity and seismic safety for high-risk industrial assets (power plants, petrochemical, high-tech facilities); coordinates cross-disciplinary interfaces (piping, equipment) and optimizes structural material costs.",
+        filter: "具備石化廠、發電廠或高科技廠房結構設計實績，精通 SAP2000、ETABS。須具備結構技師證照或扎實大型 EPC 專案經驗。",
+        filter_en: "Proven track record in structural design for petrochemical plants, power plants, or high-tech facilities. Proficient in SAP2000, ETABS.",
+        boolean: "LinkedIn: (\"Senior Structural Engineer\" OR \"結構工程師\" OR \"結構技師\") AND (\"SAP2000\" OR \"STAAD\" OR \"ETABS\") AND (\"Petrochemical\" OR \"Power Plant\" OR \"High-tech Facility\" OR \"廠房\")",
+        boost: "X: (Structural AND Engineer) AND (SAP2000 OR ETABS OR STAAD) AND (Industrial OR Petrochemical)",
+        boost_en: "X: (Structural AND Engineer) AND (SAP2000 OR ETABS OR STAAD) AND (Industrial OR Petrochemical)",
+        salary: [
+          ["T1", "CTCI 中鼎工程, Bechtel, Fluor, JGC Corporation", "$1,500,000 – $2,000,000+", "TWD/year (Matches JD range)"],
+          ["T2", "CECI 台灣世曦, 亞新工程顧問, 中興工程顧問", "$1,100,000 – $1,400,000", "TWD/year"],
+          ["T3", "Local architectural and structural engineering offices", "$800,000 – $1,100,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① 大型工業廠房結構計算實績 ② 跨領域管線協調與抗震設計能力。",
+        valuation_en: "Scoring weight: ① Large-scale industrial facility calculation track record ② Cross-discipline MEP coordination & seismic design.",
+        okrs: [["核心 OKR", "Obj 1: Deliver flawless structural designs meeting international EPC standards. (KR1: 0 major design rework; KR2: 100% on-time via SAP2000/ETABS). / Obj 2: Optimize material efficiency (KR1: Reduce material costs by 3-5%)."]]
+      },
+      role3: {
+        icon: "🏭",
+        label: "3. 北區營運處｜資深工程主管 (聖暉工程)",
+        label_en: "3. Senior Engineering Director - Northern Region (ACTER)",
+        accent: "#00e0b8",
+        value: "Directs end-to-end execution of large-scale industrial construction, MEP, and cleanroom projects; manages P&L, project schedules, and complex stakeholder alignment between clients and subcontractors.",
+        value_en: "Directs end-to-end execution of large-scale industrial construction, MEP, and cleanroom projects; manages P&L, project schedules, and complex stakeholder alignment between clients and subcontractors.",
+        filter: "具備半導體廠、生技廠無塵室或大型機電工程統包管理經驗，具備強大 P&L 把控與承商協調能力。",
+        filter_en: "Semiconductor/pharma cleanroom or large MEP turnkey project management experience with strong P&L control.",
+        boolean: "LinkedIn: ((\"Project Director\" OR \"工程經理\" OR \"專案經理\") AND (\"Cleanroom\" OR \"無塵室\" OR \"MEP\" OR \"機電\" OR \"建廠\") AND (\"Semiconductor\" OR \"Pharma\" OR \"半導體\") AND (\"ACTER\" OR \"聖暉\" OR \"漢唐\"))",
+        boost: "X: (Construction AND Manager) AND (Cleanroom OR MEP OR Semiconductor) AND (Engineering OR Plant)",
+        boost_en: "X: (Construction AND Manager) AND (Cleanroom OR MEP OR Semiconductor) AND (Engineering OR Plant)",
+        salary: [
+          ["T1", "ACTER 聖暉工程, 漢唐集成, 帆宣系統科技", "$1,600,000 – $2,200,000+", "TWD/year"],
+          ["T2", "中華工程, 榮工處, 大陸工程", "$1,300,000 – $1,600,000", "TWD/year (Aligns with base)"],
+          ["T3", "Regional electromechanical contracting firms", "$1,000,000 – $1,300,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① 大型無塵室/廠務統包工程 P&L 實績 ② 客戶與下游承商高壓溝通協調力。",
+        valuation_en: "Scoring weight: ① Cleanroom/turnkey project P&L track record ② High-pressure stakeholder negotiation.",
+        okrs: [["核心 OKR", "Obj 1: Ensure flawless execution of Northern region cleanroom projects. (KR1: 100% on-time milestone delivery; KR2: Gross margin variance within ±2%)."]]
+      },
+      role4: {
+        icon: "🌐",
+        label: "4. 資訊與網路工程師 (量化交易公司)",
+        label_en: "4. Network & Infrastructure Engineer (Quant Trading)",
+        accent: "#a97aff",
+        value: "Maintains high-availability office and IDC data center networks to safeguard quantitative trading executions; implements robust firewall topologies, VPNs, and automated infrastructure scripts.",
+        value_en: "Maintains high-availability office and IDC data center networks to safeguard quantitative trading executions; implements robust firewall topologies, VPNs, and automated infrastructure scripts.",
+        filter: "具備金融業或量化交易高穩定 IDC 網路維運經驗，精通 Fortinet、Cisco、Arista 與 Linux 網路調優。",
+        filter_en: "Financial or quant trading IDC network ops experience. Proficient in Fortinet, Cisco, Arista, and Linux tuning.",
+        boolean: "LinkedIn: ((\"Network Engineer\" OR \"Infrastructure Engineer\" OR \"網管工程師\") AND (\"Fortinet\" OR \"Cisco\" OR \"Arista\" OR \"CCNA\") AND (\"Linux\" OR \"TCP/IP\" OR \"IDC\") AND (\"FinTech\" OR \"Trading\" OR \"金融\"))",
+        boost: "X: (Network AND Engineer) AND (Linux OR Cisco OR Fortinet) AND (Infrastructure OR Datacenter)",
+        boost_en: "X: (Network AND Engineer) AND (Linux OR Cisco OR Fortinet) AND (Infrastructure OR Datacenter)",
+        salary: [
+          ["T1", "Jump Trading, Citadel Securities, Binance, OKX, Bitget", "$1,100,000 – $1,500,000+", "TWD/year"],
+          ["T2", "國泰金控, 富邦金控, 趨勢科技", "$900,000 – $1,200,000", "TWD/year (Meets floor $840k+)"],
+          ["T3", "精誠資訊, 宏碁資訊", "$700,000 – $950,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① 超低延遲與高可用性網路架構維運 ② 自動化腳本編寫能力（Python/Shell）。",
+        valuation_en: "Scoring weight: ① Ultra-low latency & high-availability network ops ② Python/Shell automation scripting.",
+        okrs: [["核心 OKR", "Obj 1: Maximize network uptime. (KR1: 99.99% uptime across IDC/office networks; KR2: Failover MTTR under 15 minutes)."]]
+      },
+      role5: {
+        icon: "⚡",
+        label: "5. PLC / SCADA 資深專案工程師 (德國德勒斯登外派)",
+        label_en: "5. PLC / SCADA Senior Project Engineer (Dresden Expat)",
+        accent: "#14d990",
+        value: "Specializes in chiller system automation and PLC/SCADA integration for overseas high-tech fabs; serves as the onsite technical and project management anchor in Dresden, Germany.",
+        value_en: "Specializes in chiller system automation and PLC/SCADA integration for overseas high-tech fabs; serves as the onsite technical and project management anchor in Dresden, Germany.",
+        filter: "具備冰機系統（Chiller）控制自動化及海外廠房（如德國德勒斯登）駐點派駐與跨國專案管理實戰經驗。",
+        filter_en: "Chiller automation experience and overseas fab onsite deployment experience (e.g., Dresden, Germany).",
+        boolean: "LinkedIn: ((\"PLC Engineer\" OR \"SCADA Engineer\" OR \"控制工程師\" OR \"自動化工程師\") AND (\"Chiller\" OR \"HVAC\" OR \"冰機\") AND (\"Project Management\" OR \"PM\") AND (\"Semiconductor\" OR \"Dresden\" OR \"Germany\"))",
+        boost: "X: (PLC OR SCADA) AND (Chiller OR HVAC) AND (Automation AND Engineer) AND (Expat OR Overseas)",
+        boost_en: "X: (PLC OR SCADA) AND (Chiller OR HVAC) AND (Automation AND Engineer) AND (Expat OR Overseas)",
+        salary: [
+          ["T1", "ASML, TSMC Overseas Fab Projects, Siemens, Schneider", "$2,500,000 – $3,500,000+", "TWD/year (Matches expat floor $\ge$2.5M)"],
+          ["T2", "華城電機, 台達電, 研華", "$1,800,000 – $2,400,000", "TWD/year"],
+          ["T3", "Local factory automation system integrators", "$1,200,000 – $1,700,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① 冰機控制與 PLC/SCADA 實戰能力 ② 海外長期派駐適應力與英語溝通協調。",
+        valuation_en: "Scoring weight: ① Chiller control & PLC/SCADA execution ② Overseas expat resilience & English communication.",
+        okrs: [["核心 OKR", "Obj 1: Successfully execute chiller automation in Dresden. (KR1: 100% FAT/SAT completion without delays; KR2: Zero unhandled faults)."]]
+      },
+      role6: {
+        icon: "📡",
+        label: "6. 硬體研發主管 5G Small Cell (信曜科技)",
+        label_en: "6. Hardware R&D Manager - 5G Small Cell (Synergy Design)",
+        accent: "#ff4d66",
+        value: "Directs end-to-end 5G Small Cell / RU / DU hardware platform architecture, baseband/SoC design, Massive MIMO/Beamforming RF integration, and volume manufacturing compliance.",
+        value_en: "Directs end-to-end 5G Small Cell / RU / DU hardware platform architecture, baseband/SoC design, Massive MIMO/Beamforming RF integration, and volume manufacturing compliance.",
+        filter: "具備 5G Small Cell / Open RAN 硬體架構與 Baseband/RF 整合團隊領導經驗，熟悉竹北網通產業鏈。",
+        filter_en: "5G Small Cell / Open RAN hardware architecture and Baseband/RF team leadership experience.",
+        boolean: "LinkedIn: ((\"Hardware Manager\" OR \"R&D Manager\" OR \"硬體研發主管\") AND (\"5G\" OR \"Small Cell\" OR \"Open RAN\") AND (\"FPGA\" OR \"SoC\" OR \"Baseband\" OR \"RF\") AND (\"竹北\" OR \"Hsinchu\"))",
+        boost: "X: (Hardware AND Manager) AND (SmallCell OR \"Open RAN\" OR 5G) AND (FPGA OR RF)",
+        boost_en: "X: (Hardware AND Manager) AND (SmallCell OR \"Open RAN\" OR 5G) AND (FPGA OR RF)",
+        salary: [
+          ["T1", "聯發科, Qualcomm Taiwan, Ericsson Taiwan, 中磊電子", "$2,000,000 – $2,800,000+", "TWD/year"],
+          ["T2", "智易科技, 兆勤, 智邦科技", "$1,500,000 – $2,000,000", "TWD/year (Guaranteed 14 months)"],
+          ["T3", "Regional communication device makers", "$1,200,000 – $1,500,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① 5G 基地台硬體主導研發實績 ② Massive MIMO / 射頻與基頻除錯領軍能力。",
+        valuation_en: "Scoring weight: ① 5G base station hardware leadership ② Massive MIMO / RF debug leadership.",
+        okrs: [["核心 OKR", "Obj 1: Deliver next-gen 5G Small Cell hardware. (KR1: Schematic & layout reviews on schedule; KR2: $\ge$85% first-pass bring-up)."]]
+      },
+      role7: {
+        icon: "⚙️",
+        label: "7. 後端工程師 C# / .NET (美商新浪)",
+        label_en: "7. Backend Engineer C# / .NET (Sina US)",
+        accent: "#2f81f7",
+        value: "Architect critical backend financial services using C# and .NET 6/8+; optimize SQL Server performance and transactional data integrity; build secure RESTful APIs adhering to OWASP standards.",
+        value_en: "Architect critical backend financial services using C# and .NET 6/8+; optimize SQL Server performance and transactional data integrity; build secure RESTful APIs adhering to OWASP standards.",
+        filter: "精通 C# / .NET Core 與 SQL Server 效能調校，具備金融/高併發後端服務開發經驗。",
+        filter_en: "Proficient in C# / .NET Core & SQL Server performance tuning, financial/high-concurrency backend experience.",
+        boolean: "LinkedIn: ((\"Backend Engineer\" OR \"後端工程師\" OR \".NET Developer\") AND (\"C#\" OR \".NET Core\") AND (\"SQL Server\" OR \"Entity Framework\") AND (\"FinTech\" OR \"Banking\" OR \"金融\"))",
+        boost: "X: (DotNet OR \"C#\") AND (Backend OR API) AND (FinTech OR SQLServer)",
+        boost_en: "X: (DotNet OR \"C#\") AND (Backend OR API) AND (FinTech OR SQLServer)",
+        salary: [
+          ["T1", "Microsoft Taiwan, Google Taiwan, Shopee, Coupang, J.P. Morgan", "$1,200,000 – $1,800,000+", "TWD/year"],
+          ["T2", "中國信託, 玉山銀行, Line Pay Taiwan, TapPay", "$800,000 – $1,500,000", "TWD/year (Matches JD range)"],
+          ["T3", "Traditional software houses, domestic IT consulting", "$650,000 – $900,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① .NET Core 微服務與高安全性 API 架構能力 ② SQL Server 資料庫高負載優化。",
+        valuation_en: "Scoring weight: ① .NET Core microservices & secure APIs ② SQL Server high-load optimization.",
+        okrs: [["核心 OKR", "Obj 1: Deliver secure and scalable backend services. (KR1: 99.9% uptime; KR2: $\ge$80% unit test coverage)."]]
+      },
+      role8: {
+        icon: "🔋",
+        label: "8. BESS 資深硬體工程師 (華城電機)",
+        label_en: "8. Senior BESS Hardware Engineer (Shihlin Electric)",
+        accent: "#ff9f1a",
+        value: "Leads system and hardware development for Advanced Battery Energy Storage Systems (BESS) and BMS; owns power supply/MCU schematic design, PCB layout, and automated test fixture creation.",
+        value_en: "Leads system and hardware development for Advanced Battery Energy Storage Systems (BESS) and BMS; owns power supply/MCU schematic design, PCB layout, and automated test fixture creation.",
+        filter: "具備電池儲能系統（BESS）與電池管理系統（BMS）硬體開發、MCU 電路圖設計與 PCB Layout 實戰經驗。",
+        filter_en: "BESS & BMS hardware development, MCU schematic design, and PCB layout practical experience.",
+        boolean: "LinkedIn: ((\"BESS Engineer\" OR \"Hardware Engineer\" OR \"BMS工程師\" OR \"電源工程師\") AND (\"Battery\" OR \"儲能\" OR \"BESS\" OR \"BMS\") AND (\"MCU\" OR \"Schematic\" OR \"PCB\") AND (\"Taipei\" OR \"台北\" OR \"華城電機\"))",
+        boost: "X: (Hardware AND Engineer) AND (BESS OR BMS OR Battery) AND (Schematic OR PCB)",
+        boost_en: "X: (Hardware AND Engineer) AND (BESS OR BMS OR Battery) AND (Schematic OR PCB)",
+        salary: [
+          ["T1", "華城電機, 台達電, 大同", "$900,000 – $1,300,000+", "TWD/year (Profit-sharing included)"],
+          ["T2", "光寶科技, 群光電子, 信邦電子", "$750,000 – $1,000,000", "TWD/year (Aligns with base)"],
+          ["T3", "Regional solar/storage system integrators", "$600,000 – $800,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① BMS/BESS 電路設計與除錯能力 ② 自动化測試治具開發經驗。",
+        valuation_en: "Scoring weight: ① BMS/BESS schematic design & debug ② Automated test fixture creation.",
+        okrs: [["核心 OKR", "Obj 1: Deliver robust BESS/BMS hardware designs. (KR1: 100% milestone completion; KR2: $\ge$85% first-pass bring-up)."]]
+      },
+      role9: {
+        icon: "🔗",
+        label: "9. Protocol Engineer (DeLorean Labs)",
+        label_en: "9. Protocol Engineer (DeLorean Labs)",
+        accent: "#00e0b8",
+        value: "Leads protocol-level architecture and system design across EVM, Ethereum, and Polygon; establishes ownership consistency models, multi-chain scalability, and smart contract security frameworks.",
+        value_en: "Leads protocol-level architecture and system design across EVM, Ethereum, and Polygon; establishes ownership consistency models, multi-chain scalability, and smart contract security frameworks.",
+        filter: "頂尖的 EVM / 多鏈協議架構設計能力，熟悉帳戶抽象（ERC-4337）與高安全性智慧合約開發。",
+        filter_en: "Top-tier EVM / multi-chain protocol architecture experience, familiar with Account Abstraction (ERC-4337).",
+        boolean: "LinkedIn: ((\"Protocol Engineer\" OR \"Blockchain Architect\" OR \"Smart Contract Security\") AND (\"EVM\" OR \"Ethereum\" OR \"Polygon\") AND (\"Account Abstraction\" OR \"ERC-4337\" OR \"Protocol Architecture\"))",
+        boost: "X: (Protocol AND Engineer) AND (Ethereum OR Solidity OR EVM) AND (\"Account Abstraction\" OR Security)",
+        boost_en: "X: (Protocol AND Engineer) AND (Ethereum OR Solidity OR EVM) AND (\"Account Abstraction\" OR Security)",
+        salary: [
+          ["T1", "Paradigm-backed protocols, Optimism, Base, Chainlink Labs, Uniswap", "$180,000 – $250,000+", "USD/year"],
+          ["T2", "Bitget, MEXC, BitMart, Amber Group, Fireblocks", "$160,000 – $220,000", "USD/year (Matches remote range)"],
+          ["T3", "Early-stage crypto startups, boutique auditors", "$110,000 – $150,000", "USD/year"]
+        ],
+        valuation: "評分權重：① 底層區塊鏈協議架構設計 ② 零外部審計高危漏洞之智慧合約防禦力。",
+        valuation_en: "Scoring weight: ① Low-level blockchain protocol architecture ② Zero high/critical smart contract audit findings.",
+        okrs: [["核心 OKR", "Obj 1: Architect a secure multi-chain protocol. (KR1: Ship core protocol with zero bottlenecks; KR2: Reduce failed tx rates by 25%)."]]
+      },
+      role10: {
+        icon: "👥",
+        label: "10. Team Lead (DeLorean Labs)",
+        label_en: "10. Engineering Team Lead (DeLorean Labs)",
+        accent: "#a97aff",
+        value: "Manages cross-functional sprint execution, milestone tracking, and dependency alignment between Frontend, Backend, and Blockchain engineering squads under a remote structure.",
+        value_en: "Manages cross-functional sprint execution, milestone tracking, and dependency alignment between Frontend, Backend, and Blockchain engineering squads under a remote structure.",
+        filter: "具備遠端 Web3 團隊跨職能管理經驗，精通敏捷開發（Agile/Scrum）與跨團隊依賴協調。",
+        filter_en: "Remote Web3 cross-functional management experience, proficient in Agile/Scrum and dependency alignment.",
+        boolean: "LinkedIn: ((\"Engineering Team Lead\" OR \"Engineering Manager\" OR \"Technical Project Manager\") AND (\"Web3\" OR \"Blockchain\" OR \"Crypto\") AND (\"Agile\" OR \"Scrum\" OR \"Roadmap\") AND (\"Remote\"))",
+        boost: "X: (Engineering AND Lead) AND (Web3 OR Crypto) AND (Manager OR Delivery)",
+        boost_en: "X: (Engineering AND Lead) AND (Web3 OR Crypto) AND (Manager OR Delivery)",
+        salary: [
+          ["T1", "ConsenSys, Ripple, Circle, Coinbase, Solana Labs", "$160,000 – $220,000+", "USD/year"],
+          ["T2", "Bitget, MEXC, BitMart, Ourbit, Crypto.com", "$140,000 – $190,000", "USD/year (Matches remote range)"],
+          ["T3", "Early-stage blockchain venture studios", "$95,000 – $135,000", "USD/year"]
+        ],
+        valuation: "評分權重：① 遠端工程團隊衝刺交付率 ② 技術指導與專案風險控管。",
+        valuation_en: "Scoring weight: ① Remote engineering team sprint delivery rate ② Technical mentorship & risk control.",
+        okrs: [["核心 OKR", "Obj 1: Drive predictable sprint delivery. (KR1: $\ge$90% sprint completion rate; KR2: Blocker resolution under 24 hours)."]]
+      },
+      role11: {
+        icon: "🧪",
+        label: "11. 軟體測試工程師 / QA (數位獵人科技代徵)",
+        label_en: "11. Software QA Engineer (Digital Hunter)",
+        accent: "#ff4d66",
+        value: "Acts as product quality gatekeeper; designs test plans, test cases, and acceptance criteria; executes functional, API, and performance testing to ensure system stability prior to release.",
+        value_en: "Acts as product quality gatekeeper; designs test plans, test cases, and acceptance criteria; executes functional, API, and performance testing to ensure system stability prior to release.",
+        filter: "熟悉 Postman、JMeter 自動化測試與 API 驗證，具備嚴謹的測試計畫與品質把關能力。",
+        filter_en: "Familiar with Postman, JMeter automated testing & API validation, rigorous quality control mindset.",
+        boolean: "LinkedIn: ((\"QA Engineer\" OR \"Software Test Engineer\" OR \"軟體測試工程師\") AND (\"Postman\" OR \"JMeter\" OR \"API\" OR \"Automation\" OR \"自動化測試\") AND (\"Taipei\" OR \"台北\" OR \"南港\"))",
+        boost: "X: (QA AND Engineer) AND (Testing OR Automation) AND (Postman OR JMeter)",
+        boost_en: "X: (QA AND Engineer) AND (Testing OR Automation) AND (Postman OR JMeter)",
+        salary: [
+          ["T1", "Google Taiwan, Shopee, Appier, Trend Micro, KKBOX", "$1,100,000 – $1,400,000+", "TWD/year"],
+          ["T2", "訊連科技, 91APP, Gogoro, Acer, ASUS", "$840,000 – $1,120,000", "TWD/year (Matches 14-mo JD)"],
+          ["T3", "Local IT service providers, outsourcing agencies", "$650,000 – $850,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① 自動化測試覆蓋率（Postman/JMeter） ② 降低線上蟲害外洩率。",
+        valuation_en: "Scoring weight: ① Automation test coverage ② Reducing production bug escape rate.",
+        okrs: [["核心 OKR", "Obj 1: Ensure rigorous pre-release QA. (KR1: 100% test case coverage; KR2: Reduce production bugs by 20%)."]]
+      },
+      role12: {
+        icon: "☁️",
+        label: "12. 資深 SRE 工程師 (數位獵人科技代徵 - 台中)",
+        label_en: "12. Senior SRE Engineer (Digital Hunter - Taichung)",
+        accent: "#14d990",
+        value: "Designs and maintains robust Kubernetes (GKE) clusters, Docker containers, and GitLab CI/CD pipelines; builds automated monitoring systems and leads Root Cause Analysis (RCA) for operational stability.",
+        value_en: "Designs and maintains robust Kubernetes (GKE) clusters, Docker containers, and GitLab CI/CD pipelines; builds automated monitoring systems and leads Root Cause Analysis (RCA) for operational stability.",
+        filter: "精通 GKE、Kubernetes、Terraform 與 GCP 雲端架構維運，具備台中在地穩定高可用性系統經驗。",
+        filter_en: "Proficient in GKE, Kubernetes, Terraform, and GCP cloud infrastructure operations.",
+        boolean: "LinkedIn: ((\"SRE Engineer\" OR \"Site Reliability Engineer\" OR \"DevOps工程師\") AND (\"Kubernetes\" OR \"GKE\" OR \"Terraform\") AND (\"GCP\" OR \"Google Cloud\") AND (\"台中\" OR \"Taichung\" OR \"西屯\"))",
+        boost: "X: (SRE OR DevOps) AND (Kubernetes OR GKE) AND (Terraform OR GCP)",
+        boost_en: "X: (SRE OR DevOps) AND (Kubernetes OR GKE) AND (Terraform OR GCP)",
+        salary: [
+          ["T1", "Google Taiwan, Micron Taichung, TSMC IT Infrastructure, Shopee", "$1,200,000 – $1,800,000+", "TWD/year"],
+          ["T2", "嬌生健康科技/台中, HiNet, Newegg Taiwan", "$900,000 – $1,300,000", "TWD/year (Upper annual JD)"],
+          ["T3", "Central Taiwan regional system integrators", "$700,000 – $950,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① GKE 集群高可用性與自動擴展 ② IaC (Terraform) 導入成熟度。",
+        valuation_en: "Scoring weight: ① GKE cluster high availability & auto-scaling ② IaC (Terraform) maturity.",
+        okrs: [["核心 OKR", "Obj 1: Maximize GKE infrastructure availability. (KR1: 99.99% uptime; KR2: Automated auto-scaling)."]]
+      },
+      role13: {
+        icon: "📢",
+        label: "13. Developer Advocate (Supernova.io)",
+        label_en: "13. Developer Advocate (Supernova.io)",
+        accent: "#ff7675",
+        value: "Drives global developer community growth and adoption of design systems; creates technical content, tutorials, and demos; bridges community feedback loops with internal product roadmaps.",
+        value_en: "Drives global developer community growth and adoption of design systems; creates technical content, tutorials, and demos; bridges community feedback loops with internal product roadmaps.",
+        filter: "具備優異的技術內容創作、社群經營與設計系統（Design Systems）推廣能力。",
+        filter_en: "Excellent technical content creation, community building, and design systems promotion capability.",
+        boolean: "LinkedIn: ((\"Developer Advocate\" OR \"Developer Relations\" OR \"DevRel\") AND (\"Design Systems\" OR \"React\" OR \"Frontend\") AND (\"Community\" OR \"Technical Writing\") AND (\"Remote\" OR \"EU\" OR \"Prague\"))",
+        boost: "X: (DevRel OR \"Developer Advocate\") AND (React OR DesignSystems) AND (Community OR Content)",
+        boost_en: "X: (DevRel OR \"Developer Advocate\") AND (React OR DesignSystems) AND (Community OR Content)",
+        salary: [
+          ["T1", "Vercel, Supabase, Figma, GitHub, Postman", "$120,000 – $160,000+", "USD/year"],
+          ["T2", "Supernova.io, Storybook, Contentful, Typeform", "$90,000 – $120,000", "USD/year (Remote base + equity)"],
+          ["T3", "Early-stage developer tool startups", "$65,000 – $90,000", "USD/year"]
+        ],
+        valuation: "評分權重：① 開發者社群活躍度成長 ② 技術文章與教學示範質量。",
+        valuation_en: "Scoring weight: ① Developer community engagement growth ② Technical tutorial quality.",
+        okrs: [["核心 OKR", "Obj 1: Expand developer community engagement. (KR1: Grow active community by 30% QoQ; KR2: $\ge$4 technical talks/quarter)."]]
+      },
+      role14: {
+        icon: "📱",
+        label: "14. Android Technical Expert (U.S. Real Estate Tech - Vietnam Remote)",
+        label_en: "14. Android Technical Expert (US Real Estate - Vietnam Remote)",
+        accent: "#2f81f7",
+        value: "Architect high-availability, modularized Android applications using modern Kotlin, Jetpack Compose, and advanced performance profiling; leads mobile engineering execution across U.S. time-zone alignments.",
+        value_en: "Architect high-availability, modularized Android applications using modern Kotlin, Jetpack Compose, and advanced performance profiling; leads mobile engineering execution across U.S. time-zone alignments.",
+        filter: "精通 Kotlin、Jetpack Compose 與模組化架構，具備跨美時區協作與高效能行動端開發實績。",
+        filter_en: "Proficient in Kotlin, Jetpack Compose, and modular architecture. Cross-US timezone collaboration experience.",
+        boolean: "LinkedIn: ((\"Android Technical Expert\" OR \"Principal Android Engineer\" OR \"Senior Android Developer\") AND (\"Jetpack Compose\" OR \"Kotlin\") AND (\"Architecture\" OR \"Performance Optimization\") AND (\"Remote\" OR \"Vietnam\"))",
+        boost: "X: (Android AND Engineer) AND (Kotlin OR JetpackCompose) AND (Architecture OR Performance)",
+        boost_en: "X: (Android AND Engineer) AND (Kotlin OR JetpackCompose) AND (Architecture OR Performance)",
+        salary: [
+          ["T1", "Grab Vietnam R&D, Shopee Vietnam, Meta Remote SE Asia, Agoda", "$70,000 – $100,000+", "USD/year"],
+          ["T2", "US IT service outposts in Vietnam, TMA Solutions, NashTech", "$35,000 – $60,000", "USD/year (Matches VN remote rate)"],
+          ["T3", "Local Vietnamese software outsourcing shops", "$20,000 – $33,000", "USD/year"]
+        ],
+        valuation: "評分權重：① Jetpack Compose 模組化無痛遷移能力 ② 應用程式啟動速度與記憶體最佳化。",
+        valuation_en: "Scoring weight: ① Jetpack Compose modular migration ② App startup & memory optimization.",
+        okrs: [["核心 OKR", "Obj 1: Architect robust Android systems. (KR1: Migrate modules using Compose with zero regressions; KR2: 100% architectural compliance)."]]
+      },
+      role15: {
+        icon: "📈",
+        label: "15. C++ 軟體工程師 (群益金鼎證券)",
+        label_en: "15. C++ Software Engineer (Capital Securities)",
+        accent: "#ff9f1a",
+        value: "Develops high-speed exchange connectivity, real-time market data parsing, and order-routing systems; builds robust client trading workstations using C/C++ and TCP/UDP socket programming.",
+        value_en: "Develops high-speed exchange connectivity, real-time market data parsing, and order-routing systems; builds robust client trading workstations using C/C++ and TCP/UDP socket programming.",
+        filter: "精通 C/C++、TCP/UDP Socket 程式設計與 FIX 通訊協定，具備證券交易所串接與即時行情解析經驗。",
+        filter_en: "Proficient in C/C++, TCP/UDP socket programming, and FIX protocol. Securities exchange connectivity experience.",
+        boolean: "LinkedIn: ((\"C++ Software Engineer\" OR \"C++ Developer\" OR \"金融軟體工程師\") AND (\"Socket\" OR \"TCP/UDP\" OR \"FIX Protocol\") AND (\"MSSQL\" OR \"Linux\") AND (\"Securities\" OR \"Trading\" OR \"證券\" OR \"群益\"))",
+        boost: "X: (Cpp OR \"C++\") AND (Trading OR Exchange OR FIX) AND (Socket OR FinTech)",
+        boost_en: "X: (Cpp OR \"C++\") AND (Trading OR Exchange OR FIX) AND (Socket OR FinTech)",
+        salary: [
+          ["T1", "富邦證券, 凱基證券, 元大證券, 群益金鼎證券", "$900,000 – $1,500,000+", "TWD/year"],
+          ["T2", "永豐金證券, 兆豐證券, 台新證券", "$600,000 – $1,000,000", "TWD/year (Mid-upper range of JD)"],
+          ["T3", "Smaller regional brokerages, financial IT vendors", "$450,000 – $700,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① 超低延遲行情解析與下單通道實作 ② MSSQL 資料庫資料一致性維護。",
+        valuation_en: "Scoring weight: ① Ultra-low latency market data parsing & order routing ② MSSQL integrity.",
+        okrs: [["核心 OKR", "Obj 1: Ensure ultra-low latency exchange connectivity. (KR1: 99.99% uptime; KR2: Transmission latency under 5ms)."]]
+      },
+      role16: {
+        icon: "☕",
+        label: "16. Java 工程師 (夕煇有限公司)",
+        label_en: "16. Java Engineer (Xihui Co.)",
+        accent: "#a97aff",
+        value: "Architect scalable, high-concurrency backend microservices utilizing SpringBoot, Kafka message queues, Redis caching, and K8s containerization for high-traffic exchange/Web3 environments.",
+        value_en: "Architect scalable, high-concurrency backend microservices utilizing SpringBoot, Kafka message queues, Redis caching, and K8s containerization for high-traffic exchange/Web3 environments.",
+        filter: "精通 Java Spring Boot、Kafka、Redis 與 Kubernetes 微服務架構，具備高流量交易所或 Web3 後端實績。",
+        filter_en: "Proficient in Java Spring Boot, Kafka, Redis, and K8s microservices. High-traffic exchange/Web3 backend experience.",
+        boolean: "LinkedIn: ((\"Java Engineer\" OR \"Backend Developer\" OR \"Java後端工程師\") AND (\"Spring Boot\" OR \"JVM\") AND (\"Kafka\" OR \"Redis\" OR \"分散式架構\") AND (\"Docker\" OR \"Kubernetes\"))",
+        boost: "X: (Java AND SpringBoot) AND (Concurrency OR Distributed OR Kafka) AND (Backend)",
+        boost_en: "X: (Java AND SpringBoot) AND (Concurrency OR Distributed OR Kafka) AND (Backend)",
+        salary: [
+          ["T1", "Binance, Bitget, MEXC, Shopee, J.P. Morgan Tech Center", "$1,300,000 – $2,000,000+", "TWD/year"],
+          ["T2", "PChome, momo, 玉山銀行, 中國信託, 91APP", "$900,000 – $1,400,000", "TWD/year (Upper-mid JD)"],
+          ["T3", "Traditional software agencies, enterprise IT outsourcing", "$700,000 – $950,000", "TWD/year"]
+        ],
+        valuation: "評分權重：① 高併發微服務架構設計與效能調校 ② Kafka 訊息佇列與 K8s 容器化部署。",
+        valuation_en: "Scoring weight: ① High-concurrency microservice design ② Kafka messaging & K8s containerization.",
+        okrs: [["核心 OKR", "Obj 1: Deliver resilient high-concurrency microservices. (KR1: 99.99% core Java uptime; KR2: Reduce API latency by 20% via Redis)."]]
+      }
+    };
+
+    let currentRole = "role1";
+    let currentLang = "zh";
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function setAccent(role) {
+      document.documentElement.style.setProperty("--accent", role.accent);
+    }
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.body.setAttribute("data-lang", lang);
+      document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.lang === lang);
+      });
+      renderTabs();
+      renderRole();
+      populateLiRoleDropdown();
+      renderLiList();
+      updateChannelStatsLiRow();
+    }
+
+    function renderTabs() {
+      document.getElementById("tabs").innerHTML = Object.entries(roles).map(([key, role]) => `
+        <button class="tab ${key === currentRole ? "active" : ""}" type="button" onclick="selectRole('${key}')">
+          ${role.icon} ${currentLang === "en" ? role.label_en : role.label}
+        </button>
+      `).join("");
+    }
+
+    function renderRole() {
+      const role = roles[currentRole];
+      const en = currentLang === "en";
+      setAccent(role);
+      document.getElementById("valueText").textContent = en ? role.value_en : role.value;
+      document.getElementById("filterText").textContent = en ? role.filter_en : role.filter;
+      document.getElementById("booleanText").textContent = role.boolean;
+      document.getElementById("boostText").textContent = en ? role.boost_en : role.boost;
+      document.getElementById("valuationText").textContent = en ? role.valuation_en : role.valuation;
+
+      document.getElementById("salaryRows").innerHTML = role.salary.map(([tier, company, money, note]) => `
+        <tr>
+          <td><span class="tier ${tier.toLowerCase()}">${tier}</span></td>
+          <td>${escapeHtml(company)}</td>
+          <td class="money ${tier === "T2" ? "mid" : ""}">${escapeHtml(money)}</td>
+          <td>${escapeHtml(note)}</td>
+        </tr>
+      `).join("");
+
+      document.getElementById("okrList").innerHTML = role.okrs.map(([title, kr], index) => `
+        <div class="okr-item">
+          <div class="okr-index">0${index + 1}</div>
+          <div>
+            <div class="okr-title">${escapeHtml(title)}</div>
+            <div class="okr-kr">${escapeHtml(kr)}</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function selectRole(key) {
+      currentRole = key;
+      renderTabs();
+      renderRole();
+    }
+
+    // ---- LinkedIn 手動新增（存在瀏覽器本機 localStorage）----
+    const LI_STORAGE_KEY = "dc_linkedin_candidates_v16";
+
+    function loadLiCandidates() {
+      try {
+        return JSON.parse(localStorage.getItem(LI_STORAGE_KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    function saveLiCandidates(data) {
+      localStorage.setItem(LI_STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function populateLiRoleDropdown() {
+      const select = document.getElementById("liRole");
+      if (!select) return;
+      const en = currentLang === "en";
+      select.innerHTML = Object.entries(roles).map(([key, role]) => `
+        <option value="${key}">${role.icon} ${en ? role.label_en : role.label}</option>
+      `).join("");
+      select.value = currentRole;
+    }
+
+    function addLiCandidate() {
+      const roleKey = document.getElementById("liRole").value;
+      const name = document.getElementById("liName").value.trim();
+      const url = document.getElementById("liUrl").value.trim();
+      const tags = document.getElementById("liTags").value.trim();
+      const score = parseInt(document.getElementById("liScore").value, 10) || 0;
+      const note = document.getElementById("liNote").value.trim();
+
+      if (!name || !url) {
+        alert(currentLang === "en" ? "Name and profile URL are required." : "姓名與 LinkedIn 網址為必填。");
+        return;
+      }
+
+      const data = loadLiCandidates();
+      data[roleKey] = data[roleKey] || [];
+      data[roleKey].push({
+        id: Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+        name, url, tags, score, note,
+        addedAt: new Date().toISOString(),
+      });
+      saveLiCandidates(data);
+
+      document.getElementById("liName").value = "";
+      document.getElementById("liUrl").value = "";
+      document.getElementById("liTags").value = "";
+      document.getElementById("liScore").value = "";
+      document.getElementById("liNote").value = "";
+
+      renderLiList();
+      updateChannelStatsLiRow();
+    }
+
+    function deleteLiCandidate(roleKey, id) {
+      const data = loadLiCandidates();
+      data[roleKey] = (data[roleKey] || []).filter(c => c.id !== id);
+      saveLiCandidates(data);
+      renderLiList();
+      updateChannelStatsLiRow();
+    }
+
+    function renderLiList() {
+      const container = document.getElementById("liList");
+      if (!container) return;
+      const en = currentLang === "en";
+      const data = loadLiCandidates();
+
+      const cards = [];
+      Object.entries(data).forEach(([roleKey, list]) => {
+        const roleMeta = roles[roleKey];
+        if (!roleMeta || !list.length) return;
+        list.forEach(c => {
+          cards.push(`
+            <article class="candidate-card">
+              <div class="candidate-head">
+                <div>
+                  <div class="candidate-name">${escapeHtml(c.name)}</div>
+                  <div class="handle">${escapeHtml(en ? roleMeta.label_en : roleMeta.label)} · ${escapeHtml(c.tags || "")}</div>
+                  <div class="source-line">
+                    <span class="source-badge">LinkedIn</span>
+                    <span>${en ? "Added at" : "新增於"} ${escapeHtml((c.addedAt || "").replace("T", " ").slice(0, 16))}</span>
+                  </div>
+                  <a class="x-link" href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer">↗ ${en ? "Open profile" : "前往主頁"}</a>
+                </div>
+                <div class="score">${c.score || "-"}/10</div>
+              </div>
+              <div class="candidate-body">
+                <p>${escapeHtml(c.note || "")}</p>
+              </div>
+              <div class="dm-actions">
+                <button class="dm" type="button" onclick="deleteLiCandidate('${roleKey}', '${c.id}')">${en ? "Delete" : "刪除"}</button>
+              </div>
+            </article>
+          `);
+        });
+      });
+
+      container.innerHTML = cards.join("") || `<p style="color:#7f91b8;font-size:13px;">${en ? "No manually added LinkedIn candidates yet." : "目前還沒有手動新增的 LinkedIn 人選。"}</p>`;
+    }
+
+    function countLiTotal() {
+      const data = loadLiCandidates();
+      return Object.values(data).reduce((sum, list) => sum + list.length, 0);
+    }
+
+    function updateChannelStatsLiRow() {
+      const tbody = document.getElementById("channelStatsRows");
+      if (!tbody) return;
+      const en = currentLang === "en";
+      let liRow = document.getElementById("liChannelRow");
+      if (!liRow) {
+        liRow = document.createElement("tr");
+        liRow.id = "liChannelRow";
+        tbody.appendChild(liRow);
+      }
+      liRow.innerHTML = `
+        <td>LinkedIn</td>
+        <td>${countLiTotal()}</td>
+        <td>${en ? "Manual time cost" : "人工時間成本"}</td>
+        <td>${en ? "Manual (cumulative)" : "手動新增（累計）"}</td>
+      `;
+    }
+
+    // ---- Talent Pipeline board ----
+    const PIPELINE_STAGES = ["REACHOUT", "SCHEDULING INTERVIEW", "1ST INTERVIEW", "2ND INTERVIEW", "OFFER", "ONBOARD", "PROBATION PASS"];
+    const PIPELINE_STORAGE_KEY = "dc_talent_pipeline_states_v16";
+
+    function getSavedPipelineStates() {
+      try {
+        return JSON.parse(localStorage.getItem(PIPELINE_STORAGE_KEY)) || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveCandidateState(handle, status) {
+      const states = getSavedPipelineStates();
+      states[handle] = status;
+      localStorage.setItem(PIPELINE_STORAGE_KEY, JSON.stringify(states));
+    }
+
+    const CV_STORAGE_KEY = "dc_candidate_cv_links_v16";
+
+    function getSavedCvLinks() {
+      try {
+        return JSON.parse(localStorage.getItem(CV_STORAGE_KEY)) || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveCvLink(handle, url) {
+      const links = getSavedCvLinks();
+      links[handle] = url;
+      localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(links));
+    }
+
+    function onCvLinkChange(el) {
+      const handle = el.getAttribute("data-handle");
+      saveCvLink(handle, el.value.trim());
+    }
+
+    function onCardStatusChange(el) {
+      const handle = el.getAttribute("data-handle");
+      saveCandidateState(handle, el.value);
+      if (document.getElementById("dc-pipeline-view").style.display === "block") {
+        generatePipelineData();
+      }
+    }
+
+    function switchDcView(viewName) {
+      const rawView = document.getElementById("raw-view");
+      const pipelineView = document.getElementById("dc-pipeline-view");
+      document.querySelectorAll(".dc-tab-btn").forEach(b => b.classList.remove("active"));
+
+      if (viewName === "pipeline") {
+        rawView.style.display = "none";
+        pipelineView.style.display = "block";
+        document.getElementById("btn-pipeline").classList.add("active");
+        generatePipelineData();
+      } else {
+        rawView.style.display = "block";
+        pipelineView.style.display = "none";
+        document.getElementById("btn-raw").classList.add("active");
+      }
+    }
+
+    function generatePipelineData() {
+      const storedStates = getSavedPipelineStates();
+      const en = currentLang === "en";
+      const candidates = [];
+
+      const data = loadLiCandidates();
+      Object.entries(data).forEach(([roleKey, list]) => {
+        const roleMeta = roles[roleKey];
+        const roleLabel = roleMeta ? (en ? roleMeta.label_en : roleMeta.label) : roleKey;
+        list.forEach(c => {
+          const score = c.score || 0;
+          candidates.push({
+            handle: "li-" + c.id,
+            name: c.name,
+            role: roleLabel,
+            profileUrl: c.url,
+            score: score * 10,
+            status: storedStates["li-" + c.id] || "REACHOUT",
+            isDanger: score < 5,
+            isWarning: score === 5 || score === 6,
+          });
+        });
+      });
+
+      renderStatsBar(candidates);
+      renderKanbanBoard(candidates);
+    }
+
+    function renderStatsBar(data) {
+      const container = document.getElementById("dc-pipeline-stats");
+      const en = currentLang === "en";
+      const dng = data.filter(c => c.isDanger).length;
+      const wrn = data.filter(c => c.isWarning).length;
+      const progressed = data.length ? (data.filter(c => c.status !== "REACHOUT").length / data.length * 100).toFixed(0) : 0;
+
+      container.innerHTML = `
+        <div>
+          <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid #00ffcc;">📦 ${en ? "Active Pool" : "候選人池"}: ${data.length}</div>
+          <div style="font-size:11px; color:#7f91b8; margin-top:6px;">${en ? "Total candidates in pool." : "目前手動新增候選人總數。"}</div>
+        </div>
+        <div>
+          <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid #ff4d4d;">⚠️ ${en ? "Low Score" : "低分警示"}: ${dng}</div>
+          <div style="font-size:11px; color:#7f91b8; margin-top:6px;">${en ? "Score < 5/10." : "評分低於 5 分。"}</div>
+        </div>
+        <div>
+          <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid #ffaa00;">⚡ ${en ? "Mid Score" : "中等分數"}: ${wrn}</div>
+          <div style="font-size:11px; color:#7f91b8; margin-top:6px;">${en ? "Score 5-6/10." : "評分 5-6 分。"}</div>
+        </div>
+        <div>
+          <div style="background:#1e1e24; padding:15px; border-radius:8px; border-left:4px solid #00ffaa;">📈 ${en ? "Progress Rate" : "推進率"}: ${progressed}%</div>
+          <div style="font-size:11px; color:#7f91b8; margin-top:6px;">${en ? "Non-REACHOUT share." : "非 REACHOUT 狀態佔比。"}</div>
+        </div>
+      `;
+    }
+
+    function renderKanbanBoard(data) {
+      const board = document.getElementById("dc-kanban-board");
+      const en = currentLang === "en";
+      const cvLinks = getSavedCvLinks();
+
+      board.innerHTML = PIPELINE_STAGES.map(stage => {
+        const stageCandidates = data.filter(c => c.status === stage);
+        return `
+          <div class="kanban-col">
+            <h3 style="font-size:12px; margin:0 0 12px 0; color:#8a8a93; display:flex; justify-content:space-between; align-items:center;">
+              <span>${stage}</span>
+              <span style="background:#2a2a2e; padding:2px 6px; border-radius:10px; color:#fff;">${stageCandidates.length}</span>
+            </h3>
+            <div style="display:flex; flex-direction:column; gap:8px; min-height:300px;">
+              ${stageCandidates.map(c => `
+                <div class="kanban-card">
+                  <div style="font-weight:bold; font-size:13px; margin-bottom:4px; display:flex; justify-content:space-between;">
+                    <span>${escapeHtml(c.name)}</span>
+                    <span style="color:#00ffcc;">${c.score}pt</span>
+                  </div>
+                  <div style="font-size:11px; color:#8a8a93; margin-bottom:6px;">${escapeHtml(c.role)}</div>${c.profileUrl ? `<a href="${escapeHtml(c.profileUrl)}" target="_blank" rel="noopener noreferrer" style="display:block; font-size:11px; color:#00ffcc; margin-bottom:6px;">↗ ${en ? "Profile" : "主頁"}</a>` : ""}
+                  <input
+                    type="text"
+                    class="status-switcher"
+                    style="width:100%; box-sizing:border-box; margin-bottom:6px; color:#fff;"
+                    placeholder="${en ? "Paste CV link…" : "貼上履歷連結…"}"
+                    value="${escapeHtml(cvLinks[c.handle] || "")}"
+                    data-handle="${escapeHtml(c.handle)}"
+                    onchange="onCvLinkChange(this)"
+                  />
+                  <div>
+                    <select class="status-switcher" data-handle="${escapeHtml(c.handle)}" onchange="onCardStatusChange(this)" style="width:100%;">
+                      ${PIPELINE_STAGES.map(st => `<option value="${st}" ${st === c.status ? "selected" : ""}>${st}</option>`).join("")}
+                    </select>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    renderTabs();
+    renderRole();
+    populateLiRoleDropdown();
+    renderLiList();
+    updateChannelStatsLiRow();
+  </script>
 </body>
 </html>
